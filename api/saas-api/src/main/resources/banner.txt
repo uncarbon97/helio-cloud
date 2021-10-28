@@ -1,0 +1,14 @@
+${AnsiColor.BLUE}
+                                               _
+                                              (_)
+ ___   __ _   __ _  ___  ______   __ _  _ __   _
+/ __| / _` | / _` |/ __||______| / _` || '_ \ | |
+\__ \| (_| || (_| |\__ \        | (_| || |_) || |
+|___/ \__,_| \__,_||___/         \__,_|| .__/ |_|
+                                       | |
+                                       |_|
+
+${AnsiColor.GREEN}
+Spring Boot Version: ${spring-boot.version}
+
+${AnsiColor.BRIGHT_WHITE}
