@@ -13,7 +13,7 @@
     <artifactId>saas-api</artifactId>
 
     <properties>
-        <sys-service.version>1.2.0</sys-service.version>
+        <sys-service.version>1.2.1</sys-service.version>
     </properties>
 
     <dependencies>
