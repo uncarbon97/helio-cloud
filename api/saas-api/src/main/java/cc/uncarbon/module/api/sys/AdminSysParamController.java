@@ -28,7 +28,7 @@ import javax.validation.Valid;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "系统参数管理接口", tags = {"系统参数管理接口"})
-@RequestMapping(HelioConstant.Version.SAAS_API_VERSION_V1 + "/sys/params")
+@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/params")
 @RestController
 public class AdminSysParamController {
 

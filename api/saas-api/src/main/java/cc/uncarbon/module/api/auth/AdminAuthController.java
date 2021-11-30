@@ -31,8 +31,8 @@ import java.util.Map;
  * @author Uncarbon
  */
 @Slf4j
-@Api(value = "SAAS鉴权接口", tags = {"SAAS鉴权接口"})
-@RequestMapping(HelioConstant.Version.SAAS_API_VERSION_V1 + "/auth")
+@Api(value = "SaaS后台管理鉴权接口", tags = {"SaaS后台管理鉴权接口"})
+@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/auth")
 @RestController
 public class AdminAuthController {
 
@@ -56,6 +56,7 @@ public class AdminAuthController {
                 .userPhoneNo(userInfo.getPhoneNo())
                 .userType(UserTypeEnum.ADMIN_USER)
                 .extraData(null)
+                .rolesIds(userInfo.getRoleIds())
                 .roles(userInfo.getRoles())
                 .permissions(userInfo.getPermissions())
                 .relationalTenant(userInfo.getRelationalTenant())

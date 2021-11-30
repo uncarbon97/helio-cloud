@@ -28,7 +28,7 @@ import javax.validation.Valid;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "后台角色管理接口", tags = {"后台角色管理接口"})
-@RequestMapping(HelioConstant.Version.SAAS_API_VERSION_V1 + "/sys/roles")
+@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/roles")
 @RestController
 public class AdminSysRoleController {
 

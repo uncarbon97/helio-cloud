@@ -19,6 +19,7 @@ import cc.uncarbon.module.sys.util.PwdUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -191,6 +192,7 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
 
         // 因字段类型不一致, 单独转换
         ret
+                .setRoleIds(sysUserBO.getRoles().stream().map(SysRoleBO::getId).filter(ObjectUtil::isNotNull).sorted().collect(Collectors.toList()))
                 .setRoles(sysUserBO.getRoles().stream().map(SysRoleBO::getValue).collect(Collectors.toList()))
                 .setPermissions(sysUserBO.getPermissions())
                 .setRelationalTenant(currentTenantContext)
