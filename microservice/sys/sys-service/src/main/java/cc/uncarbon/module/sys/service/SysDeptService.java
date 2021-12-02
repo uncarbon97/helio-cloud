@@ -182,6 +182,7 @@ public class SysDeptService extends HelioBaseServiceImpl<SysDeptMapper, SysDeptE
 
     /**
      * 检查是否已存在相同数据
+     * 
      * @param dto DTO
      */
     private void checkIfItExists(AdminInsertOrUpdateSysDeptDTO dto) {

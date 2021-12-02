@@ -409,6 +409,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
 
     /**
      * 检查是否已存在相同数据
+     * 
      * @param dto DTO
      */
     private void checkIfItExists(AdminInsertOrUpdateSysMenuDTO dto) {
