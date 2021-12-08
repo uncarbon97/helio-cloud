@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @Api(value = "APP鉴权接口", tags = {"APP鉴权接口"})
-@RequestMapping(HelioConstant.Version.APP_API_VERSION_V1 + "/auth")
+@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/auth")
 @RestController
 public class AppAuthController {
 
@@ -24,7 +24,7 @@ public class AppAuthController {
     @PostMapping("/login")
     public ApiResult<?> login() {
         /*
-        鉴权方法参考saas-api AdminAuthController.login
+        编码时请参考 saas-api 的 AdminAuthController#login
          */
 
         return ApiResult.success();

@@ -27,7 +27,7 @@ import java.util.List;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "部门管理接口", tags = {"部门管理接口"})
-@RequestMapping(HelioConstant.Version.SAAS_API_VERSION_V1 + "/sys/depts")
+@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/depts")
 @RestController
 public class AdminSysDeptController {
 

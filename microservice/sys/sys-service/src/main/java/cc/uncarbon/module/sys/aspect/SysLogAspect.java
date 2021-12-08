@@ -6,7 +6,6 @@ import cc.uncarbon.module.sys.entity.SysLogEntity;
 import cc.uncarbon.module.sys.enums.SysLogStatusEnum;
 import cc.uncarbon.module.sys.service.SysLogService;
 import cn.hutool.json.JSONUtil;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
 @Aspect
 @Component
 @Slf4j
-@Data
 public class SysLogAspect {
 
     @Resource
