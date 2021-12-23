@@ -139,7 +139,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
 
         // 超级管理员直接允许所有权限
         if (roleIds.contains(SysConstant.SUPER_ADMIN_ROLE_ID)) {
-            return this.list().stream().map(SysMenuEntity::getPermission).collect(Collectors.toList());
+            return this.list().stream().map(SysMenuEntity::getPermission).filter(StrUtil::isNotEmpty).distinct().collect(Collectors.toList());
         }
 
         List<Long> menuIds = sysRoleMenuRelationService.listMenuIdByRoleIds(roleIds);
@@ -150,11 +150,10 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
 
         return this.list(
                 new QueryWrapper<SysMenuEntity>()
-                        .select(" DISTINCT permission ")
                         .lambda()
+                        .select(SysMenuEntity::getPermission)
                         .in(SysMenuEntity::getId, menuIds)
-                        .ne(SysMenuEntity::getPermission, "")
-        ).stream().map(SysMenuEntity::getPermission).collect(Collectors.toList());
+        ).stream().map(SysMenuEntity::getPermission).filter(StrUtil::isNotEmpty).distinct().collect(Collectors.toList());
     }
 
     /**
@@ -231,7 +230,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
                         .in(SysMenuEntity::getId, visibleMenuIds)
         ).stream().map(SysMenuEntity::getId).collect(Collectors.toList());
     }
-    
+
 
     /*
     私有方法
@@ -409,7 +408,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
 
     /**
      * 检查是否已存在相同数据
-     * 
+     *
      * @param dto DTO
      */
     private void checkExistence(AdminInsertOrUpdateSysMenuDTO dto) {
