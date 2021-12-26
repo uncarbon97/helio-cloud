@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminSysLogController {
 
     private static final String PERMISSION_PREFIX = "SysLog:";
-    
+
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
     private SysLogFacade sysLogFacade;
 
@@ -48,7 +48,7 @@ public class AdminSysLogController {
     @ApiOperation(value = "详情", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/{id}")
     public ApiResult<SysLogBO> getById(@PathVariable Long id) {
-        return ApiResult.data(sysLogFacade.getOneById(id));
+        return ApiResult.data(sysLogFacade.getOneById(id, true));
     }
 
 }
