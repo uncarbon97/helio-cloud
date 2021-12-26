@@ -83,7 +83,7 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
         if (redisValue == null) {
             redisValue = sysMenuService.adminListSideMenu();
             // 记录到缓存
-            String sysMenuCacheDuration = sysParamService.getParamValueByKey(SysConstant.PARAM_KEY_CACHE_MENU_DURATION, "30");
+            String sysMenuCacheDuration = sysParamService.getParamValueByName(SysConstant.PARAM_KEY_CACHE_MENU_DURATION, "30");
             stringRedisTemplate.opsForValue().set(redisKey, JSONUtil.toJsonStr(redisValue), Integer.parseInt(sysMenuCacheDuration), TimeUnit.MINUTES);
         } else {
             redisValue = JSONUtil.parse(redisValue).toBean(ArrayList.class);
@@ -100,7 +100,7 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
         if (redisValue == null) {
             redisValue = sysMenuService.adminListVisibleMenu();
             // 记录到缓存
-            String sysMenuCacheDuration = sysParamService.getParamValueByKey(SysConstant.PARAM_KEY_CACHE_MENU_DURATION, "30");
+            String sysMenuCacheDuration = sysParamService.getParamValueByName(SysConstant.PARAM_KEY_CACHE_MENU_DURATION, "30");
             stringRedisTemplate.opsForValue().set(redisKey, JSONUtil.toJsonStr(redisValue), Integer.parseInt(sysMenuCacheDuration), TimeUnit.MINUTES);
         } else {
             redisValue = JSONUtil.parse(redisValue).toBean(ArrayList.class);

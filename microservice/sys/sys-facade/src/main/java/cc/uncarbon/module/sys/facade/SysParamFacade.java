@@ -25,6 +25,7 @@ public interface SysParamFacade {
 
     /**
      * 后台管理-新增
+     *
      * @return 主键ID
      */
     Long adminInsert(AdminInsertOrUpdateSysParamDTO dto);
@@ -41,16 +42,18 @@ public interface SysParamFacade {
 
     /**
      * 根据键名取值
-     * @param key 键名
-     * @return 成功返回值, 失败返回null
+     *
+     * @param name 键名
+     * @return 成功返回键值，失败返回null
      */
-    String getValueByKey(String key);
+    String getValueByName(String name);
 
     /**
      * 根据键名取值
-     * @param key 键名
+     *
+     * @param name         键名
      * @param defaultValue 默认值
-     * @return 成功返回值, 失败返回defaultValue
+     * @return 成功返回键值，失败返回defaultValue
      */
-    String getValueByKey(String key, String defaultValue);
+    String getValueByName(String name, String defaultValue);
 }

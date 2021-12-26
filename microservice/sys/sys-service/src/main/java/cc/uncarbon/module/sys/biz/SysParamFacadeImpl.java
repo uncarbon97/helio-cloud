@@ -57,12 +57,12 @@ public class SysParamFacadeImpl implements SysParamFacade {
     }
 
     @Override
-    public String getValueByKey(String key) {
-        return sysParamService.getParamValueByKey(key);
+    public String getValueByName(String name) {
+        return sysParamService.getParamValueByName(name);
     }
 
     @Override
-    public String getValueByKey(String key, String defaultValue) {
-        return sysParamService.getParamValueByKey(key, defaultValue);
+    public String getValueByName(String name, String defaultValue) {
+        return sysParamService.getParamValueByName(name, defaultValue);
     }
 }
