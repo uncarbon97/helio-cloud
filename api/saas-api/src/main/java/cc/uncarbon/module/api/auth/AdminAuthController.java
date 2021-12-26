@@ -64,7 +64,7 @@ public class AdminAuthController {
 
         // 注册到SA-Token
         AdminStpUtil.login(userInfo.getId(), dto.getRememberMe());
-        AdminStpUtil.getSession().set("userContext", userContext);
+        AdminStpUtil.getSession().set(UserContext.CAMEL_NAME, userContext);
 
 
         // 返回登录token
