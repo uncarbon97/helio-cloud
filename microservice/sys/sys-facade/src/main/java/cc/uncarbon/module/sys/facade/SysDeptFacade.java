@@ -18,8 +18,11 @@ public interface SysDeptFacade {
 
     /**
      * 通用-详情
+     *
+     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
      */
-    SysDeptBO getOneById(Long entityId);
+    @Deprecated
+    SysDeptBO getOneById(Long entityId) throws BusinessException;
 
     /**
      * 后台管理-新增

@@ -39,7 +39,7 @@ public class SysDataDictFacadeImpl implements SysDataDictFacade {
     }
 
     @Override
-    public SysDataDictBO getOneById(Long entityId) {
+    public SysDataDictBO getOneById(Long entityId) throws BusinessException {
         return sysDataDictService.getOneById(entityId);
     }
 

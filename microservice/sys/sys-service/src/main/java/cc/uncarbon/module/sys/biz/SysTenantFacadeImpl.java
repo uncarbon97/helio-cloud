@@ -1,6 +1,7 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysTenantFacade;
@@ -38,8 +39,13 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
     }
 
     @Override
-    public SysTenantBO getOneById(Long entityId) {
-        return sysTenantService.getOneById(entityId);
+    public SysTenantBO getOneById(Long entityId) throws BusinessException {
+        return sysTenantService.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysTenantBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysTenantService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override

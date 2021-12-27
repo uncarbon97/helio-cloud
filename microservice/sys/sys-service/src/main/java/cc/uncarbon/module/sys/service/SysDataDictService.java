@@ -52,8 +52,11 @@ public class SysDataDictService extends HelioBaseServiceImpl<SysDataDictMapper, 
 
     /**
      * 通用-详情
+     *
+     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
      */
-    public SysDataDictBO getOneById(Long entityId) {
+    @Deprecated
+    public SysDataDictBO getOneById(Long entityId) throws BusinessException {
         SysDataDictEntity entity = this.getById(entityId);
         SysErrorEnum.INVALID_ID.assertNotNull(entity);
 

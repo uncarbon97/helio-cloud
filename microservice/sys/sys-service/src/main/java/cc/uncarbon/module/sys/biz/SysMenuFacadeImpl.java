@@ -51,7 +51,7 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
     }
 
     @Override
-    public SysMenuBO getOneById(Long entityId) {
+    public SysMenuBO getOneById(Long entityId) throws BusinessException {
         return sysMenuService.getOneById(entityId);
     }
 

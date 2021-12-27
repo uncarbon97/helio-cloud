@@ -28,7 +28,7 @@ public interface SysLogFacade {
      * 通用-详情
      *
      * @param entityId 实体类主键ID
-     * @param throwIfInvalidId 是否在 ID 无效时抛出错误
+     * @param throwIfInvalidId 是否在 ID 无效时抛出异常
      * @return BO
      */
     SysLogBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException;

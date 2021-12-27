@@ -1,6 +1,7 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
@@ -38,7 +39,7 @@ public class SysUserFacadeImpl implements SysUserFacade {
     }
 
     @Override
-    public SysUserBO getOneById(Long entityId) {
+    public SysUserBO getOneById(Long entityId) throws BusinessException {
         return sysUserService.getOneById(entityId);
     }
 

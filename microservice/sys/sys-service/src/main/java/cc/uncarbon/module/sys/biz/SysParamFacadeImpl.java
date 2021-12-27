@@ -37,7 +37,7 @@ public class SysParamFacadeImpl implements SysParamFacade {
     }
 
     @Override
-    public SysParamBO getOneById(Long entityId) {
+    public SysParamBO getOneById(Long entityId) throws BusinessException {
         return sysParamService.getOneById(entityId);
     }
 

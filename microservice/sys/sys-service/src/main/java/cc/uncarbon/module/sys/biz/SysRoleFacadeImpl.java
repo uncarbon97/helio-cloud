@@ -47,7 +47,7 @@ public class SysRoleFacadeImpl implements SysRoleFacade {
     }
 
     @Override
-    public SysRoleBO getOneById(Long entityId) {
+    public SysRoleBO getOneById(Long entityId) throws BusinessException {
         return sysRoleService.getOneById(entityId);
     }
 

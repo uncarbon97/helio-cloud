@@ -36,7 +36,7 @@ public class SysLogFacadeImpl implements SysLogFacade {
     }
 
     @Override
-    public SysLogBO getOneById(Long entityId) {
+    public SysLogBO getOneById(Long entityId) throws BusinessException {
         return sysLogService.getOneById(entityId, true);
     }
 

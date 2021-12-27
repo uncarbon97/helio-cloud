@@ -23,8 +23,11 @@ public interface SysDataDictFacade {
 
     /**
      * 通用-详情
+     *
+     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
      */
-    SysDataDictBO getOneById(Long entityId);
+    @Deprecated
+    SysDataDictBO getOneById(Long entityId) throws BusinessException;
 
     /**
      * 后台管理-添加

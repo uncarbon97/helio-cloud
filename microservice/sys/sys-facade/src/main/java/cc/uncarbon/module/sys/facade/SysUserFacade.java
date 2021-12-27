@@ -1,5 +1,6 @@
 package cc.uncarbon.module.sys.facade;
 
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.model.request.*;
@@ -21,8 +22,11 @@ public interface SysUserFacade {
 
     /**
      * 通用-详情
+     *
+     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
      */
-    SysUserBO getOneById(Long entityId);
+    @Deprecated
+    SysUserBO getOneById(Long entityId) throws BusinessException;
 
     /**
      * 后台管理-新增

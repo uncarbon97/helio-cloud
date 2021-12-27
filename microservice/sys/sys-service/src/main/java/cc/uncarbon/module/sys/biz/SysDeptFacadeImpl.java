@@ -35,7 +35,7 @@ public class SysDeptFacadeImpl implements SysDeptFacade {
     }
 
     @Override
-    public SysDeptBO getOneById(Long entityId) {
+    public SysDeptBO getOneById(Long entityId) throws BusinessException {
         return sysDeptService.getOneById(entityId);
     }
 

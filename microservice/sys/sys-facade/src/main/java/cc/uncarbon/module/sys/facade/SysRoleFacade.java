@@ -20,8 +20,11 @@ public interface SysRoleFacade {
 
     /**
      * 通用-详情
+     *
+     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
      */
-    SysRoleBO getOneById(Long entityId);
+    @Deprecated
+    SysRoleBO getOneById(Long entityId) throws BusinessException;
 
     /**
      * 后台管理-新增
