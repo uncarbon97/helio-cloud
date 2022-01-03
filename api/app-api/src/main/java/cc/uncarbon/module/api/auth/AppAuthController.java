@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AppAuthController {
 
+    /*
+    本微服务模块的所有接口默认为都需要登录，放行接口请在 app-api.yml 配置文件的 helio.security.exclude-routes 中设置
+    相关拦截器代码请见 CustomInterceptorConfiguration.java
+     */
+
     @ApiOperation(value = "登录", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("/login")
     public ApiResult<?> login() {
