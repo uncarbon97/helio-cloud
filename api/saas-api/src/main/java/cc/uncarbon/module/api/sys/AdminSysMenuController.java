@@ -32,7 +32,7 @@ import java.util.List;
 public class AdminSysMenuController {
 
     private static final String PERMISSION_PREFIX = "SysMenu:";
-    
+
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
     private SysMenuFacade sysMenuFacade;
 
@@ -48,7 +48,7 @@ public class AdminSysMenuController {
     @ApiOperation(value = "详情", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/{id}")
     public ApiResult<SysMenuBO> getById(@PathVariable Long id) {
-        return ApiResult.data(sysMenuFacade.getOneById(id));
+        return ApiResult.data(sysMenuFacade.getOneById(id, true));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)

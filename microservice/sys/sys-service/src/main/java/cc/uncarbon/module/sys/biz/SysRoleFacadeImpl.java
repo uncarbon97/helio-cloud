@@ -1,6 +1,7 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.constant.SysConstant;
@@ -48,7 +49,12 @@ public class SysRoleFacadeImpl implements SysRoleFacade {
 
     @Override
     public SysRoleBO getOneById(Long entityId) throws BusinessException {
-        return sysRoleService.getOneById(entityId);
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysRoleBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysRoleService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override

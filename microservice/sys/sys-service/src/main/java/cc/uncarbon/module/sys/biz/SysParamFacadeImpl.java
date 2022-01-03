@@ -1,6 +1,7 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysParamFacade;
@@ -38,7 +39,12 @@ public class SysParamFacadeImpl implements SysParamFacade {
 
     @Override
     public SysParamBO getOneById(Long entityId) throws BusinessException {
-        return sysParamService.getOneById(entityId);
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysParamBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysParamService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override

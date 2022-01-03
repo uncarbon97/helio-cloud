@@ -67,7 +67,7 @@ public class SysLogService extends HelioBaseServiceImpl<SysLogMapper, SysLogEnti
      *
      * @param entityId 实体类主键ID
      * @param throwIfInvalidId 是否在 ID 无效时抛出异常
-     * @return BO
+     * @return null or BO
      */
     public SysLogBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
         SysLogEntity entity = this.getById(entityId);

@@ -80,14 +80,28 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
     /**
      * 通用-详情
      *
-     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
+     * @deprecated 使用 getOneById(java.lang.Long, boolean, boolean) 替代
      */
     @Deprecated
     public SysUserBO getOneById(Long entityId) throws BusinessException {
-        SysUserEntity entity = this.getById(entityId);
-        SysErrorEnum.INVALID_ID.assertNotNull(entity);
+        return this.getOneById(entityId, true, false);
+    }
 
-        return this.entity2BO(entity, true);
+    /**
+     * 通用-详情
+     *
+     * @param entityId 实体类主键ID
+     * @param throwIfInvalidId 是否在 ID 无效时抛出异常
+     * @param joinFullRolesAndPermissions 是否显示完整角色和权限信息
+     * @return null or BO
+     */
+    public SysUserBO getOneById(Long entityId, boolean throwIfInvalidId, boolean joinFullRolesAndPermissions) throws BusinessException {
+        SysUserEntity entity = this.getById(entityId);
+        if (throwIfInvalidId) {
+            SysErrorEnum.INVALID_ID.assertNotNull(entity);
+        }
+
+        return this.entity2BO(entity, joinFullRolesAndPermissions);
     }
 
     /**
@@ -188,7 +202,7 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
         this.getBaseMapper().updateLastLoginAt(sysUserEntity.getId(), LocalDateTimeUtil.now());
 
         // 取账号完整BO
-        SysUserBO sysUserBO = this.getOneById(sysUserEntity.getId());
+        SysUserBO sysUserBO = this.getOneById(sysUserEntity.getId(), true, true);
 
         SysUserLoginBO ret = new SysUserLoginBO();
         BeanUtil.copyProperties(sysUserBO, ret);
@@ -208,10 +222,11 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
      * 后台管理-取当前用户信息
      */
     public VbenAdminUserInfoBO adminGetCurrentUserInfo() {
-        SysUserBO sysUserBO = getOneById(UserContextHolder.getUserId());
+        SysUserBO sysUserBO = this.getOneById(UserContextHolder.getUserId(), true, false);
         return VbenAdminUserInfoBO.builder()
                 .username(sysUserBO.getUsername())
                 .nickname(sysUserBO.getNickname())
+                .lastLoginAt(sysUserBO.getLastLoginAt())
                 .build();
     }
 
@@ -325,7 +340,7 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
 
     /**
      * 检查是否已存在相同数据
-     * 
+     *
      * @param dto DTO
      */
     private void checkExistence(AdminInsertOrUpdateSysUserDTO dto) {

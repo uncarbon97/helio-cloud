@@ -1,6 +1,7 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysDataDictFacade;
@@ -40,7 +41,12 @@ public class SysDataDictFacadeImpl implements SysDataDictFacade {
 
     @Override
     public SysDataDictBO getOneById(Long entityId) throws BusinessException {
-        return sysDataDictService.getOneById(entityId);
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysDataDictBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysDataDictService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override

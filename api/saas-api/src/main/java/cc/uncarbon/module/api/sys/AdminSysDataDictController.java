@@ -49,7 +49,7 @@ public class AdminSysDataDictController {
     @ApiOperation(value = "详情", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/{id}")
     public ApiResult<SysDataDictBO> getById(@PathVariable Long id) {
-        return ApiResult.data(sysDataDictFacade.getOneById(id));
+        return ApiResult.data(sysDataDictFacade.getOneById(id, true));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)

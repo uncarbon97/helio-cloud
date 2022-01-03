@@ -2,6 +2,7 @@ package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.context.UserContextHolder;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.constant.SysConstant;
 import cc.uncarbon.module.sys.facade.SysMenuFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysMenuDTO;
@@ -52,7 +53,12 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
 
     @Override
     public SysMenuBO getOneById(Long entityId) throws BusinessException {
-        return sysMenuService.getOneById(entityId);
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysMenuBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysMenuService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override

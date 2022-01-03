@@ -1,6 +1,7 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.facade.SysDeptFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDeptDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysDeptDTO;
@@ -36,7 +37,12 @@ public class SysDeptFacadeImpl implements SysDeptFacade {
 
     @Override
     public SysDeptBO getOneById(Long entityId) throws BusinessException {
-        return sysDeptService.getOneById(entityId);
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysDeptBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysDeptService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override

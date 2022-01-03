@@ -40,7 +40,12 @@ public class SysUserFacadeImpl implements SysUserFacade {
 
     @Override
     public SysUserBO getOneById(Long entityId) throws BusinessException {
-        return sysUserService.getOneById(entityId);
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysUserBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysUserService.getOneById(entityId, throwIfInvalidId, false);
     }
 
     @Override

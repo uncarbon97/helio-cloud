@@ -70,8 +70,21 @@ public class SysRoleService extends HelioBaseServiceImpl<SysRoleMapper, SysRoleE
      */
     @Deprecated
     public SysRoleBO getOneById(Long entityId) throws BusinessException {
+        return this.getOneById(entityId, true);
+    }
+
+    /**
+     * 通用-详情
+     *
+     * @param entityId 实体类主键ID
+     * @param throwIfInvalidId 是否在 ID 无效时抛出异常
+     * @return null or BO
+     */
+    public SysRoleBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
         SysRoleEntity entity = this.getById(entityId);
-        SysErrorEnum.INVALID_ID.assertNotNull(entity);
+        if (throwIfInvalidId) {
+            SysErrorEnum.INVALID_ID.assertNotNull(entity);
+        }
 
         return this.entity2BO(entity);
     }
@@ -180,7 +193,7 @@ public class SysRoleService extends HelioBaseServiceImpl<SysRoleMapper, SysRoleE
 
     /**
      * 检查是否已存在相同数据
-     * 
+     *
      * @param dto DTO
      */
     private void checkExistence(AdminInsertOrUpdateSysRoleDTO dto) {
