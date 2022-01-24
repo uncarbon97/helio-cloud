@@ -5,12 +5,11 @@ import cc.uncarbon.module.sys.entity.SysUserRoleRelationEntity;
 import cc.uncarbon.module.sys.mapper.SysUserRoleRelationMapper;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -55,8 +54,8 @@ public class SysUserRoleRelationService extends HelioBaseServiceImpl<SysUserRole
 
         return this.list(
                 new QueryWrapper<SysUserRoleRelationEntity>()
-                        .select(" user_id ")
                         .lambda()
+                        .select(SysUserRoleRelationEntity::getUserId)
                         .in(SysUserRoleRelationEntity::getRoleId, roleIds)
         ).stream().map(SysUserRoleRelationEntity::getUserId).collect(Collectors.toList());
     }
@@ -73,8 +72,8 @@ public class SysUserRoleRelationService extends HelioBaseServiceImpl<SysUserRole
 
         return this.list(
                 new QueryWrapper<SysUserRoleRelationEntity>()
-                        .select(" role_id ")
                         .lambda()
+                        .select(SysUserRoleRelationEntity::getRoleId)
                         .eq(SysUserRoleRelationEntity::getUserId, userId)
         ).stream().map(SysUserRoleRelationEntity::getRoleId).collect(Collectors.toList());
     }
