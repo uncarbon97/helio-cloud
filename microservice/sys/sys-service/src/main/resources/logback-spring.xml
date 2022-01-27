@@ -2,20 +2,23 @@
 
 <configuration debug="false">
     <!-- 配置-彩色日志渲染类 -->
-    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
-    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+            converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+            converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
 
     <!-- 常量-项目名称 -->
-    <property name="APP_NAME" value="sys-service" />
+    <property name="APP_NAME" value="sys-service"/>
     <!-- 常量-日志文件存储路径 -->
-    <property name="LOG_HOME" value="logs/${APP_NAME}" />
+    <property name="LOG_HOME" value="logs/${APP_NAME}"/>
     <!-- 常量-日志文件保留天数 -->
-    <property name="LOG_MAX_HISTORY" value="30" />
+    <property name="LOG_MAX_HISTORY" value="30"/>
     <!-- 常量-日志文件最大占用 -->
-    <property name="LOG_MAX_SIZE" value="100MB" />
+    <property name="LOG_MAX_SIZE" value="100MB"/>
     <!-- 常量-文件型日志输出格式 -->
-    <property name="LOG_FILE_OUTPUT_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5level [%10thread] [%X{tid}] %40.40logger{40} [%10method,%line] : %msg%n" />
+    <property name="LOG_FILE_OUTPUT_PATTERN"
+            value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5level [%10thread] [%X{tid}] %40.40logger{40} [%10method,%line] : %msg%n"/>
 
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -32,9 +35,11 @@
             <OnMismatch>DENY</OnMismatch>
             <OnMatch>ACCEPT</OnMatch>
         </filter>
+        <!-- 今日日志 -->
+        <File>${LOG_HOME}/${APP_NAME}.today-debug.log</File>
         <!-- 日志滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 日志文件输出的文件名 -->
+            <!-- 历史日志输出文件名 -->
             <FileNamePattern>${LOG_HOME}/${APP_NAME}.%d{yyyy-MM-dd}-debug.log</FileNamePattern>
             <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
         </rollingPolicy>
@@ -65,9 +70,11 @@
             <OnMismatch>DENY</OnMismatch>
             <OnMatch>ACCEPT</OnMatch>
         </filter>
+        <!-- 今日日志 -->
+        <File>${LOG_HOME}/${APP_NAME}.today-warn.log</File>
         <!-- 日志滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 日志文件输出的文件名 -->
+            <!-- 历史日志输出文件名 -->
             <FileNamePattern>${LOG_HOME}/${APP_NAME}.%d{yyyy-MM-dd}-warn.log</FileNamePattern>
             <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
         </rollingPolicy>
@@ -98,9 +105,11 @@
             <OnMismatch>DENY</OnMismatch>
             <OnMatch>ACCEPT</OnMatch>
         </filter>
+        <!-- 今日日志 -->
+        <File>${LOG_HOME}/${APP_NAME}.today-info.log</File>
         <!-- 日志滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 日志文件输出的文件名 -->
+            <!-- 历史日志输出文件名 -->
             <FileNamePattern>${LOG_HOME}/${APP_NAME}.%d{yyyy-MM-dd}-info.log</FileNamePattern>
             <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
         </rollingPolicy>
@@ -131,9 +140,11 @@
             <OnMismatch>DENY</OnMismatch>
             <OnMatch>ACCEPT</OnMatch>
         </filter>
+        <!-- 今日日志 -->
+        <File>${LOG_HOME}/${APP_NAME}.today-error.log</File>
         <!-- 日志滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 日志文件输出的文件名 -->
+            <!-- 历史日志输出文件名 -->
             <FileNamePattern>${LOG_HOME}/${APP_NAME}.%d{yyyy-MM-dd}-error.log</FileNamePattern>
             <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
         </rollingPolicy>
