@@ -16,12 +16,12 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -77,11 +77,12 @@ public class SysDataDictService extends HelioBaseServiceImpl<SysDataDictMapper, 
     }
 
     /**
-     * 后台管理-新增
+     * 后台管理-新增数据字典
      */
     @SysLog(value = "新增数据字典")
     @Transactional(rollbackFor = Exception.class)
     public Long adminInsert(AdminInsertOrUpdateSysDataDictDTO dto) {
+        log.info("[后台管理-新增数据字典] >> DTO={}", dto);
         this.checkExistence(dto);
 
         dto.setId(null);
@@ -99,6 +100,7 @@ public class SysDataDictService extends HelioBaseServiceImpl<SysDataDictMapper, 
     @SysLog(value = "编辑数据字典")
     @Transactional(rollbackFor = Exception.class)
     public void adminUpdate(AdminInsertOrUpdateSysDataDictDTO dto) {
+        log.info("[后台管理-编辑数据字典] >> DTO={}", dto);
         this.checkExistence(dto);
 
         SysDataDictEntity entity = new SysDataDictEntity();
@@ -112,7 +114,8 @@ public class SysDataDictService extends HelioBaseServiceImpl<SysDataDictMapper, 
      */
     @SysLog(value = "删除数据字典")
     @Transactional(rollbackFor = Exception.class)
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
+        log.info("[后台管理-删除数据字典] >> ids={}", ids);
         this.removeByIds(ids);
     }
 
@@ -161,12 +164,16 @@ public class SysDataDictService extends HelioBaseServiceImpl<SysDataDictMapper, 
     private void checkExistence(AdminInsertOrUpdateSysDataDictDTO dto) {
         SysDataDictEntity existingEntity = this.getOne(
                 new QueryWrapper<SysDataDictEntity>()
-                        .select(HelioConstant.CRUD.SQL_COLUMN_ID)
                         .lambda()
+                        // 仅取主键ID
+                        .select(SysDataDictEntity::getId)
+                        // 驼峰式键名相同
                         .eq(SysDataDictEntity::getCamelCaseKey, dto.getCamelCaseKey())
                         .or()
+                        // 或帕斯卡式键名相同
                         .eq(SysDataDictEntity::getPascalCaseKey, dto.getPascalCaseKey())
                         .or()
+                        // 或下划线式键名相同
                         .eq(SysDataDictEntity::getUnderCaseKey, dto.getUnderCaseKey())
                         .last(HelioConstant.CRUD.SQL_LIMIT_1)
         );

@@ -9,11 +9,10 @@ import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysParamDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysParamDTO;
 import cc.uncarbon.module.sys.model.response.SysParamBO;
 import cc.uncarbon.module.sys.service.SysParamService;
+import java.util.Collection;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 系统参数Facade接口实现类
@@ -58,7 +57,7 @@ public class SysParamFacadeImpl implements SysParamFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysParamService.adminDelete(ids);
     }
 

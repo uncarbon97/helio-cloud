@@ -6,8 +6,7 @@ import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysRoleDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysRoleDTO;
 import cc.uncarbon.module.sys.model.response.SysRoleBO;
-
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 后台角色Facade接口
@@ -49,7 +48,8 @@ public interface SysRoleFacade {
 
     /**
      * 后台管理-删除
+     * @param ids 主键IDs
      */
-    void adminDelete(List<Long> ids);
+    void adminDelete(Collection<Long> ids);
 
 }

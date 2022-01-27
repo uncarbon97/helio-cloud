@@ -7,11 +7,11 @@ import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDeptDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysDeptDTO;
 import cc.uncarbon.module.sys.model.response.SysDeptBO;
 import cc.uncarbon.module.sys.service.SysDeptService;
+import java.util.Collection;
+import java.util.List;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 部门Facade接口实现类
@@ -56,7 +56,7 @@ public class SysDeptFacadeImpl implements SysDeptFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysDeptService.adminDelete(ids);
     }
 

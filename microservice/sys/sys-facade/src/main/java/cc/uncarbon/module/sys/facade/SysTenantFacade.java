@@ -7,8 +7,7 @@ import cc.uncarbon.module.sys.model.request.AdminInsertSysTenantDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysTenantDTO;
 import cc.uncarbon.module.sys.model.request.AdminUpdateSysTenantDTO;
 import cc.uncarbon.module.sys.model.response.SysTenantBO;
-
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 系统租户Facade接口
@@ -50,7 +49,8 @@ public interface SysTenantFacade {
 
     /**
      * 后台管理-删除
+     * @param ids 主键IDs
      */
-    void adminDelete(List<Long> ids);
+    void adminDelete(Collection<Long> ids);
 
 }

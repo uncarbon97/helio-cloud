@@ -18,13 +18,13 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -96,6 +96,7 @@ public class SysRoleService extends HelioBaseServiceImpl<SysRoleMapper, SysRoleE
     @SysLog(value = "新增后台角色")
     @Transactional(rollbackFor = Exception.class)
     public Long adminInsert(AdminInsertOrUpdateSysRoleDTO dto) {
+        log.info("[后台管理-新增后台角色] >> DTO={}", dto);
         this.checkExistence(dto);
 
         dto.setId(null);
@@ -115,6 +116,7 @@ public class SysRoleService extends HelioBaseServiceImpl<SysRoleMapper, SysRoleE
     @SysLog(value = "编辑后台角色")
     @Transactional(rollbackFor = Exception.class)
     public void adminUpdate(AdminInsertOrUpdateSysRoleDTO dto) {
+        log.info("[后台管理-编辑后台角色] >> DTO={}", dto);
         this.checkExistence(dto);
 
         SysRoleEntity entity = new SysRoleEntity();
@@ -130,7 +132,8 @@ public class SysRoleService extends HelioBaseServiceImpl<SysRoleMapper, SysRoleE
      */
     @SysLog(value = "删除后台角色")
     @Transactional(rollbackFor = Exception.class)
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
+        log.info("[后台管理-删除后台角色] >> ids={}", ids);
         this.removeByIds(ids);
     }
 
@@ -199,10 +202,12 @@ public class SysRoleService extends HelioBaseServiceImpl<SysRoleMapper, SysRoleE
     private void checkExistence(AdminInsertOrUpdateSysRoleDTO dto) {
         SysRoleEntity existingEntity = this.getOne(
                 new QueryWrapper<SysRoleEntity>()
-                        .select(HelioConstant.CRUD.SQL_COLUMN_ID)
                         .lambda()
+                        // 仅取主键ID
+                        .select(SysRoleEntity::getId)
+                        // 名称相同
                         .eq(SysRoleEntity::getTitle, dto.getTitle())
-                        .last(HelioConstant.CRUD.SQL_LIMIT_1 )
+                        .last(HelioConstant.CRUD.SQL_LIMIT_1)
         );
 
         if (existingEntity != null && !existingEntity.getId().equals(dto.getId())) {

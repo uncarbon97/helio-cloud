@@ -6,8 +6,7 @@ import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDataDictDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysDataDictDTO;
 import cc.uncarbon.module.sys.model.response.SysDataDictBO;
-
-import java.util.List;
+import java.util.Collection;
 
 
 /**
@@ -53,7 +52,8 @@ public interface SysDataDictFacade {
 
     /**
      * 后台管理-删除
+     * @param ids 主键IDs
      */
-    void adminDelete(List<Long> ids);
+    void adminDelete(Collection<Long> ids);
 
 }

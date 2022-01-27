@@ -4,7 +4,7 @@ import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDeptDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysDeptDTO;
 import cc.uncarbon.module.sys.model.response.SysDeptBO;
-
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -47,7 +47,8 @@ public interface SysDeptFacade {
 
     /**
      * 后台管理-删除
+     * @param ids 主键IDs
      */
-    void adminDelete(List<Long> ids);
+    void adminDelete(Collection<Long> ids);
 
 }

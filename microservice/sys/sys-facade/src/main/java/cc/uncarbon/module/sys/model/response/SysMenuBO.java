@@ -6,16 +6,15 @@ import cc.uncarbon.module.sys.enums.SysMenuTypeEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
 
 
 /**
@@ -61,7 +60,7 @@ public class SysMenuBO implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
-    @ApiModelProperty(value = "状态(0=禁用 1=启用)")
+    @ApiModelProperty(value = "状态")
     private GenericStatusEnum status;
 
     @ApiModelProperty(value = "组件")

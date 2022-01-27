@@ -17,13 +17,13 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -88,6 +88,7 @@ public class SysDeptService extends HelioBaseServiceImpl<SysDeptMapper, SysDeptE
     @SysLog(value = "新增部门")
     @Transactional(rollbackFor = Exception.class)
     public Long adminInsert(AdminInsertOrUpdateSysDeptDTO dto) {
+        log.info("[后台管理-新增部门] >> DTO={}", dto);
         this.checkExistence(dto);
 
         if (ObjectUtil.isNull(dto.getParentId())) {
@@ -109,6 +110,7 @@ public class SysDeptService extends HelioBaseServiceImpl<SysDeptMapper, SysDeptE
     @SysLog(value = "编辑部门")
     @Transactional(rollbackFor = Exception.class)
     public void adminUpdate(AdminInsertOrUpdateSysDeptDTO dto) {
+        log.info("[后台管理-编辑部门] >> DTO={}", dto);
         this.checkExistence(dto);
 
         if (ObjectUtil.isNull(dto.getParentId())) {
@@ -126,7 +128,8 @@ public class SysDeptService extends HelioBaseServiceImpl<SysDeptMapper, SysDeptE
      */
     @SysLog(value = "删除部门")
     @Transactional(rollbackFor = Exception.class)
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
+        log.info("[后台管理-删除部门] >> ids={}", ids);
         this.removeByIds(ids);
     }
 
@@ -204,10 +207,12 @@ public class SysDeptService extends HelioBaseServiceImpl<SysDeptMapper, SysDeptE
     private void checkExistence(AdminInsertOrUpdateSysDeptDTO dto) {
         SysDeptEntity existingEntity = this.getOne(
                 new QueryWrapper<SysDeptEntity>()
-                        .select(HelioConstant.CRUD.SQL_COLUMN_ID)
                         .lambda()
+                        // 仅取主键ID
+                        .select(SysDeptEntity::getId)
+                        // 名称相同
                         .eq(SysDeptEntity::getTitle, dto.getTitle())
-                        .last(HelioConstant.CRUD.SQL_LIMIT_1 )
+                        .last(HelioConstant.CRUD.SQL_LIMIT_1)
         );
 
         if (existingEntity != null && !existingEntity.getId().equals(dto.getId())) {

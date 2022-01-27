@@ -3,12 +3,16 @@ package cc.uncarbon.module.sys.facade;
 import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
-import cc.uncarbon.module.sys.model.request.*;
+import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
+import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
+import cc.uncarbon.module.sys.model.request.AdminUpdateCurrentSysUserPasswordDTO;
+import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
 import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoBO;
-
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 后台用户Facade接口
@@ -50,8 +54,9 @@ public interface SysUserFacade {
 
     /**
      * 后台管理-删除
+     * @param ids 主键IDs
      */
-    void adminDelete(List<Long> ids);
+    void adminDelete(Collection<Long> ids);
 
     /**
      * 后台管理-登录

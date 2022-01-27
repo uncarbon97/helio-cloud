@@ -10,11 +10,10 @@ import cc.uncarbon.module.sys.model.request.AdminListSysTenantDTO;
 import cc.uncarbon.module.sys.model.request.AdminUpdateSysTenantDTO;
 import cc.uncarbon.module.sys.model.response.SysTenantBO;
 import cc.uncarbon.module.sys.service.SysTenantService;
+import java.util.Collection;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 系统租户Facade接口实现类
@@ -59,7 +58,7 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysTenantService.adminDelete(ids);
     }
 

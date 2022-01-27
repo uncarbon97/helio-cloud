@@ -4,7 +4,7 @@ import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysMenuDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysMenuDTO;
 import cc.uncarbon.module.sys.model.response.SysMenuBO;
-
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -47,8 +47,9 @@ public interface SysMenuFacade {
 
     /**
      * 后台管理-删除
+     * @param ids 主键IDs
      */
-    void adminDelete(List<Long> ids);
+    void adminDelete(Collection<Long> ids);
 
     /**
      * 后台管理-取当前账号可见侧边菜单

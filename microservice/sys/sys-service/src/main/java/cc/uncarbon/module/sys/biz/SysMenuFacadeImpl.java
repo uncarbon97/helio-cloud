@@ -13,15 +13,15 @@ import cc.uncarbon.module.sys.service.SysParamService;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.data.redis.core.StringRedisTemplate;
-
-import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import javax.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * 后台菜单Facade接口实现类
@@ -76,7 +76,7 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysMenuService.adminDelete(ids);
         this.cleanMenuCacheInRedis();
     }

@@ -6,8 +6,7 @@ import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysParamDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysParamDTO;
 import cc.uncarbon.module.sys.model.response.SysParamBO;
-
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 系统参数Facade接口
@@ -50,8 +49,9 @@ public interface SysParamFacade {
 
     /**
      * 后台管理-删除
+     * @param ids 主键IDs
      */
-    void adminDelete(List<Long> ids);
+    void adminDelete(Collection<Long> ids);
 
     /**
      * 根据键名取值

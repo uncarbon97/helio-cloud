@@ -9,11 +9,10 @@ import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDataDictDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysDataDictDTO;
 import cc.uncarbon.module.sys.model.response.SysDataDictBO;
 import cc.uncarbon.module.sys.service.SysDataDictService;
+import java.util.Collection;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 
 /**
@@ -60,7 +59,7 @@ public class SysDataDictFacadeImpl implements SysDataDictFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysDataDictService.adminDelete(ids);
     }
 
