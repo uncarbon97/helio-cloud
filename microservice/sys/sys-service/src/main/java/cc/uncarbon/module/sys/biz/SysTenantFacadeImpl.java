@@ -1,6 +1,7 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysTenantFacade;
@@ -9,11 +10,10 @@ import cc.uncarbon.module.sys.model.request.AdminListSysTenantDTO;
 import cc.uncarbon.module.sys.model.request.AdminUpdateSysTenantDTO;
 import cc.uncarbon.module.sys.model.response.SysTenantBO;
 import cc.uncarbon.module.sys.service.SysTenantService;
+import java.util.Collection;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 系统租户Facade接口实现类
@@ -38,8 +38,13 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
     }
 
     @Override
-    public SysTenantBO getOneById(Long entityId) {
-        return sysTenantService.getOneById(entityId);
+    public SysTenantBO getOneById(Long entityId) throws BusinessException {
+        return sysTenantService.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysTenantBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysTenantService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override
@@ -53,7 +58,7 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysTenantService.adminDelete(ids);
     }
 

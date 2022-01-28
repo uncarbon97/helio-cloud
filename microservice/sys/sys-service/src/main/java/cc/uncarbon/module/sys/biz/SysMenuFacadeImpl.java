@@ -2,6 +2,7 @@ package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.context.UserContextHolder;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.constant.SysConstant;
 import cc.uncarbon.module.sys.facade.SysMenuFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysMenuDTO;
@@ -12,15 +13,15 @@ import cc.uncarbon.module.sys.service.SysParamService;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.data.redis.core.StringRedisTemplate;
-
-import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import javax.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * 后台菜单Facade接口实现类
@@ -51,8 +52,13 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
     }
 
     @Override
-    public SysMenuBO getOneById(Long entityId) {
-        return sysMenuService.getOneById(entityId);
+    public SysMenuBO getOneById(Long entityId) throws BusinessException {
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysMenuBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysMenuService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override
@@ -70,7 +76,7 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysMenuService.adminDelete(ids);
         this.cleanMenuCacheInRedis();
     }
@@ -83,7 +89,7 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
         if (redisValue == null) {
             redisValue = sysMenuService.adminListSideMenu();
             // 记录到缓存
-            String sysMenuCacheDuration = sysParamService.getParamValueByKey(SysConstant.PARAM_KEY_CACHE_MENU_DURATION, "30");
+            String sysMenuCacheDuration = sysParamService.getParamValueByName(SysConstant.PARAM_KEY_CACHE_MENU_DURATION, "30");
             stringRedisTemplate.opsForValue().set(redisKey, JSONUtil.toJsonStr(redisValue), Integer.parseInt(sysMenuCacheDuration), TimeUnit.MINUTES);
         } else {
             redisValue = JSONUtil.parse(redisValue).toBean(ArrayList.class);
@@ -100,7 +106,7 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
         if (redisValue == null) {
             redisValue = sysMenuService.adminListVisibleMenu();
             // 记录到缓存
-            String sysMenuCacheDuration = sysParamService.getParamValueByKey(SysConstant.PARAM_KEY_CACHE_MENU_DURATION, "30");
+            String sysMenuCacheDuration = sysParamService.getParamValueByName(SysConstant.PARAM_KEY_CACHE_MENU_DURATION, "30");
             stringRedisTemplate.opsForValue().set(redisKey, JSONUtil.toJsonStr(redisValue), Integer.parseInt(sysMenuCacheDuration), TimeUnit.MINUTES);
         } else {
             redisValue = JSONUtil.parse(redisValue).toBean(ArrayList.class);

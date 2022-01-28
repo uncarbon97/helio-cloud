@@ -1,6 +1,7 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.constant.SysConstant;
@@ -11,12 +12,12 @@ import cc.uncarbon.module.sys.model.response.SysRoleBO;
 import cc.uncarbon.module.sys.service.SysRoleService;
 import cc.uncarbon.module.sys.service.SysUserRoleRelationService;
 import cn.hutool.core.collection.CollUtil;
+import java.util.Collection;
+import java.util.List;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.redis.core.StringRedisTemplate;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 后台角色Facade接口实现类
@@ -47,8 +48,13 @@ public class SysRoleFacadeImpl implements SysRoleFacade {
     }
 
     @Override
-    public SysRoleBO getOneById(Long entityId) {
-        return sysRoleService.getOneById(entityId);
+    public SysRoleBO getOneById(Long entityId) throws BusinessException {
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysRoleBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysRoleService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override
@@ -78,7 +84,7 @@ public class SysRoleFacadeImpl implements SysRoleFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysRoleService.adminDelete(ids);
     }
 

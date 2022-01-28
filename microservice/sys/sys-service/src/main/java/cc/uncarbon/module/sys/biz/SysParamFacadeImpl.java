@@ -1,6 +1,7 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysParamFacade;
@@ -8,11 +9,10 @@ import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysParamDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysParamDTO;
 import cc.uncarbon.module.sys.model.response.SysParamBO;
 import cc.uncarbon.module.sys.service.SysParamService;
+import java.util.Collection;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 系统参数Facade接口实现类
@@ -37,8 +37,13 @@ public class SysParamFacadeImpl implements SysParamFacade {
     }
 
     @Override
-    public SysParamBO getOneById(Long entityId) {
-        return sysParamService.getOneById(entityId);
+    public SysParamBO getOneById(Long entityId) throws BusinessException {
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysParamBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysParamService.getOneById(entityId, throwIfInvalidId);
     }
 
     @Override
@@ -52,17 +57,17 @@ public class SysParamFacadeImpl implements SysParamFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysParamService.adminDelete(ids);
     }
 
     @Override
-    public String getValueByKey(String key) {
-        return sysParamService.getParamValueByKey(key);
+    public String getValueByName(String name) {
+        return sysParamService.getParamValueByName(name);
     }
 
     @Override
-    public String getValueByKey(String key, String defaultValue) {
-        return sysParamService.getParamValueByKey(key, defaultValue);
+    public String getValueByName(String name, String defaultValue) {
+        return sysParamService.getParamValueByName(name, defaultValue);
     }
 }

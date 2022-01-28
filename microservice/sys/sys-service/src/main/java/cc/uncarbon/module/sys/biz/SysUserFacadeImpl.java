@@ -1,19 +1,24 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
-import cc.uncarbon.module.sys.model.request.*;
+import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
+import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
+import cc.uncarbon.module.sys.model.request.AdminUpdateCurrentSysUserPasswordDTO;
+import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
 import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoBO;
 import cc.uncarbon.module.sys.service.SysUserService;
+import java.util.Collection;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 后台用户Facade接口实现类
@@ -38,8 +43,13 @@ public class SysUserFacadeImpl implements SysUserFacade {
     }
 
     @Override
-    public SysUserBO getOneById(Long entityId) {
-        return sysUserService.getOneById(entityId);
+    public SysUserBO getOneById(Long entityId) throws BusinessException {
+        return this.getOneById(entityId, true);
+    }
+
+    @Override
+    public SysUserBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
+        return sysUserService.getOneById(entityId, throwIfInvalidId, false);
     }
 
     @Override
@@ -53,7 +63,7 @@ public class SysUserFacadeImpl implements SysUserFacade {
     }
 
     @Override
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
         sysUserService.adminDelete(ids);
     }
 

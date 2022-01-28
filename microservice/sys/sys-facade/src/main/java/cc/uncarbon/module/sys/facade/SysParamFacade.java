@@ -1,12 +1,12 @@
 package cc.uncarbon.module.sys.facade;
 
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysParamDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysParamDTO;
 import cc.uncarbon.module.sys.model.response.SysParamBO;
-
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 系统参数Facade接口
@@ -20,11 +20,24 @@ public interface SysParamFacade {
 
     /**
      * 通用-详情
+     *
+     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
      */
-    SysParamBO getOneById(Long entityId);
+    @Deprecated
+    SysParamBO getOneById(Long entityId) throws BusinessException;
+
+    /**
+     * 通用-详情
+     *
+     * @param entityId 实体类主键ID
+     * @param throwIfInvalidId 是否在 ID 无效时抛出异常
+     * @return null or BO
+     */
+    SysParamBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException;
 
     /**
      * 后台管理-新增
+     *
      * @return 主键ID
      */
     Long adminInsert(AdminInsertOrUpdateSysParamDTO dto);
@@ -36,21 +49,24 @@ public interface SysParamFacade {
 
     /**
      * 后台管理-删除
+     * @param ids 主键IDs
      */
-    void adminDelete(List<Long> ids);
+    void adminDelete(Collection<Long> ids);
 
     /**
      * 根据键名取值
-     * @param key 键名
-     * @return 成功返回值, 失败返回null
+     *
+     * @param name 键名
+     * @return 成功返回键值，失败返回null
      */
-    String getValueByKey(String key);
+    String getValueByName(String name);
 
     /**
      * 根据键名取值
-     * @param key 键名
+     *
+     * @param name         键名
      * @param defaultValue 默认值
-     * @return 成功返回值, 失败返回defaultValue
+     * @return 成功返回键值，失败返回defaultValue
      */
-    String getValueByKey(String key, String defaultValue);
+    String getValueByName(String name, String defaultValue);
 }

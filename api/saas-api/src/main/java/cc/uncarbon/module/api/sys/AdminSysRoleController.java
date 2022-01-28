@@ -49,7 +49,7 @@ public class AdminSysRoleController {
     @ApiOperation(value = "详情", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/{id}")
     public ApiResult<SysRoleBO> getById(@PathVariable Long id) {
-        return ApiResult.data(sysRoleFacade.getOneById(id));
+        return ApiResult.data(sysRoleFacade.getOneById(id, true));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)

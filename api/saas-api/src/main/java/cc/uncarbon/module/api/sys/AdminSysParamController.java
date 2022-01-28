@@ -33,7 +33,7 @@ import javax.validation.Valid;
 public class AdminSysParamController {
 
     private static final String PERMISSION_PREFIX = "SysParam:";
-    
+
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
     private SysParamFacade sysParamFacade;
 
@@ -49,7 +49,7 @@ public class AdminSysParamController {
     @ApiOperation(value = "详情", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/{id}")
     public ApiResult<SysParamBO> getById(@PathVariable Long id) {
-        return ApiResult.data(sysParamFacade.getOneById(id));
+        return ApiResult.data(sysParamFacade.getOneById(id, true));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)

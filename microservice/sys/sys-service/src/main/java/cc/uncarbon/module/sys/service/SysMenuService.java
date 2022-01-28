@@ -22,14 +22,14 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -71,10 +71,26 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
 
     /**
      * 通用-详情
+     *
+     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
      */
-    public SysMenuBO getOneById(Long entityId) {
+    @Deprecated
+    public SysMenuBO getOneById(Long entityId) throws BusinessException {
+        return this.getOneById(entityId, true);
+    }
+
+    /**
+     * 通用-详情
+     *
+     * @param entityId 实体类主键ID
+     * @param throwIfInvalidId 是否在 ID 无效时抛出异常
+     * @return null or BO
+     */
+    public SysMenuBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
         SysMenuEntity entity = this.getById(entityId);
-        SysErrorEnum.INVALID_ID.assertNotNull(entity);
+        if (throwIfInvalidId) {
+            SysErrorEnum.INVALID_ID.assertNotNull(entity);
+        }
 
         return this.entity2BO(entity, false, null);
     }
@@ -86,6 +102,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
     @SysLog(value = "新增后台菜单")
     @Transactional(rollbackFor = Exception.class)
     public Long adminInsert(AdminInsertOrUpdateSysMenuDTO dto) {
+        log.info("[后台管理-新增后台菜单] >> DTO={}", dto);
         this.checkExistence(dto);
 
         if (ObjectUtil.isNull(dto.getParentId())) {
@@ -108,6 +125,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
     @SysLog(value = "编辑后台菜单")
     @Transactional(rollbackFor = Exception.class)
     public void adminUpdate(AdminInsertOrUpdateSysMenuDTO dto) {
+        log.info("[后台管理-编辑后台菜单] >> DTO={}", dto);
         this.checkExistence(dto);
 
         if (ObjectUtil.isNull(dto.getParentId())) {
@@ -125,7 +143,8 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
      */
     @SysLog(value = "删除后台菜单")
     @Transactional(rollbackFor = Exception.class)
-    public void adminDelete(List<Long> ids) {
+    public void adminDelete(Collection<Long> ids) {
+        log.info("[后台管理-删除后台菜单] >> ids={}", ids);
         this.removeByIds(ids);
     }
 
@@ -139,7 +158,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
 
         // 超级管理员直接允许所有权限
         if (roleIds.contains(SysConstant.SUPER_ADMIN_ROLE_ID)) {
-            return this.list().stream().map(SysMenuEntity::getPermission).collect(Collectors.toList());
+            return this.list().stream().map(SysMenuEntity::getPermission).filter(StrUtil::isNotEmpty).distinct().collect(Collectors.toList());
         }
 
         List<Long> menuIds = sysRoleMenuRelationService.listMenuIdByRoleIds(roleIds);
@@ -150,11 +169,10 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
 
         return this.list(
                 new QueryWrapper<SysMenuEntity>()
-                        .select(" DISTINCT permission ")
                         .lambda()
+                        .select(SysMenuEntity::getPermission)
                         .in(SysMenuEntity::getId, menuIds)
-                        .ne(SysMenuEntity::getPermission, "")
-        ).stream().map(SysMenuEntity::getPermission).collect(Collectors.toList());
+        ).stream().map(SysMenuEntity::getPermission).filter(StrUtil::isNotEmpty).distinct().collect(Collectors.toList());
     }
 
     /**
@@ -231,7 +249,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
                         .in(SysMenuEntity::getId, visibleMenuIds)
         ).stream().map(SysMenuEntity::getId).collect(Collectors.toList());
     }
-    
+
 
     /*
     私有方法
@@ -263,7 +281,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
                                 .build()
                 );
 
-        // 这里是兼容JDK8的写法，使用JDK15可使用语法糖免写break
+        // 这里是兼容 JDK8 的写法，使用较高 JDK 版本可使用语法糖
         switch (bo.getType()) {
             case DIR:
             case BUTTON: {
@@ -409,7 +427,7 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
 
     /**
      * 检查是否已存在相同数据
-     * 
+     *
      * @param dto DTO
      */
     private void checkExistence(AdminInsertOrUpdateSysMenuDTO dto) {
@@ -418,8 +436,10 @@ public class SysMenuService extends HelioBaseServiceImpl<SysMenuMapper, SysMenuE
 
             SysMenuEntity existingEntity = this.getOne(
                     new QueryWrapper<SysMenuEntity>()
-                            .select(HelioConstant.CRUD.SQL_COLUMN_ID)
                             .lambda()
+                            // 仅取主键ID
+                            .select(SysMenuEntity::getId)
+                            // 权限标识相同
                             .eq(SysMenuEntity::getPermission, dto.getPermission())
                             .last(HelioConstant.CRUD.SQL_LIMIT_1)
             );

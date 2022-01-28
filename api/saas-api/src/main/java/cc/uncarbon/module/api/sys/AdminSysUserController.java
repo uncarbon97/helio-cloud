@@ -7,20 +7,32 @@ import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.framework.web.model.request.IdsDTO;
 import cc.uncarbon.framework.web.model.response.ApiResult;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
-import cc.uncarbon.module.sys.model.request.*;
+import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
+import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminKickOutSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
+import cc.uncarbon.module.sys.model.request.AdminUpdateCurrentSysUserPasswordDTO;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
+import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoBO;
 import cc.uncarbon.module.util.AdminStpUtil;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -34,7 +46,7 @@ import javax.validation.Valid;
 public class AdminSysUserController {
 
     private static final String PERMISSION_PREFIX = "SysUser:";
-    
+
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
     private SysUserFacade sysUserFacade;
 
@@ -50,7 +62,7 @@ public class AdminSysUserController {
     @ApiOperation(value = "详情", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/{id}")
     public ApiResult<SysUserBO> getById(@PathVariable Long id) {
-        return ApiResult.data(sysUserFacade.getOneById(id));
+        return ApiResult.data(sysUserFacade.getOneById(id, true));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
@@ -83,7 +95,7 @@ public class AdminSysUserController {
 
     @ApiOperation(value = "取当前用户信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/info")
-    public ApiResult<?> getCurrentUserInfo() {
+    public ApiResult<VbenAdminUserInfoBO> getCurrentUserInfo() {
         return ApiResult.data(sysUserFacade.adminGetCurrentUserInfo());
     }
 

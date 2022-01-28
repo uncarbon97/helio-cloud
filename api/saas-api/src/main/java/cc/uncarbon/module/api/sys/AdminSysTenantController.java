@@ -34,7 +34,7 @@ import javax.validation.Valid;
 public class AdminSysTenantController {
 
     private static final String PERMISSION_PREFIX = "SysTenant:";
-    
+
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
     private SysTenantFacade sysTenantFacade;
 
@@ -50,7 +50,7 @@ public class AdminSysTenantController {
     @ApiOperation(value = "详情", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/{id}")
     public ApiResult<SysTenantBO> getById(@PathVariable Long id) {
-        return ApiResult.data(sysTenantFacade.getOneById(id));
+        return ApiResult.data(sysTenantFacade.getOneById(id, true));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)

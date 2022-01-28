@@ -3,15 +3,14 @@ package cc.uncarbon.module.sys.model.request;
 import cc.uncarbon.module.sys.enums.GenericStatusEnum;
 import cc.uncarbon.module.sys.enums.SysMenuTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 
 /**
@@ -54,7 +53,7 @@ public class AdminInsertOrUpdateSysMenuDTO implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
-    @ApiModelProperty(value = "状态(0=禁用 1=启用)")
+    @ApiModelProperty(value = "状态")
     private GenericStatusEnum status;
 
     @ApiModelProperty(value = "外链地址")
