@@ -1,6 +1,5 @@
 package cc.uncarbon.module.sys.model.response;
 
-import cc.uncarbon.framework.core.context.TenantContext;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 
 /**
@@ -37,15 +36,12 @@ public class SysUserLoginBO implements Serializable {
     private String phoneNo;
 
     @ApiModelProperty(value = "对应角色ID")
-    private List<Long> roleIds;
+    private Collection<Long> roleIds;
 
-    @ApiModelProperty(value = "拥有角色")
-    private List<String> roles;
+    @ApiModelProperty(value = "对应角色")
+    private Collection<String> roles;
 
     @ApiModelProperty(value = "拥有权限")
-    private List<String> permissions;
-
-    @ApiModelProperty(value = "所属租户")
-    private TenantContext relationalTenant;
+    private Collection<String> permissions;
 
 }

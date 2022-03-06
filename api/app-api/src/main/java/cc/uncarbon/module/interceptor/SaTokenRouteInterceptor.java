@@ -4,6 +4,7 @@ import cc.uncarbon.framework.core.props.HelioProperties;
 import cn.dev33.satoken.interceptor.SaRouteInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,8 +24,11 @@ public class SaTokenRouteInterceptor extends SaRouteInterceptor {
 
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-        // 登录验证
+    public void postHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler, ModelAndView modelAndView) {
+        /*
+        App登录验证
+        这里是按路由匹配，除了配置文件中指定的URI外，其他URI都需要登录才行
+         */
         SaRouter
                 .match(Collections.singletonList("/**"))
                 .notMatch(helioProperties.getSecurity().getExcludeRoutes())

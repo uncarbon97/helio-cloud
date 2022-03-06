@@ -2,6 +2,7 @@ package cc.uncarbon.module.sys.service;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.context.TenantContext;
+import cc.uncarbon.framework.core.context.TenantContextHolder;
 import cc.uncarbon.framework.core.context.UserContextHolder;
 import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
@@ -13,19 +14,8 @@ import cc.uncarbon.module.sys.enums.GenericStatusEnum;
 import cc.uncarbon.module.sys.enums.SysErrorEnum;
 import cc.uncarbon.module.sys.enums.SysUserStatusEnum;
 import cc.uncarbon.module.sys.mapper.SysUserMapper;
-import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
-import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.AdminUpdateCurrentSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
-import cc.uncarbon.module.sys.model.response.SysDeptBO;
-import cc.uncarbon.module.sys.model.response.SysRoleBO;
-import cc.uncarbon.module.sys.model.response.SysTenantBO;
-import cc.uncarbon.module.sys.model.response.SysUserBO;
-import cc.uncarbon.module.sys.model.response.SysUserBaseInfoBO;
-import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
-import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoBO;
+import cc.uncarbon.module.sys.model.request.*;
+import cc.uncarbon.module.sys.model.response.*;
 import cc.uncarbon.module.sys.util.PwdUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
@@ -34,14 +24,15 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -175,8 +166,34 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
      */
     @SysLog(value = "登录后台用户")
     public SysUserLoginBO adminLogin(SysUserLoginDTO dto) {
-        // 主动清空用户上下文，避免残留租户ID导致的尴尬
+        // 主动清空用户上下文，避免尴尬
         UserContextHolder.setUserContext(null);
+
+        /*
+        这里是实际启用了多租户功能，并允许前端主动传欲登录的租户ID
+        实际生产应用时，可以根据业务需要加密等，然后在这里解密
+         */
+        if (TenantContextHolder.isTenantEnabled()
+                && ObjectUtil.isNotNull(dto.getTenantId())) {
+
+            // 查询所属租户是否仍有效，这里是直接查库，并发高的情况下可以改造为从缓存读取
+            SysTenantBO tenantInfo = sysTenantService.getTenantByTenantId(dto.getTenantId());
+            if (tenantInfo == null) {
+                throw new BusinessException(SysErrorEnum.INVALID_TENANT);
+            }
+
+            if (GenericStatusEnum.DISABLED.equals(tenantInfo.getStatus())) {
+                throw new BusinessException(SysErrorEnum.DISABLED_TENANT);
+            }
+
+            // 验证通过，将所属租户写入租户上下文，使得多租户可以正确执行
+            TenantContextHolder.setTenantContext(
+                    TenantContext.builder()
+                            .tenantId(tenantInfo.getTenantId())
+                            .tenantName(tenantInfo.getTenantName())
+                            .build()
+            );
+        }
 
         SysUserEntity sysUserEntity = this.getUserByPin(dto.getUsername());
         if (sysUserEntity == null) {
@@ -191,29 +208,17 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
             throw new BusinessException(SysErrorEnum.BANNED_USER);
         }
 
-        // 查询所属租户是否有效
-        SysTenantBO tenantInfo = sysTenantService.getTenantByTenantId(sysUserEntity.getTenantId());
-        if (tenantInfo == null) {
-            throw new BusinessException(SysErrorEnum.INVALID_TENANT);
-        }
-
-        if (GenericStatusEnum.DISABLED.equals(tenantInfo.getStatus())) {
-            throw new BusinessException(SysErrorEnum.DISABLED_TENANT);
-        }
-
         /*
         以上为有效性校验, 进入实际业务逻辑
         ---------------------------------------------------
          */
 
-        // 将所属租户写入到用户上下文，使得 Mybatis-Plus 多租户拦截器可以正确执行到对应租户ID
-        TenantContext currentTenantContext = TenantContext.builder()
-                .tenantId(tenantInfo.getTenantId())
-                .tenantName(tenantInfo.getTenantName())
-                .build();
-        UserContextHolder.setRelationalTenant(currentTenantContext);
+        try {
+            this.getBaseMapper().updateLastLoginAt(sysUserEntity.getId(), LocalDateTimeUtil.now());
+        } catch (Exception ignored) {
+            // 实际开发环境请删除本try-catch块
+        }
 
-        this.getBaseMapper().updateLastLoginAt(sysUserEntity.getId(), LocalDateTimeUtil.now());
 
         // 取账号完整BO
         SysUserBO sysUserBO = this.getOneById(sysUserEntity.getId(), true, true);
@@ -223,10 +228,9 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
 
         // 因字段类型不一致, 单独转换
         ret
-                .setRoleIds(sysUserBO.getRoles().stream().map(SysRoleBO::getId).filter(ObjectUtil::isNotNull).sorted().collect(Collectors.toList()))
-                .setRoles(sysUserBO.getRoles().stream().map(SysRoleBO::getValue).collect(Collectors.toList()))
+                .setRoleIds(sysUserBO.getRoleMap().keySet())
+                .setRoles(sysUserBO.getRoleMap().values())
                 .setPermissions(sysUserBO.getPermissions())
-                .setRelationalTenant(currentTenantContext)
         ;
 
         return ret;
