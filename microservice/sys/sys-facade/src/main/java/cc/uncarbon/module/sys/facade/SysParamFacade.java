@@ -6,6 +6,7 @@ import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysParamDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysParamDTO;
 import cc.uncarbon.module.sys.model.response.SysParamBO;
+
 import java.util.Collection;
 
 /**
@@ -19,21 +20,21 @@ public interface SysParamFacade {
     PageResult<SysParamBO> adminList(PageParam pageParam, AdminListSysParamDTO dto);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
+     * @param id 主键ID
+     * @return null or BO
      */
-    @Deprecated
-    SysParamBO getOneById(Long entityId) throws BusinessException;
+    SysParamBO getOneById(Long id);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @param entityId 实体类主键ID
+     * @param id 主键ID
      * @param throwIfInvalidId 是否在 ID 无效时抛出异常
      * @return null or BO
      */
-    SysParamBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException;
+    SysParamBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException;
 
     /**
      * 后台管理-新增

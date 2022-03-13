@@ -4,6 +4,7 @@ import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysMenuDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysMenuDTO;
 import cc.uncarbon.module.sys.model.response.SysMenuBO;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -18,21 +19,21 @@ public interface SysMenuFacade {
     List<SysMenuBO> adminList(AdminListSysMenuDTO dto);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
+     * @param id 主键ID
+     * @return null or BO
      */
-    @Deprecated
-    SysMenuBO getOneById(Long entityId) throws BusinessException;
+    SysMenuBO getOneById(Long id);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @param entityId 实体类主键ID
+     * @param id 主键ID
      * @param throwIfInvalidId 是否在 ID 无效时抛出异常
      * @return null or BO
      */
-    SysMenuBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException;
+    SysMenuBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException;
 
     /**
      * 后台管理-新增
@@ -60,16 +61,5 @@ public interface SysMenuFacade {
      * 后台管理-取当前账号所有可见菜单(包括按钮类型)
      */
     List<SysMenuBO> adminListVisibleMenu();
-
-    /**
-     * 通用-清除Redis中所有菜单缓存
-     */
-    void cleanMenuCacheInRedis();
-
-    /**
-     * 通用-根据用户ID，清除Redis中相关菜单缓存
-     * @param userId 用户ID；为null则清除所有
-     */
-    void cleanMenuCacheInRedis(Long userId);
 
 }

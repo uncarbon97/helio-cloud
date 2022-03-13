@@ -6,6 +6,7 @@ import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDataDictDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysDataDictDTO;
 import cc.uncarbon.module.sys.model.response.SysDataDictBO;
+
 import java.util.Collection;
 
 
@@ -22,21 +23,21 @@ public interface SysDataDictFacade {
     PageResult<SysDataDictBO> adminList(PageParam pageParam, AdminListSysDataDictDTO dto);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
+     * @param id 主键ID
+     * @return null or BO
      */
-    @Deprecated
-    SysDataDictBO getOneById(Long entityId) throws BusinessException;
+    SysDataDictBO getOneById(Long id);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @param entityId 实体类主键ID
+     * @param id 主键ID
      * @param throwIfInvalidId 是否在 ID 无效时抛出异常
      * @return null or BO
      */
-    SysDataDictBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException;
+    SysDataDictBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException;
 
     /**
      * 后台管理-添加

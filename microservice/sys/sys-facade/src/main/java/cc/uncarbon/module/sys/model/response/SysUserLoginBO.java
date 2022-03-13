@@ -1,23 +1,26 @@
 package cc.uncarbon.module.sys.model.response;
 
+import cc.uncarbon.framework.core.context.TenantContext;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
- * 后台用户BO
- * 用于登录后返回字段
+ * 登录后返回的字段
+ * 用于内部 RPC 调用
  * @author Uncarbon
  */
 @Accessors(chain = true)
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -36,12 +39,18 @@ public class SysUserLoginBO implements Serializable {
     private String phoneNo;
 
     @ApiModelProperty(value = "对应角色ID")
-    private Collection<Long> roleIds;
+    private Set<Long> roleIds;
 
-    @ApiModelProperty(value = "对应角色")
-    private Collection<String> roles;
+    @ApiModelProperty(value = "对应角色名")
+    private List<String> roles;
 
-    @ApiModelProperty(value = "拥有权限")
-    private Collection<String> permissions;
+    @ApiModelProperty(value = "所有拥有权限名")
+    private Set<String> permissions;
+
+    @ApiModelProperty(value = "角色ID-对应权限名 Map")
+    private Map<Long, Set<String>> roleIdPermissionMap;
+
+    @ApiModelProperty(value = "关联租户上下文")
+    private TenantContext tenantContext;
 
 }

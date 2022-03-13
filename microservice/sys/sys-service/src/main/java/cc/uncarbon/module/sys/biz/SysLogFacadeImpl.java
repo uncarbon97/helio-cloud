@@ -8,10 +8,9 @@ import cc.uncarbon.module.sys.facade.SysLogFacade;
 import cc.uncarbon.module.sys.model.request.AdminListSysLogDTO;
 import cc.uncarbon.module.sys.model.response.SysLogBO;
 import cc.uncarbon.module.sys.service.SysLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-
-import javax.annotation.Resource;
 
 /**
  * 后台操作日志Facade接口实现类
@@ -24,10 +23,10 @@ import javax.annotation.Resource;
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
+@RequiredArgsConstructor
 public class SysLogFacadeImpl implements SysLogFacade {
 
-    @Resource
-    private SysLogService sysLogService;
+    private final SysLogService sysLogService;
 
 
     @Override
@@ -36,12 +35,12 @@ public class SysLogFacadeImpl implements SysLogFacade {
     }
 
     @Override
-    public SysLogBO getOneById(Long entityId) throws BusinessException {
-        return this.getOneById(entityId, true);
+    public SysLogBO getOneById(Long id) {
+        return sysLogService.getOneById(id);
     }
 
     @Override
-    public SysLogBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
-        return sysLogService.getOneById(entityId, throwIfInvalidId);
+    public SysLogBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
+        return sysLogService.getOneById(id, throwIfInvalidId);
     }
 }

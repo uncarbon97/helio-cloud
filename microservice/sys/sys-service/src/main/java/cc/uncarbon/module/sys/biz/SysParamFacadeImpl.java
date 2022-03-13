@@ -9,10 +9,11 @@ import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysParamDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysParamDTO;
 import cc.uncarbon.module.sys.model.response.SysParamBO;
 import cc.uncarbon.module.sys.service.SysParamService;
-import java.util.Collection;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
+
+import javax.annotation.Resource;
+import java.util.Collection;
 
 /**
  * 系统参数Facade接口实现类
@@ -37,13 +38,13 @@ public class SysParamFacadeImpl implements SysParamFacade {
     }
 
     @Override
-    public SysParamBO getOneById(Long entityId) throws BusinessException {
-        return this.getOneById(entityId, true);
+    public SysParamBO getOneById(Long id) {
+        return sysParamService.getOneById(id);
     }
 
     @Override
-    public SysParamBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
-        return sysParamService.getOneById(entityId, throwIfInvalidId);
+    public SysParamBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
+        return sysParamService.getOneById(id, throwIfInvalidId);
     }
 
     @Override

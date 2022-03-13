@@ -17,20 +17,20 @@ public interface SysLogFacade {
     PageResult<SysLogBO> adminList(PageParam pageParam, AdminListSysLogDTO dto);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
+     * @param id 主键ID
+     * @return null or BO
      */
-    @Deprecated
-    SysLogBO getOneById(Long entityId) throws BusinessException;
+    SysLogBO getOneById(Long id);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @param entityId 实体类主键ID
+     * @param id 主键ID
      * @param throwIfInvalidId 是否在 ID 无效时抛出异常
-     * @return BO
+     * @return null or BO
      */
-    SysLogBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException;
+    SysLogBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException;
 
 }

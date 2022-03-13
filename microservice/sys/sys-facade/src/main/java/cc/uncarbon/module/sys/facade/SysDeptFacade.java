@@ -4,6 +4,7 @@ import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDeptDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysDeptDTO;
 import cc.uncarbon.module.sys.model.response.SysDeptBO;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -18,21 +19,21 @@ public interface SysDeptFacade {
     List<SysDeptBO> adminList(AdminListSysDeptDTO dto);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
+     * @param id 主键ID
+     * @return null or BO
      */
-    @Deprecated
-    SysDeptBO getOneById(Long entityId) throws BusinessException;
+    SysDeptBO getOneById(Long id);
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @param entityId 实体类主键ID
+     * @param id 主键ID
      * @param throwIfInvalidId 是否在 ID 无效时抛出异常
      * @return null or BO
      */
-    SysDeptBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException;
+    SysDeptBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException;
 
     /**
      * 后台管理-新增

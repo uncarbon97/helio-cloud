@@ -13,19 +13,23 @@ import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysParamDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysParamDTO;
 import cc.uncarbon.module.sys.model.response.SysParamBO;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * 系统参数
+ *
  * @author Uncarbon
  */
 @Slf4j
@@ -52,24 +56,24 @@ public class SysParamService extends HelioBaseServiceImpl<SysParamMapper, SysPar
     }
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @deprecated 使用 getOneById(java.lang.Long, boolean) 替代
+     * @param id 主键ID
+     * @return null or BO
      */
-    @Deprecated
-    public SysParamBO getOneById(Long entityId) throws BusinessException {
-        return this.getOneById(entityId, true);
+    public SysParamBO getOneById(Long id) {
+        return this.getOneById(id, false);
     }
 
     /**
-     * 通用-详情
+     * 根据 ID 取详情
      *
-     * @param entityId 实体类主键ID
+     * @param id 主键ID
      * @param throwIfInvalidId 是否在 ID 无效时抛出异常
      * @return null or BO
      */
-    public SysParamBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
-        SysParamEntity entity = this.getById(entityId);
+    public SysParamBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
+        SysParamEntity entity = this.getById(id);
         if (throwIfInvalidId) {
             SysErrorEnum.INVALID_ID.assertNotNull(entity);
         }
@@ -83,7 +87,7 @@ public class SysParamService extends HelioBaseServiceImpl<SysParamMapper, SysPar
     @SysLog(value = "新增系统参数")
     @Transactional(rollbackFor = Exception.class)
     public Long adminInsert(AdminInsertOrUpdateSysParamDTO dto) {
-        log.info("[后台管理-新增系统参数] >> DTO={}", dto);
+        log.info("[后台管理-新增系统参数] >> 入参={}", dto);
         this.checkExistence(dto);
 
         dto.setId(null);
@@ -101,7 +105,7 @@ public class SysParamService extends HelioBaseServiceImpl<SysParamMapper, SysPar
     @SysLog(value = "编辑系统参数")
     @Transactional(rollbackFor = Exception.class)
     public void adminUpdate(AdminInsertOrUpdateSysParamDTO dto) {
-        log.info("[后台管理-编辑系统参数] >> DTO={}", dto);
+        log.info("[后台管理-编辑系统参数] >> 入参={}", dto);
         this.checkExistence(dto);
 
         SysParamEntity entity = new SysParamEntity();
@@ -116,7 +120,7 @@ public class SysParamService extends HelioBaseServiceImpl<SysParamMapper, SysPar
     @SysLog(value = "删除系统参数")
     @Transactional(rollbackFor = Exception.class)
     public void adminDelete(Collection<Long> ids) {
-        log.info("[后台管理-删除系统参数] >> ids={}", ids);
+        log.info("[后台管理-删除系统参数] >> 入参={}", ids);
         this.removeByIds(ids);
     }
 
@@ -124,7 +128,7 @@ public class SysParamService extends HelioBaseServiceImpl<SysParamMapper, SysPar
      * 根据键名取值
      *
      * @param name 键名
-     * @return 成功返回键值，失败返回null
+     * @return 成功返回键值，失败返回 null
      */
     public String getParamValueByName(String name) {
         SysParamEntity sysParamEntity = this.getOne(
@@ -146,7 +150,7 @@ public class SysParamService extends HelioBaseServiceImpl<SysParamMapper, SysPar
      *
      * @param name         键名
      * @param defaultValue 默认值
-     * @return 成功返回键值，失败返回defaultValue
+     * @return 成功返回键值，失败返回 defaultValue
      */
     public String getParamValueByName(String name, String defaultValue) {
         String value = this.getParamValueByName(name);
@@ -159,10 +163,17 @@ public class SysParamService extends HelioBaseServiceImpl<SysParamMapper, SysPar
 
 
     /*
-    私有方法
-    ------------------------------------------------------------------------------------------------
+    ----------------------------------------------------------------
+                        私有方法 private methods
+    ----------------------------------------------------------------
      */
 
+    /**
+     * 实体转 BO
+     *
+     * @param entity 实体
+     * @return BO
+     */
     private SysParamBO entity2BO(SysParamEntity entity) {
         if (entity == null) {
             return null;
@@ -176,16 +187,37 @@ public class SysParamService extends HelioBaseServiceImpl<SysParamMapper, SysPar
         return bo;
     }
 
-    private PageResult<SysParamBO> entityPage2BOPage(Page<SysParamEntity> entityPage) {
+    /**
+     * 实体 List 转 BO List
+     *
+     * @param entityList 实体 List
+     * @return BO List
+     */
+    private List<SysParamBO> entityList2BOs(List<SysParamEntity> entityList) {
+        if (CollUtil.isEmpty(entityList)) {
+            return Collections.emptyList();
+        }
+
         // 深拷贝
-        List<SysParamBO> boRecords = new ArrayList<>(entityPage.getRecords().size());
-        entityPage.getRecords().forEach(
-                entity -> boRecords.add(this.entity2BO(entity))
+        List<SysParamBO> ret = new ArrayList<>(entityList.size());
+        entityList.forEach(
+                entity -> ret.add(this.entity2BO(entity))
         );
 
+        return ret;
+    }
+
+    /**
+     * 实体分页转 BO 分页
+     *
+     * @param entityPage 实体分页
+     * @return BO 分页
+     */
+    private PageResult<SysParamBO> entityPage2BOPage(Page<SysParamEntity> entityPage) {
         PageResult<SysParamBO> ret = new PageResult<>();
         BeanUtil.copyProperties(entityPage, ret);
-        ret.setRecords(boRecords);
+        ret.setRecords(this.entityList2BOs(entityPage.getRecords()));
+
         return ret;
     }
 

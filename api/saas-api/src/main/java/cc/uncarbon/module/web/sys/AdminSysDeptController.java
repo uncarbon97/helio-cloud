@@ -1,4 +1,4 @@
-package cc.uncarbon.module.api.sys;
+package cc.uncarbon.module.web.sys;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.web.model.request.IdsDTO;
@@ -32,7 +32,7 @@ import java.util.List;
 public class AdminSysDeptController {
 
     private static final String PERMISSION_PREFIX = "SysDept:";
-    
+
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
     private SysDeptFacade sysDeptFacade;
 

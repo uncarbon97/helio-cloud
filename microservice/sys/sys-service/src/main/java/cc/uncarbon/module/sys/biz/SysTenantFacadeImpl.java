@@ -10,10 +10,11 @@ import cc.uncarbon.module.sys.model.request.AdminListSysTenantDTO;
 import cc.uncarbon.module.sys.model.request.AdminUpdateSysTenantDTO;
 import cc.uncarbon.module.sys.model.response.SysTenantBO;
 import cc.uncarbon.module.sys.service.SysTenantService;
-import java.util.Collection;
-import javax.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
+
+import java.util.Collection;
 
 /**
  * 系统租户Facade接口实现类
@@ -26,10 +27,10 @@ import org.apache.dubbo.config.annotation.DubboService;
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
+@RequiredArgsConstructor
 public class SysTenantFacadeImpl implements SysTenantFacade {
 
-    @Resource
-    private SysTenantService sysTenantService;
+    private final SysTenantService sysTenantService;
 
 
     @Override
@@ -38,13 +39,13 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
     }
 
     @Override
-    public SysTenantBO getOneById(Long entityId) throws BusinessException {
-        return sysTenantService.getOneById(entityId, true);
+    public SysTenantBO getOneById(Long id) {
+        return sysTenantService.getOneById(id);
     }
 
     @Override
-    public SysTenantBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
-        return sysTenantService.getOneById(entityId, throwIfInvalidId);
+    public SysTenantBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
+        return sysTenantService.getOneById(id, throwIfInvalidId);
     }
 
     @Override

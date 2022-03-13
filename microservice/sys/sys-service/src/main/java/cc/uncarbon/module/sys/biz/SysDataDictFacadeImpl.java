@@ -9,10 +9,11 @@ import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDataDictDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysDataDictDTO;
 import cc.uncarbon.module.sys.model.response.SysDataDictBO;
 import cc.uncarbon.module.sys.service.SysDataDictService;
-import java.util.Collection;
-import javax.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
+
+import java.util.Collection;
 
 
 /**
@@ -27,10 +28,10 @@ import org.apache.dubbo.config.annotation.DubboService;
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
+@RequiredArgsConstructor
 public class SysDataDictFacadeImpl implements SysDataDictFacade {
 
-    @Resource
-    private SysDataDictService sysDataDictService;
+    private final SysDataDictService sysDataDictService;
 
 
     @Override
@@ -39,13 +40,13 @@ public class SysDataDictFacadeImpl implements SysDataDictFacade {
     }
 
     @Override
-    public SysDataDictBO getOneById(Long entityId) throws BusinessException {
-        return this.getOneById(entityId, true);
+    public SysDataDictBO getOneById(Long id) {
+        return sysDataDictService.getOneById(id);
     }
 
     @Override
-    public SysDataDictBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
-        return sysDataDictService.getOneById(entityId, throwIfInvalidId);
+    public SysDataDictBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
+        return sysDataDictService.getOneById(id, throwIfInvalidId);
     }
 
     @Override
