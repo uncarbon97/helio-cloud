@@ -6,17 +6,17 @@ import cc.uncarbon.framework.core.context.UserContext;
 import cc.uncarbon.framework.core.context.UserContextHolder;
 import cc.uncarbon.framework.web.util.IPUtil;
 import cc.uncarbon.module.util.AdminStpUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
- * 从请求头解析并赋值到上下文
- * 其实就是"DefaultSaTokenParseInterceptor"改个名, 工具类改成"AdminStpUtil"
+ * 从请求头解析并赋值到用户上下文
+ * 其实就是"DefaultSaTokenParseInterceptor"改个名, 工具类换成"AdminStpUtil"
  * @author Uncarbon
  */
 @Slf4j
@@ -30,22 +30,19 @@ public class AdminSaTokenParseInterceptor implements AsyncHandlerInterceptor {
             return true;
         }
 
-        // 从请求头解析用户上下文
+        // SA-Token 会自动从请求头中解析 token，所以这里可以直接拿到对应 session，从而取出业务字段
         if (AdminStpUtil.isLogin()) {
-            UserContext currentUser = (UserContext) AdminStpUtil.getSession().get(UserContext.CAMEL_NAME);
-            log.debug("[SA-Token][Admin] 从请求头解析出用户上下文 >> {}", currentUser);
+            UserContext userContext = (UserContext) AdminStpUtil.getSession().get(UserContext.CAMEL_NAME);
 
-            currentUser
-                    .setClientIP(IPUtil.getClientIPAddress(request))
-            ;
-            UserContextHolder.setUserContext(currentUser);
+            // 获取用户公网IP
+            userContext.setClientIP(IPUtil.getClientIPAddress(request));
+            UserContextHolder.setUserContext(userContext);
 
-            // 赋值对应租户上下文
-            if (TenantContextHolder.isTenantEnabled()) {
-                // 启用了多租户的前提下，才获取
-                TenantContext tenantContext = (TenantContext) AdminStpUtil.getSession().get(TenantContext.CAMEL_NAME);
-                TenantContextHolder.setTenantContext(tenantContext);
-            }
+            log.debug("[SA-Token][Admin] 从请求头解析出用户上下文 >> {}", userContext);
+
+            // 赋值租户上下文
+            TenantContext tenantContext = (TenantContext) AdminStpUtil.getSession().get(TenantContext.CAMEL_NAME);
+            TenantContextHolder.setTenantContext(tenantContext);
 
         } else {
             UserContextHolder.setUserContext(null);
