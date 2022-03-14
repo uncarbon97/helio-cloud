@@ -11,4 +11,5 @@ ${AnsiColor.BLUE}
 ${AnsiColor.GREEN}
 Spring Boot Version: ${spring-boot.version}
 
-${AnsiColor.BRIGHT_WHITE}
+${AnsiColor.BLACK}
+
