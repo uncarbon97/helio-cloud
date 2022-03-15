@@ -28,7 +28,7 @@ public class CustomInterceptorConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/**");
 
         /*
-        3. 注解拦截器, 启用注解功能
+        2. 注解拦截器, 启用注解功能
          */
         registry
                 .addInterceptor(new SaAnnotationInterceptor())

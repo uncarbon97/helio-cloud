@@ -1,6 +1,5 @@
 package cc.uncarbon.module.sys.service;
 
-import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.context.TenantContext;
 import cc.uncarbon.framework.core.context.TenantContextHolder;
 import cc.uncarbon.framework.core.context.UserContextHolder;
@@ -310,12 +309,7 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
      * 根据用户账号查询
      */
     public SysUserEntity getUserByPin(String pin) {
-        return this.getOne(
-                new QueryWrapper<SysUserEntity>()
-                        .lambda()
-                        .eq(SysUserEntity::getPin, pin)
-                        .last(HelioConstant.CRUD.SQL_LIMIT_1)
-        );
+        return this.getBaseMapper().getUserByPin(pin);
     }
 
     /**
@@ -346,6 +340,8 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
         BeanUtil.copyProperties(entity, bo);
 
         // 可以在此处为BO填充字段
+        bo.setUsername(entity.getPin());
+
         Map<Long, String> roleMap = sysRoleService.getRoleMapByUserId(bo.getId());
         bo
                 .setRoleMap(roleMap)
