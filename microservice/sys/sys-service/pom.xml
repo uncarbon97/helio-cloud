@@ -39,6 +39,13 @@
         <dependency>
             <groupId>cc.uncarbon.framework</groupId>
             <artifactId>helio-starter-cloud</artifactId>
+            <exclusions>
+                <!-- 业务微服务里用不到 Sentinel -->
+                <exclusion>
+                    <groupId>com.alibaba.cloud</groupId>
+                    <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

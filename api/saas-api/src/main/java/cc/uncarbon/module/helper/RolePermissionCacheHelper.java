@@ -2,11 +2,14 @@ package cc.uncarbon.module.helper;
 
 import cc.uncarbon.framework.core.context.UserContextHolder;
 import cn.hutool.core.collection.CollUtil;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 /**
  * 将角色对应权限，缓存至 Redis
@@ -30,7 +33,8 @@ public class RolePermissionCacheHelper {
      */
     public List<String> getUserPermissions() {
         Set<Long> rolesIds = UserContextHolder.getUserContext().getRolesIds();
-        List<String> ret = new ArrayList<>(rolesIds.size() * 64);
+        // aka * 64
+        List<String> ret = new ArrayList<>(rolesIds.size() << 6);
 
         rolesIds.forEach(
                 roleId -> {
