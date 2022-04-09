@@ -6,8 +6,11 @@ import cc.uncarbon.framework.core.context.TenantContext;
 import cc.uncarbon.framework.core.context.TenantContextHolder;
 import cc.uncarbon.framework.core.context.UserContext;
 import cc.uncarbon.framework.core.context.UserContextHolder;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.web.model.response.ApiResult;
+import cc.uncarbon.module.helper.CaptchaHelper;
 import cc.uncarbon.module.helper.RolePermissionCacheHelper;
+import cc.uncarbon.module.sys.enums.SysErrorEnum;
 import cc.uncarbon.module.sys.enums.UserTypeEnum;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
 import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
@@ -15,13 +18,19 @@ import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginVO;
 import cc.uncarbon.module.util.AdminStpUtil;
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.hutool.captcha.AbstractCaptcha;
+import cn.hutool.core.lang.Assert;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +48,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminAuthController {
 
     private final RolePermissionCacheHelper rolePermissionCacheHelper;
+
+    private final CaptchaHelper captchaHelper;
 
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
     private SysUserFacade sysUserFacade;
@@ -89,6 +100,21 @@ public class AdminAuthController {
         TenantContextHolder.setTenantContext(null);
 
         return ApiResult.success();
+    }
+
+    @ApiOperation(value = "验证码图片")
+    @ApiImplicitParam(name = "uuid", value = "验证码图片UUID", required = true)
+    @GetMapping(value = "/captcha")
+    public void captcha(HttpServletResponse response, String uuid) throws IOException {
+        Assert.notBlank(uuid, () -> new BusinessException(SysErrorEnum.UUID_CANNOT_BE_BLANK));
+
+        // 核验方法：captchaHelper.validate(uuid, true);
+        AbstractCaptcha captcha = captchaHelper.generate(uuid);
+
+        // 写入响应流
+        response.setHeader("Cache-Control", "no-store, no-cache");
+        response.setContentType("image/png");
+        captcha.write(response.getOutputStream());
     }
 
 }

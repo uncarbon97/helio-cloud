@@ -5,14 +5,12 @@ import cc.uncarbon.module.sys.entity.SysUserRoleRelationEntity;
 import cc.uncarbon.module.sys.mapper.SysUserRoleRelationMapper;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -21,7 +19,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class SysUserRoleRelationService extends HelioBaseServiceImpl<SysUserRoleRelationMapper, SysUserRoleRelationEntity> {
 
     /**
@@ -46,22 +43,6 @@ public class SysUserRoleRelationService extends HelioBaseServiceImpl<SysUserRole
                     )
             );
         }
-    }
-
-    /**
-     * 根据角色Ids取用户Ids
-     */
-    public Set<Long> listUserIdByRoleIds(Collection<Long> roleIds) throws IllegalArgumentException {
-        if (CollUtil.isEmpty(roleIds)) {
-            throw new IllegalArgumentException("roleIds不能为空");
-        }
-
-        return this.list(
-                new QueryWrapper<SysUserRoleRelationEntity>()
-                        .lambda()
-                        .select(SysUserRoleRelationEntity::getUserId)
-                        .in(SysUserRoleRelationEntity::getRoleId, roleIds)
-        ).stream().map(SysUserRoleRelationEntity::getUserId).collect(Collectors.toSet());
     }
 
     /**
