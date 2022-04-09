@@ -22,6 +22,8 @@ spring:
         file-extension: yml
         # 共享配置文件
         shared-configs:
+          - dataId: COMMON.yml
+            refresh: false
           - dataId: KNIFE4J.yml
             refresh: false
           - dataId: SA-TOKEN.yml

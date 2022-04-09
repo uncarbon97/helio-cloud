@@ -5,20 +5,16 @@ import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
-import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
-import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.AdminUpdateCurrentSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
+import cc.uncarbon.module.sys.model.request.*;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
-import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoBO;
+import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoVO;
 import cc.uncarbon.module.sys.service.SysUserService;
-import java.util.Collection;
-import javax.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
+
+import java.util.Collection;
 
 /**
  * 后台用户Facade接口实现类
@@ -31,10 +27,10 @@ import org.apache.dubbo.config.annotation.DubboService;
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
+@RequiredArgsConstructor
 public class SysUserFacadeImpl implements SysUserFacade {
 
-    @Resource
-    private SysUserService sysUserService;
+    private final SysUserService sysUserService;
 
 
     @Override
@@ -43,13 +39,13 @@ public class SysUserFacadeImpl implements SysUserFacade {
     }
 
     @Override
-    public SysUserBO getOneById(Long entityId) throws BusinessException {
-        return this.getOneById(entityId, true);
+    public SysUserBO getOneById(Long id) {
+        return sysUserService.getOneById(id);
     }
 
     @Override
-    public SysUserBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
-        return sysUserService.getOneById(entityId, throwIfInvalidId, false);
+    public SysUserBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
+        return sysUserService.getOneById(id, throwIfInvalidId);
     }
 
     @Override
@@ -73,7 +69,7 @@ public class SysUserFacadeImpl implements SysUserFacade {
     }
 
     @Override
-    public VbenAdminUserInfoBO adminGetCurrentUserInfo() {
+    public VbenAdminUserInfoVO adminGetCurrentUserInfo() {
         return sysUserService.adminGetCurrentUserInfo();
     }
 

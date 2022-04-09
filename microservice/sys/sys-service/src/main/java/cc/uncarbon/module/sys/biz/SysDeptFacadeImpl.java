@@ -7,11 +7,12 @@ import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDeptDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysDeptDTO;
 import cc.uncarbon.module.sys.model.response.SysDeptBO;
 import cc.uncarbon.module.sys.service.SysDeptService;
-import java.util.Collection;
-import java.util.List;
-import javax.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 部门Facade接口实现类
@@ -24,10 +25,10 @@ import org.apache.dubbo.config.annotation.DubboService;
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
+@RequiredArgsConstructor
 public class SysDeptFacadeImpl implements SysDeptFacade {
 
-    @Resource
-    private SysDeptService sysDeptService;
+    private final SysDeptService sysDeptService;
 
 
     @Override
@@ -36,13 +37,13 @@ public class SysDeptFacadeImpl implements SysDeptFacade {
     }
 
     @Override
-    public SysDeptBO getOneById(Long entityId) throws BusinessException {
-        return this.getOneById(entityId, true);
+    public SysDeptBO getOneById(Long id) {
+        return sysDeptService.getOneById(id);
     }
 
     @Override
-    public SysDeptBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
-        return sysDeptService.getOneById(entityId, throwIfInvalidId);
+    public SysDeptBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
+        return sysDeptService.getOneById(id, throwIfInvalidId);
     }
 
     @Override

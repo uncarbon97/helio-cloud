@@ -1,20 +1,20 @@
 package cc.uncarbon.module.sys.model.request;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-
 
 /**
  * 后台管理-后台用户登录
+ *
  * @author Uncarbon
  */
 @Accessors(chain = true)
@@ -37,5 +37,14 @@ public class SysUserLoginDTO implements Serializable {
     @ApiModelProperty(value = "记住我", required = true)
     @NotNull(message = "记住我不能为空")
     private Boolean rememberMe;
+
+    @ApiModelProperty(value = "租户ID(可选，启用多租户后有效)")
+    private Long tenantId;
+
+    @ApiModelProperty(value = "验证码图片UUID(可选，需自行对接业务逻辑)")
+    private String captchaUUID;
+
+    @ApiModelProperty(value = "验证码答案(可选，需自行对接业务逻辑)")
+    private String captchaAnswer;
 
 }

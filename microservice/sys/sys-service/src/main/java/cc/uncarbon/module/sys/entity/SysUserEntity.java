@@ -3,18 +3,16 @@ package cc.uncarbon.module.sys.entity;
 import cc.uncarbon.framework.crud.entity.HelioBaseEntity;
 import cc.uncarbon.module.sys.enums.GenderEnum;
 import cc.uncarbon.module.sys.enums.SysUserStatusEnum;
-import cn.hutool.core.annotation.Alias;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -31,7 +29,6 @@ import java.time.LocalDateTime;
 public class SysUserEntity extends HelioBaseEntity<Long> {
 
 	@ApiModelProperty(value = "账号")
-	@Alias(value = "username")
 	@TableField(value = "pin")
 	private String pin;
 

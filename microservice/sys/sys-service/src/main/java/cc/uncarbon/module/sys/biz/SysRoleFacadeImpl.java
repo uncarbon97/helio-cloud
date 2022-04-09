@@ -4,20 +4,18 @@ import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
-import cc.uncarbon.module.sys.constant.SysConstant;
 import cc.uncarbon.module.sys.facade.SysRoleFacade;
+import cc.uncarbon.module.sys.model.request.AdminBindRoleMenuRelationDTO;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysRoleDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysRoleDTO;
 import cc.uncarbon.module.sys.model.response.SysRoleBO;
 import cc.uncarbon.module.sys.service.SysRoleService;
-import cc.uncarbon.module.sys.service.SysUserRoleRelationService;
-import cn.hutool.core.collection.CollUtil;
-import java.util.Collection;
-import java.util.List;
-import javax.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.data.redis.core.StringRedisTemplate;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * 后台角色Facade接口实现类
@@ -30,16 +28,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
+@RequiredArgsConstructor
 public class SysRoleFacadeImpl implements SysRoleFacade {
 
-    @Resource
-    private SysRoleService sysRoleService;
-
-    @Resource
-    private SysUserRoleRelationService sysUserRoleRelationService;
-
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private final SysRoleService sysRoleService;
 
 
     @Override
@@ -48,13 +40,13 @@ public class SysRoleFacadeImpl implements SysRoleFacade {
     }
 
     @Override
-    public SysRoleBO getOneById(Long entityId) throws BusinessException {
-        return this.getOneById(entityId, true);
+    public SysRoleBO getOneById(Long id) {
+        return sysRoleService.getOneById(id);
     }
 
     @Override
-    public SysRoleBO getOneById(Long entityId, boolean throwIfInvalidId) throws BusinessException {
-        return sysRoleService.getOneById(entityId, throwIfInvalidId);
+    public SysRoleBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
+        return sysRoleService.getOneById(id, throwIfInvalidId);
     }
 
     @Override
@@ -65,22 +57,6 @@ public class SysRoleFacadeImpl implements SysRoleFacade {
     @Override
     public void adminUpdate(AdminInsertOrUpdateSysRoleDTO dto) {
         sysRoleService.adminUpdate(dto);
-
-        /*
-        清除该角色下所有用户, 菜单相关的缓存
-         */
-        List<Long> userIds = sysUserRoleRelationService.listUserIdByRoleIds(CollUtil.newArrayList(dto.getId()));
-        userIds.forEach(
-                userId -> {
-                    String redisKey;
-
-                    redisKey = String.format(SysConstant.REDIS_KEY_SIDE_MENU_BY_USERID, userId);
-                    stringRedisTemplate.delete(redisKey);
-
-                    redisKey = String.format(SysConstant.REDIS_KEY_VISIBLE_MENU_BY_USERID, userId);
-                    stringRedisTemplate.delete(redisKey);
-                }
-        );
     }
 
     @Override
@@ -88,4 +64,8 @@ public class SysRoleFacadeImpl implements SysRoleFacade {
         sysRoleService.adminDelete(ids);
     }
 
+    @Override
+    public Set<String> adminBindMenus(AdminBindRoleMenuRelationDTO dto) {
+        return sysRoleService.adminBindMenus(dto);
+    }
 }

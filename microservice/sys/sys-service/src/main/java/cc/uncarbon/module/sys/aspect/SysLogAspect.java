@@ -6,6 +6,9 @@ import cc.uncarbon.module.sys.entity.SysLogEntity;
 import cc.uncarbon.module.sys.enums.SysLogStatusEnum;
 import cc.uncarbon.module.sys.service.SysLogService;
 import cn.hutool.json.JSONUtil;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,10 +17,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 /**
  * SysLog切面实现类
@@ -61,7 +60,7 @@ public class SysLogAspect {
         sysLogEntity.setParams(Arrays.stream(point.getArgs()).map(JSONUtil::toJsonStr).collect(Collectors.joining(",")));
 
         // IP地址
-        sysLogEntity.setIp(UserContextHolder.getUserContext().getClientIP());
+        sysLogEntity.setIp(UserContextHolder.getClientIP());
 
         // 状态
         sysLogEntity.setStatus(SysLogStatusEnum.SUCCESS);

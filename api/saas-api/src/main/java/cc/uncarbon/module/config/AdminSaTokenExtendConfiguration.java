@@ -1,23 +1,32 @@
 package cc.uncarbon.module.config;
 
 import cc.uncarbon.framework.core.context.UserContextHolder;
+import cc.uncarbon.module.helper.RolePermissionCacheHelper;
 import cn.dev33.satoken.stp.StpInterface;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 /**
  * 自定义权限验证接口扩展
+ * 用于后台管理
+ *
  * @author Uncarbon
  */
 @Component
-public class SaTokenExtendConfiguration implements StpInterface {
+@RequiredArgsConstructor
+public class AdminSaTokenExtendConfiguration implements StpInterface {
+
+    private final RolePermissionCacheHelper rolePermissionCacheHelper;
+
+
     /**
      * 返回一个账号所拥有的权限码集合
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        return UserContextHolder.getUserContext().getPermissions();
+        return rolePermissionCacheHelper.getUserPermissions();
     }
 
     /**

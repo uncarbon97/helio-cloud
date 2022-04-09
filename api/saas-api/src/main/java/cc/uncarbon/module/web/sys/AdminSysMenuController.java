@@ -1,4 +1,4 @@
-package cc.uncarbon.module.api.sys;
+package cc.uncarbon.module.web.sys;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.web.model.request.IdsDTO;
