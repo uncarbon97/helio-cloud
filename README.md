@@ -2,7 +2,7 @@
 
 ## 项目介绍
 
-`helio-cloud`基于 Spring Boot 2.5.x + Spring Cloud Alibaba 2021.1 + Dubbo，是一款预置SaaS、RBAC能力的微服务项目脚手架，助力开发者快速上手企业级微服务开发
+`helio-cloud`基于 Spring Boot 2.6.x + Spring Cloud Alibaba 2021 + Dubbo，是一款预置SaaS、RBAC能力的微服务项目脚手架，助力开发者快速上手企业级微服务开发
 
 JDK compatibility: 1.8 - 15
 
