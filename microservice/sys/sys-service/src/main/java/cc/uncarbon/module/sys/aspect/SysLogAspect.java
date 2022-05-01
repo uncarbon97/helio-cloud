@@ -9,6 +9,7 @@ import cn.hutool.json.JSONUtil;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -25,10 +26,10 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class SysLogAspect {
 
-    @Resource
-    private SysLogService sysLogService;
+    private final SysLogService sysLogService;
 
 
     @Pointcut("@annotation(cc.uncarbon.module.sys.annotation.SysLog)")
