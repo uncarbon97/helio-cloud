@@ -15,12 +15,7 @@ import cc.uncarbon.module.sys.enums.GenericStatusEnum;
 import cc.uncarbon.module.sys.enums.SysErrorEnum;
 import cc.uncarbon.module.sys.enums.SysUserStatusEnum;
 import cc.uncarbon.module.sys.mapper.SysUserMapper;
-import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
-import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.AdminUpdateCurrentSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
+import cc.uncarbon.module.sys.model.request.*;
 import cc.uncarbon.module.sys.model.response.SysDeptBO;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
@@ -34,19 +29,14 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 /**
@@ -179,21 +169,13 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
         this.removeByIds(ids);
     }
 
-    /**
-     * 后台管理-登录
-     */
     @SysLog(value = "登录后台用户")
     public SysUserLoginBO adminLogin(SysUserLoginDTO dto) {
         /*
-        这里是实际启用了多租户功能，并主动指定租户ID
-        实际生产应用时，推荐前端传值加密，后端在此解密
+        如果启用了多租户功能，并且前端指定了租户ID，则先查库确认租户是否有效
 
-        表级、数据源级多租户，登录前【必须】主动指定租户ID
-        e.g. dto.setTenantId(101L)
+        注意：数据源级多租户，登录前【必须】主动指定租户ID，如: dto.setTenantId(101L);
          */
-
-        dto.setTenantId(101L);
-
         // ConcurrentHashMap 的 value 不能为 null，还是 new 一个吧
         TenantContext tenantContext = new TenantContext();
         if (isTenantEnabled && ObjectUtil.isNotNull(dto.getTenantId())) {
