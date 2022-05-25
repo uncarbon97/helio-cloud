@@ -4,6 +4,7 @@ import cc.uncarbon.framework.core.props.HelioProperties;
 import cc.uncarbon.framework.satoken.interceptor.DefaultSaTokenParseInterceptor;
 import cc.uncarbon.module.interceptor.SaTokenRouteInterceptor;
 import javax.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,10 +16,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author Uncarbon
  */
 @Configuration
+@RequiredArgsConstructor
 public class CustomInterceptorConfiguration implements WebMvcConfigurer {
 
-    @Resource
-    private HelioProperties helioProperties;
+    private final HelioProperties helioProperties;
 
 
     @Override

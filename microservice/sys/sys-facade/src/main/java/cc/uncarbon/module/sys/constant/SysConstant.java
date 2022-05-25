@@ -22,28 +22,8 @@ public interface SysConstant {
     Long SUPER_ADMIN_ROLE_ID = 1L;
 
     /**
-     * 缓存键名-侧边菜单-前缀
+     * 敏感字段，`SysLogAspect` 切面记录系统操作日志时，会先去除敏感字段后再入库
      */
-    String REDIS_KEY_SIDE_MENU = "sys-service:sideMenu:";
-
-    /**
-     * 缓存键名-侧边菜单-区分用户ID
-     */
-    String REDIS_KEY_SIDE_MENU_BY_USERID = REDIS_KEY_SIDE_MENU + "userId_%s";
-
-    /**
-     * 缓存键名-所有可见菜单-前缀
-     */
-    String REDIS_KEY_VISIBLE_MENU = "sys-service:visibleMenu:";
-
-    /**
-     * 缓存键名-所有可见菜单-区分用户ID
-     */
-    String REDIS_KEY_VISIBLE_MENU_BY_USERID = REDIS_KEY_VISIBLE_MENU + "userId_%s";
-
-    /**
-     * 参数键名-缓存菜单时长
-     */
-    String PARAM_KEY_CACHE_MENU_DURATION = "sys:cache-menu-duration";
+    String[] SENSITIVE_FIELDS = {"password", "oldPassword", "newPassword", "confirmNewPassword", "passwordOfNewUser", "randomPassword", "tenantAdminPassword"};
 
 }

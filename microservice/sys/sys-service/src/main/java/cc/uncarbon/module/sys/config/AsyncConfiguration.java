@@ -1,5 +1,6 @@
 package cc.uncarbon.module.sys.config;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
@@ -20,10 +21,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 @EnableAsync
 @Configuration
+@RequiredArgsConstructor
 public class AsyncConfiguration implements AsyncConfigurer {
 
-    @Resource
-    private TaskExecutionProperties taskExecutionProperties;
+    private final TaskExecutionProperties taskExecutionProperties;
+
 
     @Bean(name = "taskExecutor")
     public ThreadPoolTaskExecutor taskExecutor() {

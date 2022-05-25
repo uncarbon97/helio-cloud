@@ -9,6 +9,7 @@ import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysParamDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysParamDTO;
 import cc.uncarbon.module.sys.model.response.SysParamBO;
 import cc.uncarbon.module.sys.service.SysParamService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 
@@ -26,10 +27,10 @@ import java.util.Collection;
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
+@RequiredArgsConstructor
 public class SysParamFacadeImpl implements SysParamFacade {
 
-    @Resource
-    private SysParamService sysParamService;
+    private final SysParamService sysParamService;
 
 
     @Override
