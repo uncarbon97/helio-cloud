@@ -7,14 +7,14 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.5.1-SNAPSHOT</version>
+        <version>1.5.1</version>
         <relativePath/>
     </parent>
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>sys</artifactId>
     <packaging>pom</packaging>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.1</version>
 
     <modules>
         <module>sys-facade</module>
