@@ -7,7 +7,12 @@ import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.framework.web.model.request.IdsDTO;
 import cc.uncarbon.framework.web.model.response.ApiResult;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
-import cc.uncarbon.module.sys.model.request.*;
+import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
+import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminKickOutSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
+import cc.uncarbon.module.sys.model.request.AdminUpdateCurrentSysUserPasswordDTO;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
 import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoVO;
 import cc.uncarbon.module.util.AdminStpUtil;
@@ -16,12 +21,18 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -88,7 +99,7 @@ public class AdminSysUserController {
         return ApiResult.data(sysUserFacade.adminGetCurrentUserInfo());
     }
 
-    @SaCheckPermission(type = AdminStpUtil.TYPE, value = "SysUser:resetPassword")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "resetPassword")
     @ApiOperation(value = "重置某用户密码", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/resetPassword")
     public ApiResult<?> resetPassword(@RequestBody @Valid AdminResetSysUserPasswordDTO dto) {
@@ -118,7 +129,7 @@ public class AdminSysUserController {
         return ApiResult.success();
     }
 
-    @SaCheckPermission(type = AdminStpUtil.TYPE, value = "SysUser:bindRoles")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "bindRoles")
     @ApiOperation(value = "绑定用户与角色关联关系", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/bindRoles")
     public ApiResult<?> bindRoles(@RequestBody @Valid AdminBindUserRoleRelationDTO dto) {
@@ -127,7 +138,7 @@ public class AdminSysUserController {
         return ApiResult.success();
     }
 
-    @SaCheckPermission(type = AdminStpUtil.TYPE, value = "SysUser:kickOut")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "kickOut")
     @ApiOperation(value = "踢某用户下线", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/kickOut")
     public ApiResult<?> kickOut(@RequestBody @Valid AdminKickOutSysUserDTO dto) {
