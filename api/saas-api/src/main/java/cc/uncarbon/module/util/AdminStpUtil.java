@@ -7,12 +7,14 @@ import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
+import java.util.List;
 import lombok.experimental.UtilityClass;
 
-import java.util.List;
-
 /**
- * 自定义的StpUtil，用于后台管理
+ * 后台管理专用 StpUtil
+ * 文档见 SA-Token -> 多账户认证
+ * https://sa-token.dev33.cn/doc/index.html#/up/many-account
+ *
  * @author Uncarbon
  */
 @UtilityClass

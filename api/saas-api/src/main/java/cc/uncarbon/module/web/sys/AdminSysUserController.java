@@ -88,7 +88,7 @@ public class AdminSysUserController {
         return ApiResult.data(sysUserFacade.adminGetCurrentUserInfo());
     }
 
-    @SaCheckPermission(type = AdminStpUtil.TYPE, value = "SysUser:resetPassword")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "resetPassword")
     @ApiOperation(value = "重置某用户密码", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/resetPassword")
     public ApiResult<?> resetPassword(@RequestBody @Valid AdminResetSysUserPasswordDTO dto) {
@@ -118,16 +118,22 @@ public class AdminSysUserController {
         return ApiResult.success();
     }
 
-    @SaCheckPermission(type = AdminStpUtil.TYPE, value = "SysUser:bindRoles")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "bindRoles")
     @ApiOperation(value = "绑定用户与角色关联关系", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/bindRoles")
     public ApiResult<?> bindRoles(@RequestBody @Valid AdminBindUserRoleRelationDTO dto) {
         sysUserFacade.adminBindRoles(dto);
+        // 该用户会被强制踢下线，以更新对应权限；可以视业务需要决定是否删除该代码
+        this.kickOut(
+                AdminKickOutSysUserDTO.builder()
+                        .userId(dto.getUserId())
+                        .build()
+        );
 
         return ApiResult.success();
     }
 
-    @SaCheckPermission(type = AdminStpUtil.TYPE, value = "SysUser:kickOut")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "kickOut")
     @ApiOperation(value = "踢某用户下线", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/kickOut")
     public ApiResult<?> kickOut(@RequestBody @Valid AdminKickOutSysUserDTO dto) {
