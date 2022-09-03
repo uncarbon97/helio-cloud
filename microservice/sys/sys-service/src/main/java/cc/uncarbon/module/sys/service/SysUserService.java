@@ -375,11 +375,12 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
      * @return BO 分页
      */
     private PageResult<SysUserBO> entityPage2BOPage(Page<SysUserEntity> entityPage) {
-        PageResult<SysUserBO> ret = new PageResult<>();
-        BeanUtil.copyProperties(entityPage, ret);
-        ret.setRecords(this.entityList2BOs(entityPage.getRecords()));
-
-        return ret;
+        return new PageResult<SysUserBO>()
+                .setCurrent(entityPage.getCurrent())
+                .setSize(entityPage.getSize())
+                .setTotal(entityPage.getTotal())
+                .setRecords(this.entityList2BOs(entityPage.getRecords()))
+                ;
     }
 
     /**

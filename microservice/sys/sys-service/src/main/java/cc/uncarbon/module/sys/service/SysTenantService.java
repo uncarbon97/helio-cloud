@@ -203,11 +203,12 @@ public class SysTenantService extends HelioBaseServiceImpl<SysTenantMapper, SysT
      * @return BO 分页
      */
     private PageResult<SysTenantBO> entityPage2BOPage(Page<SysTenantEntity> entityPage) {
-        PageResult<SysTenantBO> ret = new PageResult<>();
-        BeanUtil.copyProperties(entityPage, ret);
-        ret.setRecords(this.entityList2BOs(entityPage.getRecords()));
-
-        return ret;
+        return new PageResult<SysTenantBO>()
+                .setCurrent(entityPage.getCurrent())
+                .setSize(entityPage.getSize())
+                .setTotal(entityPage.getTotal())
+                .setRecords(this.entityList2BOs(entityPage.getRecords()))
+                ;
     }
 
 }

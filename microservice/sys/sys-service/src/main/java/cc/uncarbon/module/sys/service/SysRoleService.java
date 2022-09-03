@@ -199,11 +199,12 @@ public class SysRoleService extends HelioBaseServiceImpl<SysRoleMapper, SysRoleE
      * @return BO 分页
      */
     private PageResult<SysRoleBO> entityPage2BOPage(Page<SysRoleEntity> entityPage) {
-        PageResult<SysRoleBO> ret = new PageResult<>();
-        BeanUtil.copyProperties(entityPage, ret);
-        ret.setRecords(this.entityList2BOs(entityPage.getRecords()));
-
-        return ret;
+        return new PageResult<SysRoleBO>()
+                .setCurrent(entityPage.getCurrent())
+                .setSize(entityPage.getSize())
+                .setTotal(entityPage.getTotal())
+                .setRecords(this.entityList2BOs(entityPage.getRecords()))
+                ;
     }
 
     /**
