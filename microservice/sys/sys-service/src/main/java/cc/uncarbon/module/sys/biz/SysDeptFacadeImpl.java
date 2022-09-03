@@ -4,7 +4,6 @@ import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.facade.SysDeptFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDeptDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysDeptDTO;
 import cc.uncarbon.module.sys.model.response.SysDeptBO;
 import cc.uncarbon.module.sys.service.SysDeptService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +31,8 @@ public class SysDeptFacadeImpl implements SysDeptFacade {
 
 
     @Override
-    public List<SysDeptBO> adminList(AdminListSysDeptDTO dto) {
-        return sysDeptService.adminList(dto);
+    public List<SysDeptBO> adminList() {
+        return sysDeptService.adminList();
     }
 
     @Override

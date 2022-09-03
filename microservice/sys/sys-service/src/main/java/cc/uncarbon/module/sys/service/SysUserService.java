@@ -15,12 +15,7 @@ import cc.uncarbon.module.sys.enums.GenericStatusEnum;
 import cc.uncarbon.module.sys.enums.SysErrorEnum;
 import cc.uncarbon.module.sys.enums.SysUserStatusEnum;
 import cc.uncarbon.module.sys.mapper.SysUserMapper;
-import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
-import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.AdminUpdateCurrentSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
+import cc.uncarbon.module.sys.model.request.*;
 import cc.uncarbon.module.sys.model.response.SysDeptBO;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
@@ -34,19 +29,14 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 /**
@@ -179,6 +169,9 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
         this.removeByIds(ids);
     }
 
+    /**
+     * 后台管理-登录
+     */
     @SysLog(value = "登录后台用户")
     public SysUserLoginBO adminLogin(SysUserLoginDTO dto) {
         /*
@@ -308,6 +301,19 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
      */
     public SysUserEntity getUserByPin(String pin) {
         return this.getBaseMapper().getUserByPin(pin);
+    }
+
+    /**
+     * 后台管理 - 取指定用户关联角色ID
+     * @param userId 用户ID
+     * @return 角色Ids
+     */
+    public Set<Long> listRelatedRoleIds(Long userId) {
+        if (ObjectUtil.isNull(userId)) {
+            return Collections.emptySet();
+        }
+
+        return sysRoleService.getRoleMapByUserId(userId).keySet();
     }
 
     /*

@@ -4,7 +4,6 @@ import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.facade.SysMenuFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysMenuDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysMenuDTO;
 import cc.uncarbon.module.sys.model.response.SysMenuBO;
 import cc.uncarbon.module.sys.service.SysMenuService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +31,8 @@ public class SysMenuFacadeImpl implements SysMenuFacade {
 
 
     @Override
-    public List<SysMenuBO> adminList(AdminListSysMenuDTO dto) {
-        return sysMenuService.adminList(dto);
+    public List<SysMenuBO> adminList() {
+        return sysMenuService.adminList();
     }
 
     @Override

@@ -18,13 +18,14 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -125,6 +126,30 @@ public class SysTenantService extends HelioBaseServiceImpl<SysTenantMapper, SysT
         );
     }
 
+    /**
+     * 检查是否已存在相同数据
+     *
+     * @param dto DTO
+     */
+    public void checkExistence(AdminUpdateSysTenantDTO dto) {
+        SysTenantEntity existingEntity = this.getOne(
+                new QueryWrapper<SysTenantEntity>()
+                        .lambda()
+                        // 仅取主键ID
+                        .select(SysTenantEntity::getId)
+                        // 租户ID相同
+                        .eq(SysTenantEntity::getTenantId, dto.getTenantId())
+                        .or()
+                        // 或租户名相同
+                        .eq(SysTenantEntity::getTenantName, dto.getTenantName())
+                        .last(HelioConstant.CRUD.SQL_LIMIT_1)
+        );
+
+        if (existingEntity != null && !existingEntity.getId().equals(dto.getId())) {
+            throw new BusinessException(400, "已存在相同系统租户，请重新输入");
+        }
+    }
+
     /*
     ----------------------------------------------------------------
                         私有方法 private methods
@@ -183,30 +208,6 @@ public class SysTenantService extends HelioBaseServiceImpl<SysTenantMapper, SysT
         ret.setRecords(this.entityList2BOs(entityPage.getRecords()));
 
         return ret;
-    }
-
-    /**
-     * 检查是否已存在相同数据
-     *
-     * @param dto DTO
-     */
-    public void checkExistence(AdminUpdateSysTenantDTO dto) {
-        SysTenantEntity existingEntity = this.getOne(
-                new QueryWrapper<SysTenantEntity>()
-                        .lambda()
-                        // 仅取主键ID
-                        .select(SysTenantEntity::getId)
-                        // 租户ID相同
-                        .eq(SysTenantEntity::getTenantId, dto.getTenantId())
-                        .or()
-                        // 或租户名相同
-                        .eq(SysTenantEntity::getTenantName, dto.getTenantName())
-                        .last(HelioConstant.CRUD.SQL_LIMIT_1)
-        );
-
-        if (existingEntity != null && !existingEntity.getId().equals(dto.getId())) {
-            throw new BusinessException(400, "已存在相同系统租户，请重新输入");
-        }
     }
 
 }

@@ -32,21 +32,22 @@ public class SysRoleMenuRelationService extends HelioBaseServiceImpl<SysRoleMenu
      * @param roleIds 角色Ids
      * @return 菜单Ids
      */
-    public Set<Long> listMenuIdByRoleIds(Collection<Long> roleIds) throws IllegalArgumentException {
+    public Set<Long> listMenuIdsByRoleIds(Collection<Long> roleIds) throws IllegalArgumentException {
         if (CollUtil.isEmpty(roleIds)) {
             throw new IllegalArgumentException("roleIds不能为空");
         }
 
         // aka * 16
         Set<Long> ret = new HashSet<>(roleIds.size() << 4);
-        roleIds.forEach(
-                roleId -> ret.addAll(this.list(
+        for (Long roleId : roleIds) {
+            ret.addAll(
+                    this.list(
                             new QueryWrapper<SysRoleMenuRelationEntity>()
                                     .lambda()
                                     .select(SysRoleMenuRelationEntity::getMenuId)
                                     .eq(SysRoleMenuRelationEntity::getRoleId, roleId)
-                    ).stream().map(SysRoleMenuRelationEntity::getMenuId).collect(Collectors.toSet()))
-        );
+                    ).stream().map(SysRoleMenuRelationEntity::getMenuId).collect(Collectors.toSet()));
+        }
 
         return ret;
     }
@@ -54,7 +55,7 @@ public class SysRoleMenuRelationService extends HelioBaseServiceImpl<SysRoleMenu
     /**
      * 绑定角色ID与菜单ID关联关系，增量更新
      *
-     * @param roleId 角色ID
+     * @param roleId  角色ID
      * @param menuIds 新菜单ID集合
      */
     @Transactional(rollbackFor = Exception.class)
@@ -86,43 +87,25 @@ public class SysRoleMenuRelationService extends HelioBaseServiceImpl<SysRoleMenu
          */
         Set<Long> existingMenuIds = this.list(menuIdsQuery).stream().map(SysRoleMenuRelationEntity::getMenuId)
                 .collect(Collectors.toSet());
-
         menuIds.removeAll(existingMenuIds);
 
+        if (CollUtil.isEmpty(menuIds)) {
+            // 没有需要增量更新的部分
+            return;
+        }
+
         /*
-        构造 && 批量插入
+        批量插入需要增量更新的部分
          */
-        if (!menuIds.isEmpty()) {
-            List<SysRoleMenuRelationEntity> entityList = new ArrayList<>();
-            menuIds.forEach(
-                    menuId -> entityList.add(SysRoleMenuRelationEntity.builder()
+        List<SysRoleMenuRelationEntity> entityList = new ArrayList<>(menuIds.size());
+        for (Long menuId : menuIds) {
+            entityList.add(
+                    SysRoleMenuRelationEntity.builder()
                             .roleId(roleId)
                             .menuId(menuId)
                             .build()
-                    )
             );
-
-            this.saveBatch(entityList);
         }
-    }
-
-    /**
-     * 根据角色Ids取菜单Ids
-     * 因为多种角色容易出现交集，所以干脆用 Set
-     *
-     * @param roleId 角色Id
-     * @return 菜单Ids
-     */
-    public Set<Long> listMenuIdByRoleId(Long roleId) {
-        if (Objects.isNull(roleId)) {
-           return Collections.emptySet();
-        }
-
-        return this.list(
-                new QueryWrapper<SysRoleMenuRelationEntity>()
-                        .lambda()
-                        .select(SysRoleMenuRelationEntity::getMenuId)
-                        .eq(SysRoleMenuRelationEntity::getRoleId, roleId)
-        ).stream().map(SysRoleMenuRelationEntity::getMenuId).collect(Collectors.toSet());
+        this.saveBatch(entityList);
     }
 }

@@ -7,7 +7,7 @@ package cc.uncarbon.module.sys.constant;
 public interface SysConstant {
 
     /**
-     * 无上级节点的父级ID
+     * 根节点的父级ID
      */
     Long ROOT_PARENT_ID = 0L;
 

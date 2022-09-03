@@ -2,11 +2,7 @@ package cc.uncarbon.module.sys.model.response;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Collection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +10,15 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Collection;
+
 
 /**
  * 后台角色BO
  * @author Uncarbon
  */
-@ApiModel(value = "后台角色")
 @Accessors(chain = true)
 @Builder
 @AllArgsConstructor

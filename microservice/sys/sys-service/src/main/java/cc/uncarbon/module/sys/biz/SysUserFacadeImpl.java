@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * 后台用户Facade接口实现类
@@ -88,4 +89,8 @@ public class SysUserFacadeImpl implements SysUserFacade {
         sysUserService.adminBindRoles(dto);
     }
 
+    @Override
+    public Set<Long> listRelatedRoleIds(Long userId) {
+        return sysUserService.listRelatedRoleIds(userId);
+    }
 }
