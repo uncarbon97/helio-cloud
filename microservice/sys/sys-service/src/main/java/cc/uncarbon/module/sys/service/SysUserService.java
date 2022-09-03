@@ -212,11 +212,7 @@ public class SysUserService extends HelioBaseServiceImpl<SysUserMapper, SysUserE
             TenantContextHolder.setTenantContext(tenantContext);
         }
 
-        try {
-            this.updateLastLoginAt(sysUserEntity.getId(), LocalDateTimeUtil.now());
-        } catch (Exception ignored) {
-            // 实际开发环境请删除本try-catch块
-        }
+        this.updateLastLoginAt(sysUserEntity.getId(), LocalDateTimeUtil.now());
 
         // 取账号完整信息
         SysUserBO sysUserBO = this.entity2BO(sysUserEntity);
