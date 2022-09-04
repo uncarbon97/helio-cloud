@@ -41,6 +41,8 @@ public class SysLogService extends HelioBaseServiceImpl<SysLogMapper, SysLogEnti
                 new Page<>(pageParam.getPageNum(), pageParam.getPageSize()),
                 new QueryWrapper<SysLogEntity>()
                         .lambda()
+                        // 仅返回给前端少量字段
+                        .select(SysLogEntity::getCreatedAt, SysLogEntity::getUsername, SysLogEntity::getOperation, SysLogEntity::getIp, SysLogEntity::getStatus)
                         // 用户账号
                         .like(StrUtil.isNotBlank(dto.getUsername()), SysLogEntity::getUsername, StrUtil.cleanBlank(dto.getUsername()))
                         // 操作内容
