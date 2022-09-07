@@ -54,8 +54,6 @@ public class SysTenantService extends HelioBaseServiceImpl<SysTenantMapper, SysT
                         .eq(ObjectUtil.isNotNull(dto.getTenantId()), SysTenantEntity::getTenantId, dto.getTenantId())
                         // 状态
                         .eq(ObjectUtil.isNotNull(dto.getStatus()), SysTenantEntity::getStatus, dto.getStatus())
-                        // 时间区间
-                        .between(ObjectUtil.isNotNull(dto.getBeginAt()) && ObjectUtil.isNotNull(dto.getEndAt()), SysTenantEntity::getCreatedAt, dto.getBeginAt(), dto.getEndAt())
                         // 排序
                         .orderByDesc(SysTenantEntity::getCreatedAt)
         );
