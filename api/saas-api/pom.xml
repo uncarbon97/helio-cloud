@@ -7,13 +7,13 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.6.0</version>
+        <version>1.7.0</version>
     </parent>
 
     <artifactId>saas-api</artifactId>
 
     <properties>
-        <sys-service.version>1.6.0</sys-service.version>
+        <sys-service.version>1.7.0</sys-service.version>
     </properties>
 
     <dependencies>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>cc.uncarbon.module</groupId>
             <artifactId>sys-facade</artifactId>
-            <version>1.6.0</version>
+            <version>1.7.0</version>
         </dependency>
 
 

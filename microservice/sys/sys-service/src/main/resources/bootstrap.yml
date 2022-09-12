@@ -5,6 +5,8 @@ spring:
   cloud:
     nacos:
       discovery:
+        # 由于“Dubbo 应用级服务发现与 Spring Cloud 互通的特性”，HTTP 端口会以 rest 协议被注册到 Nacos 上，增加后缀以规避重名
+        service: ${spring.application.name}-rest
         # 注册中心地址
         server-addr: ${NACOS_DISCOVERY_SERVER_ADDR:127.0.0.1:8848}
         # 注册中心命名空间

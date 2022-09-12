@@ -2,7 +2,6 @@ package cc.uncarbon.module.sys.facade;
 
 import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysMenuDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysMenuDTO;
 import cc.uncarbon.module.sys.model.response.SysMenuBO;
 
 import java.util.Collection;
@@ -16,7 +15,7 @@ public interface SysMenuFacade {
     /**
      * 后台管理-列表
      */
-    List<SysMenuBO> adminList(AdminListSysMenuDTO dto);
+    List<SysMenuBO> adminList();
 
     /**
      * 根据 ID 取详情

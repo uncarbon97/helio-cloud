@@ -5,7 +5,6 @@ import cc.uncarbon.framework.web.model.request.IdsDTO;
 import cc.uncarbon.framework.web.model.response.ApiResult;
 import cc.uncarbon.module.sys.facade.SysDeptFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDeptDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysDeptDTO;
 import cc.uncarbon.module.sys.model.response.SysDeptBO;
 import cc.uncarbon.module.util.AdminStpUtil;
 import cn.dev33.satoken.annotation.SaCheckLogin;
@@ -40,8 +39,8 @@ public class AdminSysDeptController {
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "列表", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping
-    public ApiResult<List<SysDeptBO>> list(AdminListSysDeptDTO dto) {
-        return ApiResult.data(sysDeptFacade.adminList(dto));
+    public ApiResult<List<SysDeptBO>> list() {
+        return ApiResult.data(sysDeptFacade.adminList());
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)

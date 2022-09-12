@@ -92,8 +92,9 @@ public class AdminSysRoleController {
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "bindMenus")
     @ApiOperation(value = "绑定角色与菜单关联关系", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "/bindMenus")
-    public ApiResult<?> bindMenus(@RequestBody @Valid AdminBindRoleMenuRelationDTO dto) {
+    @PutMapping(value = "/{id}/menus")
+    public ApiResult<?> bindMenus(@PathVariable Long id, @RequestBody @Valid AdminBindRoleMenuRelationDTO dto) {
+        dto.setRoleId(id);
         Set<String> newPermissions = sysRoleFacade.adminBindMenus(dto);
 
         // 覆盖更新缓存

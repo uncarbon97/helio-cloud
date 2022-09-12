@@ -3,16 +3,13 @@ package cc.uncarbon.module.sys.facade;
 import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
-import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
-import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
-import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.AdminUpdateCurrentSysUserPasswordDTO;
-import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
+import cc.uncarbon.module.sys.model.request.*;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
 import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoVO;
+
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * 后台用户Facade接口
@@ -82,5 +79,12 @@ public interface SysUserFacade {
      * 后台管理-绑定用户与角色关联关系
      */
     void adminBindRoles(AdminBindUserRoleRelationDTO dto);
+
+    /**
+     * 后台管理 - 取指定用户关联角色ID
+     * @param userId 用户ID
+     * @return 角色Ids
+     */
+    Set<Long> listRelatedRoleIds(Long userId);
 
 }

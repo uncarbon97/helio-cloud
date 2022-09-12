@@ -1,15 +1,16 @@
 package cc.uncarbon.module.sys.model.request;
 
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 
 /**
@@ -46,5 +47,8 @@ public class SysUserLoginDTO implements Serializable {
 
     @ApiModelProperty(value = "验证码答案(可选，需自行对接业务逻辑)")
     private String captchaAnswer;
+
+    @ApiModelProperty(value = "客户端IP地址", hidden = true)
+    private String clientIP;
 
 }

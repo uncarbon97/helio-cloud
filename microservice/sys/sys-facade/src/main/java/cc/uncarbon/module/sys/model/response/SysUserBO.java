@@ -4,12 +4,7 @@ import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.module.sys.enums.GenderEnum;
 import cc.uncarbon.module.sys.enums.SysUserStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,12 +12,14 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 
 /**
  * 后台用户BO
  * @author Uncarbon
  */
-@ApiModel(value = "后台用户")
 @Accessors(chain = true)
 @Builder
 @AllArgsConstructor
@@ -63,15 +60,6 @@ public class SysUserBO implements Serializable {
 
     @ApiModelProperty(value = "最后登录时刻")
     private LocalDateTime lastLoginAt;
-
-    @ApiModelProperty(value = "拥有角色", hidden = true)
-    private Map<Long, String> roleMap;
-
-    @ApiModelProperty(value = "拥有角色Ids")
-    private Collection<Long> roleIds;
-
-    @ApiModelProperty(value = "拥有权限")
-    private Collection<String> permissions;
 
     @ApiModelProperty(value = "所属部门ID")
     private Long deptId;

@@ -2,8 +2,8 @@ package cc.uncarbon.module.config;
 
 import cc.uncarbon.framework.core.props.HelioProperties;
 import cc.uncarbon.framework.satoken.interceptor.DefaultSaTokenParseInterceptor;
-import cc.uncarbon.module.interceptor.SaTokenRouteInterceptor;
-import javax.annotation.Resource;
+import cn.dev33.satoken.interceptor.SaRouteInterceptor;
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -33,10 +33,14 @@ public class CustomInterceptorConfiguration implements WebMvcConfigurer {
 
         /*
         2. 路由拦截器, 使几乎所有接口都需要登录
-        放行接口请在 app-api.yml 配置文件的 helio.security.exclude-routes 中设置
+        放行接口请在配置文件的 helio.security.exclude-routes 中设置
+
+        @see http://sa-token.dev33.cn/doc/index.html#/use/route-check
          */
         registry
-                .addInterceptor(new SaTokenRouteInterceptor(helioProperties))
+                .addInterceptor(new SaRouteInterceptor(
+                        (req, res, handler) -> StpUtil.checkLogin()
+                ))
                 .addPathPatterns("/**")
                 .excludePathPatterns(helioProperties.getSecurity().getExcludeRoutes());
     }
