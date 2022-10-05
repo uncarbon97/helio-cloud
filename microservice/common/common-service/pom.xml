@@ -5,26 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cc.uncarbon.framework</groupId>
-        <artifactId>helio-starters</artifactId>
+        <groupId>cc.uncarbon.module</groupId>
+        <artifactId>common</artifactId>
         <version>1.7.0</version>
     </parent>
 
-    <artifactId>saas-api</artifactId>
+    <artifactId>common-service</artifactId>
 
     <properties>
-        <sys-service.version>1.7.0</sys-service.version>
-        <common-service.version>1.7.0</common-service.version>
+
     </properties>
 
     <dependencies>
-        <!-- 引入业务微服务 -->
-        <dependency>
-            <groupId>cc.uncarbon.module</groupId>
-            <artifactId>sys-facade</artifactId>
-            <version>1.7.0</version>
-        </dependency>
-
+        <!-- 实现业务微服务 -->
         <dependency>
             <groupId>cc.uncarbon.module</groupId>
             <artifactId>common-facade</artifactId>
@@ -40,7 +33,24 @@
 
         <dependency>
             <groupId>cc.uncarbon.framework</groupId>
+            <artifactId>helio-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.uncarbon.framework</groupId>
             <artifactId>helio-starter-cloud</artifactId>
+            <exclusions>
+                <!-- 业务微服务里用不到 Sentinel -->
+                <exclusion>
+                    <groupId>com.alibaba.cloud</groupId>
+                    <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.uncarbon.framework</groupId>
+            <artifactId>helio-starter-crud</artifactId>
         </dependency>
 
         <dependency>
@@ -50,23 +60,7 @@
 
         <dependency>
             <groupId>cc.uncarbon.framework</groupId>
-            <artifactId>helio-starter-knife4j</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.github.xiaoymin</groupId>
-                    <artifactId>knife4j-spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>cc.uncarbon.framework</groupId>
             <artifactId>helio-starter-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cc.uncarbon.framework</groupId>
-            <artifactId>helio-starter-satoken</artifactId>
         </dependency>
 
         <dependency>
@@ -78,6 +72,21 @@
         <dependency>
             <groupId>cc.uncarbon.framework</groupId>
             <artifactId>helio-starter-web</artifactId>
+        </dependency>
+
+        <!-- 这里写其他第三方依赖 -->
+        <!-- 对象存储工具类 https://gitee.com/XYW1171736840/spring-file-storage -->
+        <dependency>
+            <groupId>cn.xuyanwu</groupId>
+            <artifactId>spring-file-storage</artifactId>
+            <version>0.6.1</version>
+        </dependency>
+
+        <!-- MinIO 依赖包 -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.4.3</version>
         </dependency>
     </dependencies>
 
