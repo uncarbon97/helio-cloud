@@ -7,7 +7,7 @@
     <parent>
         <groupId>cc.uncarbon.module</groupId>
         <artifactId>common</artifactId>
-        <version>1.7.0</version>
+        <version>1.7.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>common-service</artifactId>
@@ -21,9 +21,10 @@
         <dependency>
             <groupId>cc.uncarbon.module</groupId>
             <artifactId>common-facade</artifactId>
-            <version>1.7.0</version>
+            <version>${project.version}</version>
         </dependency>
 
+        <!-- 引入其他微服务模块 -->
 
         <!-- 脚手架starter -->
         <dependency>

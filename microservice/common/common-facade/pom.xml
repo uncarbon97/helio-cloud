@@ -7,7 +7,7 @@
     <parent>
         <groupId>cc.uncarbon.module</groupId>
         <artifactId>common</artifactId>
-        <version>1.7.0</version>
+        <version>1.7.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>common-facade</artifactId>

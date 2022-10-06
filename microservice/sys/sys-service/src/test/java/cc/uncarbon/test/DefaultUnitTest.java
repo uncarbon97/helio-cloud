@@ -4,7 +4,6 @@ package cc.uncarbon.test;
 import cc.uncarbon.framework.core.context.UserContext;
 import cc.uncarbon.framework.core.context.UserContextHolder;
 import cc.uncarbon.module.sys.SysServiceApplication;
-import cc.uncarbon.module.sys.enums.UserTypeEnum;
 import cc.uncarbon.module.sys.model.response.SysMenuBO;
 import cc.uncarbon.module.sys.service.SysDeptService;
 import cc.uncarbon.module.sys.service.SysMenuService;

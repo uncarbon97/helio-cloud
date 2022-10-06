@@ -4,15 +4,14 @@ import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.common.model.request.UploadFileAttributeDTO;
 import cc.uncarbon.module.common.model.response.OssFileDownloadReplyBO;
 import cc.uncarbon.module.common.model.response.OssFileInfoBO;
-import cc.uncarbon.module.common.model.response.OssFileUploadResultVO;
 import lombok.NonNull;
 
 /**
- * 文件上传下载门面
+ * 文件服务门面
  *
  * @author Uncarbon
  */
-public interface OssUploadDownloadFacade {
+public interface OssFileServiceFacade {
 
     /**
      * 根据哈希值，查找是否已有文件
@@ -35,8 +34,9 @@ public interface OssUploadDownloadFacade {
     OssFileDownloadReplyBO downloadById(Long fileInfoId) throws BusinessException;
 
     /**
-     * 将 OssFileInfoBO 转换为 OssFileUploadResultVO
+     * 是否为本地存储平台
+     * @param storagePlatform 存储平台名
      */
-    OssFileUploadResultVO toUploadResult(OssFileInfoBO ossFileInfo, String requestUrl);
+    boolean isLocalPlatform(String storagePlatform);
 
 }

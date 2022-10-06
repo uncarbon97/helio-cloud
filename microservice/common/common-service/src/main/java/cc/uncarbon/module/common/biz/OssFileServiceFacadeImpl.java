@@ -1,12 +1,12 @@
 package cc.uncarbon.module.common.biz;
 
+import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.common.enums.OssErrorEnum;
-import cc.uncarbon.module.common.facade.OssUploadDownloadFacade;
+import cc.uncarbon.module.common.facade.OssFileServiceFacade;
 import cc.uncarbon.module.common.model.request.UploadFileAttributeDTO;
 import cc.uncarbon.module.common.model.response.OssFileDownloadReplyBO;
 import cc.uncarbon.module.common.model.response.OssFileInfoBO;
-import cc.uncarbon.module.common.model.response.OssFileUploadResultVO;
 import cc.uncarbon.module.common.service.OssFileInfoService;
 import cn.hutool.core.util.StrUtil;
 import cn.xuyanwu.spring.file.storage.FileInfo;
@@ -15,18 +15,23 @@ import cn.xuyanwu.spring.file.storage.exception.FileStorageRuntimeException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 
 
 /**
- * 文件上传下载门面
+ * 文件服务门面
  *
  * @author Uncarbon
  */
 @Slf4j
-@Service
+@DubboService(
+        version = HelioConstant.Version.DUBBO_VERSION_V1,
+        validation = HelioConstant.Dubbo.ENABLE_VALIDATION,
+        timeout = HelioConstant.Dubbo.TIMEOUT,
+        retries = HelioConstant.Dubbo.RETRIES
+)
 @RequiredArgsConstructor
-public class OssUploadDownloadFacadeImpl implements OssUploadDownloadFacade {
+public class OssFileServiceFacadeImpl implements OssFileServiceFacade {
 
     private final OssFileInfoService ossFileInfoService;
     private final FileStorageService fileStorageService;
@@ -99,31 +104,7 @@ public class OssUploadDownloadFacadeImpl implements OssUploadDownloadFacade {
     }
 
     @Override
-    public OssFileUploadResultVO toUploadResult(OssFileInfoBO ossFileInfo, String requestUrl) {
-        OssFileUploadResultVO ret = new OssFileUploadResultVO();
-        ret
-                .setFileId(ossFileInfo.getId())
-                .setFilename(ossFileInfo.getStorageFilenameFull());
-
-        /*
-        这里请根据实际业务性质调整
-        有的业务出于安全目的，上传后文件只能通过文件ID才能下载
-        有的业务没有限制，上传后文件完全可以直接通过对象存储直链下载
-        但本地存储又没有直链，只能通过文件ID；
-        默认地，此处按【本地存储or对象存储直链为空：通过文件ID下载；对象存储：通过对象存储直链下载】返回 url
-         */
-        if (
-                OssFileInfoService.isLocalPlatform(ossFileInfo.getStoragePlatform())
-                        || StrUtil.isEmpty(ossFileInfo.getDirectUrl())
-        ) {
-            // TODO 考虑一下
-            ret.setUrl(String.format("%s/%s"
-                    , requestUrl
-                    , ossFileInfo.getId()));
-        } else {
-            ret.setUrl(ossFileInfo.getDirectUrl());
-        }
-
-        return ret;
+    public boolean isLocalPlatform(String storagePlatform) {
+        return OssFileInfoService.isLocalPlatform(storagePlatform);
     }
 }

@@ -1,7 +1,6 @@
 package cc.uncarbon.module.common.model.request;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
-import cc.uncarbon.module.sys.enums.GenericStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -30,26 +29,14 @@ public class AdminListOssFileInfoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
-    @ApiModelProperty(value = "前置路径(关键词)")
-    private String path;
+    @ApiModelProperty(value = "原始文件名(关键词)")
+    private String originalFilename;
 
-    @ApiModelProperty(value = "文件名(关键词)")
-    private String filename;
-
-    @ApiModelProperty(value = "扩展名(关键词)")
+    @ApiModelProperty(value = "扩展名")
     private String extendName;
 
-    @ApiModelProperty(value = "文件大小")
-    private Long filesize;
-
-    @ApiModelProperty(value = "MD5(关键词)")
-    private String md5;
-
-    @ApiModelProperty(value = "状态")
-    private GenericStatusEnum status;
-
-    @ApiModelProperty(value = "类别编号")
-    private Integer classified;
+    @ApiModelProperty(value = "文件类别")
+    private String classified;
 
     @ApiModelProperty(value = "时间区间起")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = HelioConstant.Jackson.DATE_TIME_FORMAT)

@@ -5,9 +5,10 @@ import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.framework.crud.service.impl.HelioBaseServiceImpl;
+import cc.uncarbon.module.common.constant.OssConstant;
 import cc.uncarbon.module.common.entity.OssFileInfoEntity;
+import cc.uncarbon.module.common.enums.OssErrorEnum;
 import cc.uncarbon.module.common.mapper.OssFileInfoMapper;
-import cc.uncarbon.module.common.model.request.AdminInsertOrUpdateOssFileInfoDTO;
 import cc.uncarbon.module.common.model.request.AdminListOssFileInfoDTO;
 import cc.uncarbon.module.common.model.request.UploadFileAttributeDTO;
 import cc.uncarbon.module.common.model.response.OssFileInfoBO;
@@ -53,6 +54,12 @@ public class OssFileInfoService extends HelioBaseServiceImpl<OssFileInfoMapper, 
                 new Page<>(pageParam.getPageNum(), pageParam.getPageSize()),
                 new QueryWrapper<OssFileInfoEntity>()
                         .lambda()
+                        // 原始文件名
+                        .like(StrUtil.isNotBlank(dto.getOriginalFilename()), OssFileInfoEntity::getOriginalFilename, StrUtil.cleanBlank(dto.getOriginalFilename()))
+                        // 扩展名
+                        .eq(StrUtil.isNotBlank(dto.getExtendName()), OssFileInfoEntity::getExtendName, StrUtil.cleanBlank(dto.getExtendName()))
+                        // 文件类别
+                        .eq(StrUtil.isNotBlank(dto.getClassified()), OssFileInfoEntity::getClassified, StrUtil.cleanBlank(dto.getClassified()))
                         // 时间区间
                         .between(ObjectUtil.isNotNull(dto.getBeginAt()) && ObjectUtil.isNotNull(dto.getEndAt()), OssFileInfoEntity::getCreatedAt, dto.getBeginAt(), dto.getEndAt())
                         // 排序
@@ -82,49 +89,15 @@ public class OssFileInfoService extends HelioBaseServiceImpl<OssFileInfoMapper, 
     public OssFileInfoBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
         OssFileInfoEntity entity = this.getById(id);
         if (throwIfInvalidId) {
-            SysErrorEnum.INVALID_ID.assertNotNull(entity);
+            OssErrorEnum.INVALID_ID.assertNotNull(entity);
         }
 
         return this.entity2BO(entity);
     }
 
     /**
-     * 后台管理-新增
-     */
-    @SysLog(value = "新增上传文件信息")
-    @Transactional(rollbackFor = Exception.class)
-    public Long adminInsert(AdminInsertOrUpdateOssFileInfoDTO dto) {
-        log.info("[后台管理-新增上传文件信息] >> DTO={}", dto);
-        this.checkExistence(dto);
-
-        dto.setId(null);
-        OssFileInfoEntity entity = new OssFileInfoEntity();
-        BeanUtil.copyProperties(dto, entity);
-
-        this.save(entity);
-
-        return entity.getId();
-    }
-
-    /**
-     * 后台管理-编辑
-     */
-    @SysLog(value = "编辑上传文件信息")
-    @Transactional(rollbackFor = Exception.class)
-    public void adminUpdate(AdminInsertOrUpdateOssFileInfoDTO dto) {
-        log.info("[后台管理-编辑上传文件信息] >> DTO={}", dto);
-        this.checkExistence(dto);
-
-        OssFileInfoEntity entity = new OssFileInfoEntity();
-        BeanUtil.copyProperties(dto, entity);
-
-        this.updateById(entity);
-    }
-
-    /**
      * 后台管理-删除
      */
-    @SysLog(value = "删除上传文件信息")
     @Transactional(rollbackFor = Exception.class)
     public void adminDelete(Collection<Long> ids) {
         log.info("[后台管理-删除上传文件信息] >> ids={}", ids);
@@ -140,7 +113,7 @@ public class OssFileInfoService extends HelioBaseServiceImpl<OssFileInfoMapper, 
     }
 
     /**
-     * 根据 MD5 取文件信息实体
+     * 根据 MD5 取文件信息
      */
     public OssFileInfoBO getOneByMd5(String md5) {
         OssFileInfoEntity entity = this.getOne(
@@ -275,29 +248,6 @@ public class OssFileInfoService extends HelioBaseServiceImpl<OssFileInfoMapper, 
                 .setTotal(entityPage.getTotal())
                 .setRecords(this.entityList2BOs(entityPage.getRecords()))
                 ;
-    }
-
-    /**
-     * 检查是否已存在同名数据
-     *
-     * @param dto DTO
-     */
-    private void checkExistence(AdminInsertOrUpdateOssFileInfoDTO dto) {
-        /*
-        可以根据自己业务需要，解禁这段代码，修改判断条件和文案
-
-        OssFileInfoEntity existingEntity = this.getOne(
-                new QueryWrapper<OssFileInfoEntity>()
-                        .lambda()
-                        .select(OssFileInfoEntity::getId)
-                        .eq(OssFileInfoEntity::getTitle, dto.getTitle())
-                        .last(HelioConstant.CRUD.SQL_LIMIT_1)
-        );
-
-        if (existingEntity != null && !existingEntity.getId().equals(dto.getId())) {
-            throw new BusinessException(400, "已存在相同上传文件信息，请重新输入");
-        }
-        */
     }
 
 }

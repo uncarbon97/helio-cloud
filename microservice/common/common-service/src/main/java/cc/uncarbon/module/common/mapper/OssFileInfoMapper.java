@@ -1,6 +1,6 @@
 package cc.uncarbon.module.common.mapper;
 
-import cc.uncarbon.module.oss.entity.OssFileInfoEntity;
+import cc.uncarbon.module.common.entity.OssFileInfoEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
