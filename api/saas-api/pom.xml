@@ -21,7 +21,7 @@
         <dependency>
             <groupId>cc.uncarbon.module</groupId>
             <artifactId>sys-facade</artifactId>
-            <version>1.7.1-SNAPSHOT</version>
+            <version>${sys-service.version}</version>
         </dependency>
 
 
