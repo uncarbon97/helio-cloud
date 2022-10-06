@@ -20,7 +20,7 @@
     </properties>
 
     <dependencies>
-        <!-- 引入业务微服务 -->
+        <!-- 引入其他微服务模块 -->
         <dependency>
             <groupId>cc.uncarbon.module</groupId>
             <artifactId>sys-facade</artifactId>

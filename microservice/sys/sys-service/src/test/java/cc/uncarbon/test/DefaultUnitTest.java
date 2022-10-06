@@ -41,7 +41,7 @@ class DefaultUnitTest {
                 .setUserId(1L)
                 .setUserName("超级管理员")
                 // 用户类型, 根据单元测试需要修改
-                .setUserType(UserTypeEnum.ADMIN_USER)
+                .setUserTypeStr("ADMIN_USER")
         ;
         UserContextHolder.setUserContext(userContext);
     }
