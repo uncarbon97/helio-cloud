@@ -16,7 +16,7 @@
     </properties>
 
     <dependencies>
-        <!-- 业务微服务 -->
+        <!-- 引入其他微服务模块 -->
 
 
         <!-- 脚手架starter -->
