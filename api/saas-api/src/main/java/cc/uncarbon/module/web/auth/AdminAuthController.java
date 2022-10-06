@@ -11,7 +11,6 @@ import cc.uncarbon.framework.web.util.IPUtil;
 import cc.uncarbon.module.helper.CaptchaHelper;
 import cc.uncarbon.module.helper.RolePermissionCacheHelper;
 import cc.uncarbon.module.sys.enums.SysErrorEnum;
-import cc.uncarbon.module.sys.enums.UserTypeEnum;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
 import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
@@ -66,7 +65,7 @@ public class AdminAuthController {
                 .userId(userInfo.getId())
                 .userName(userInfo.getUsername())
                 .userPhoneNo(userInfo.getPhoneNo())
-                .userType(UserTypeEnum.ADMIN_USER)
+                .userTypeStr("ADMIN_USER")
                 .extraData(null)
                 .rolesIds(userInfo.getRoleIds())
                 .roles(userInfo.getRoles())
