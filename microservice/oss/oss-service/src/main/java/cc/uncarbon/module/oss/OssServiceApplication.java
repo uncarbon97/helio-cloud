@@ -7,9 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableInitHikariPoolAtStartup
 @SpringBootApplication
-public class CommonServiceApplication {
+public class OssServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CommonServiceApplication.class, args);
+        SpringApplication.run(OssServiceApplication.class, args);
     }
 
 }
