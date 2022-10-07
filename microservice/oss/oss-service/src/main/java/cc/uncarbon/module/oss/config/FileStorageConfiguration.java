@@ -1,4 +1,4 @@
-package cc.uncarbon.module.common.config;
+package cc.uncarbon.module.oss.config;
 
 import cn.xuyanwu.spring.file.storage.EnableFileStorage;
 import org.springframework.context.annotation.Configuration;

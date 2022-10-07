@@ -1,4 +1,4 @@
-package cc.uncarbon.module.common.biz;
+package cc.uncarbon.module.oss.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.exception.BusinessException;
@@ -7,7 +7,7 @@ import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.oss.facade.OssFileInfoFacade;
 import cc.uncarbon.module.oss.model.request.AdminListOssFileInfoDTO;
 import cc.uncarbon.module.oss.model.response.OssFileInfoBO;
-import cc.uncarbon.module.common.service.OssFileInfoService;
+import cc.uncarbon.module.oss.service.OssFileInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;

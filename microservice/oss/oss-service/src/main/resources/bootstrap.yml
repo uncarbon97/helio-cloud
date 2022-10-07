@@ -1,7 +1,7 @@
 spring:
   application:
     # 微服务应用名
-    name: common-service
+    name: oss-service
   cloud:
     nacos:
       discovery:

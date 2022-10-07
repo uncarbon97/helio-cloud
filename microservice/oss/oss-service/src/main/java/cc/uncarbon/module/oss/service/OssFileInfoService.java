@@ -1,4 +1,4 @@
-package cc.uncarbon.module.common.service;
+package cc.uncarbon.module.oss.service;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.exception.BusinessException;
@@ -6,9 +6,9 @@ import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.framework.crud.service.impl.HelioBaseServiceImpl;
 import cc.uncarbon.module.oss.constant.OssConstant;
-import cc.uncarbon.module.common.entity.OssFileInfoEntity;
+import cc.uncarbon.module.oss.entity.OssFileInfoEntity;
 import cc.uncarbon.module.oss.enums.OssErrorEnum;
-import cc.uncarbon.module.common.mapper.OssFileInfoMapper;
+import cc.uncarbon.module.oss.mapper.OssFileInfoMapper;
 import cc.uncarbon.module.oss.model.request.AdminListOssFileInfoDTO;
 import cc.uncarbon.module.oss.model.request.UploadFileAttributeDTO;
 import cc.uncarbon.module.oss.model.response.OssFileInfoBO;

@@ -1,4 +1,4 @@
-package cc.uncarbon.module.common.entity;
+package cc.uncarbon.module.oss.entity;
 
 import cc.uncarbon.framework.crud.entity.HelioBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;

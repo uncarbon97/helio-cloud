@@ -1,4 +1,4 @@
-package cc.uncarbon.module.common.biz;
+package cc.uncarbon.module.oss.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.exception.BusinessException;
@@ -7,7 +7,7 @@ import cc.uncarbon.module.oss.facade.OssUploadDownloadFacade;
 import cc.uncarbon.module.oss.model.request.UploadFileAttributeDTO;
 import cc.uncarbon.module.oss.model.response.OssFileDownloadReplyBO;
 import cc.uncarbon.module.oss.model.response.OssFileInfoBO;
-import cc.uncarbon.module.common.service.OssFileInfoService;
+import cc.uncarbon.module.oss.service.OssFileInfoService;
 import cn.hutool.core.util.StrUtil;
 import cn.xuyanwu.spring.file.storage.FileInfo;
 import cn.xuyanwu.spring.file.storage.FileStorageService;
