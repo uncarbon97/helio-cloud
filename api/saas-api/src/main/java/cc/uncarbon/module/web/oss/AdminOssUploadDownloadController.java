@@ -2,11 +2,11 @@ package cc.uncarbon.module.web.oss;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.web.model.response.ApiResult;
-import cc.uncarbon.module.common.facade.OssFileServiceFacade;
-import cc.uncarbon.module.common.model.request.UploadFileAttributeDTO;
-import cc.uncarbon.module.common.model.response.OssFileDownloadReplyBO;
-import cc.uncarbon.module.common.model.response.OssFileInfoBO;
-import cc.uncarbon.module.common.model.response.OssFileUploadResultVO;
+import cc.uncarbon.module.oss.facade.OssUploadDownloadFacade;
+import cc.uncarbon.module.oss.model.request.UploadFileAttributeDTO;
+import cc.uncarbon.module.oss.model.response.OssFileDownloadReplyBO;
+import cc.uncarbon.module.oss.model.response.OssFileInfoBO;
+import cc.uncarbon.module.oss.model.response.OssFileUploadResultVO;
 import cc.uncarbon.module.util.AdminStpUtil;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hutool.core.io.IoUtil;
@@ -44,7 +44,7 @@ import java.net.URLEncoder;
 public class AdminOssUploadDownloadController {
 
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
-    private OssFileServiceFacade ossFileServiceFacade;
+    private OssUploadDownloadFacade ossUploadDownloadFacade;
 
 
     @ApiOperation(value = "上传文件", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -59,7 +59,7 @@ public class AdminOssUploadDownloadController {
          1. 已存在相同 MD5 文件，直接返回 URL
          */
         String md5 = DigestUtil.md5Hex(file.getBytes());
-        OssFileInfoBO bo = ossFileServiceFacade.findByHash(md5);
+        OssFileInfoBO bo = ossUploadDownloadFacade.findByHash(md5);
         if (bo == null) {
 
             /*
@@ -71,7 +71,7 @@ public class AdminOssUploadDownloadController {
                     .setContentType(file.getContentType())
                     .setMd5(md5)
             ;
-            bo = ossFileServiceFacade.upload(file.getBytes(), attr);
+            bo = ossUploadDownloadFacade.upload(file.getBytes(), attr);
         }
 
         return ApiResult.data(this.toUploadResult(bo, request.getRequestURL().toString()));
@@ -82,7 +82,7 @@ public class AdminOssUploadDownloadController {
     // 如果需要登录后才能下载，请解禁下方注解；注意是👇 后台管理对应的鉴权工具类
     // @SaCheckLogin(type = AdminStpUtil.TYPE)
     public void download(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        OssFileDownloadReplyBO reply = ossFileServiceFacade.downloadById(id);
+        OssFileDownloadReplyBO reply = ossUploadDownloadFacade.downloadById(id);
 
         if (reply.isRedirect2DirectUrl()) {
             // 302重定向
@@ -103,8 +103,7 @@ public class AdminOssUploadDownloadController {
      * 将 OssFileInfoBO 转换为 OssFileUploadResultVO
      */
     private OssFileUploadResultVO toUploadResult(OssFileInfoBO ossFileInfo, String requestUrl) {
-        OssFileUploadResultVO ret = new OssFileUploadResultVO();
-        ret
+        OssFileUploadResultVO ret = new OssFileUploadResultVO()
                 .setFileId(ossFileInfo.getId())
                 .setFilename(ossFileInfo.getStorageFilenameFull());
 
@@ -116,7 +115,7 @@ public class AdminOssUploadDownloadController {
         默认地，此处按【本地存储or对象存储直链为空：通过文件ID下载；对象存储：通过对象存储直链下载】返回 url
          */
         if (
-                ossFileServiceFacade.isLocalPlatform(ossFileInfo.getStoragePlatform())
+                ossUploadDownloadFacade.isLocalPlatform(ossFileInfo.getStoragePlatform())
                         || StrUtil.isEmpty(ossFileInfo.getDirectUrl())
         ) {
             ret.setUrl(

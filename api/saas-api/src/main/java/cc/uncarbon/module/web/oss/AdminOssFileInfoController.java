@@ -5,9 +5,9 @@ import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.framework.web.model.request.IdsDTO;
 import cc.uncarbon.framework.web.model.response.ApiResult;
-import cc.uncarbon.module.common.facade.OssFileInfoFacade;
-import cc.uncarbon.module.common.model.request.AdminListOssFileInfoDTO;
-import cc.uncarbon.module.common.model.response.OssFileInfoBO;
+import cc.uncarbon.module.oss.facade.OssFileInfoFacade;
+import cc.uncarbon.module.oss.model.request.AdminListOssFileInfoDTO;
+import cc.uncarbon.module.oss.model.response.OssFileInfoBO;
 import cc.uncarbon.module.util.AdminStpUtil;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "上传文件信息管理接口", tags = {"上传文件信息管理接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/oss/ossFileInfos")
+@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/oss/file/infos")
 @RestController
 public class AdminOssFileInfoController {
 
