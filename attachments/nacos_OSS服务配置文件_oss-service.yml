@@ -1,0 +1,50 @@
+# Nacos 中的 Data ID 需设置为【oss-service.yml】
+
+helio:
+  crud:
+    # 建议每个微服务单独一个库, 直接进行物理拆分
+    db-name: helio_oss
+    optimistic-lock:
+      # 是否开启乐观锁
+      enabled: true
+  tenant:
+    # 是否开启多租户，详情请见文档【进阶使用-多租户】
+    enabled: false
+server:
+  port: 20002
+dubbo:
+  protocol:
+    # -1=自增, 默认从20880开始
+    # 实际部署时建议为每个微服务单独指定端口号, 并开放端口访问
+    port: 21002
+
+spring:
+  datasource:
+    # 沿用DATASOURCE.yml的数据库连接
+    driver-class-name: ${helio.crud.db-driver-class}
+    username: ${helio.crud.db-username}
+    password: ${helio.crud.db-password}
+    url: jdbc:${helio.crud.db-type}://${helio.crud.db-host}:${helio.crud.db-port}/${helio.crud.db-name}?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+  file-storage:
+    # 文档链接: https://spring-file-storage.xuyanwu.cn/#/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8?id=%e9%85%8d%e7%bd%ae
+    # 默认使用 minio-1 存储平台
+    default-platform: minio-1
+    # 缩略图后缀
+    thumbnail-suffix: ".min.jpg"
+    local-plus: # 本地存储升级版，不使用的情况下可以不写
+      - platform: local-plus-1 # 存储平台标识
+        enable-storage: true  #启用存储
+        enable-access: false #启用访问（线上请使用 Nginx 配置，效率更高）
+        domain: "" # 访问域名，例如：“http://127.0.0.1:8030/”，注意后面要和 path-patterns 保持一致，“/”结尾，本地存储建议使用相对路径，方便后期更换域名
+        base-path: / # 基础路径
+        path-patterns: /** # 访问路径
+        storage-path: （实际本地存储路径，如 D:/local-plus-1） # 实际本地存储路径
+    minio: # MinIO，由于 MinIO SDK 支持 AWS S3，其它兼容 AWS S3 协议的存储平台也都可配置在这里
+      - platform: minio-1 # 存储平台标识
+        enable-storage: true  # 启用存储
+        access-key: （MinIO AK）
+        secret-key: （MinIO SK）
+        end-point: http://127.0.0.1:9000
+        bucket-name: helio
+        domain: http://127.0.0.1:9000/helio/ # 访问域名，注意“/”结尾，例如：http://minio.abc.com/abc/
+        base-path: / # 基础路径
