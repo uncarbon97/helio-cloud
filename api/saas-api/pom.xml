@@ -13,6 +13,7 @@
     <artifactId>saas-api</artifactId>
 
     <properties>
+        <!-- 后台管理服务 -->
         <sys-service.version>1.7.1</sys-service.version>
     </properties>
 
