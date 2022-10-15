@@ -7,21 +7,21 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.7.0</version>
+        <version>1.7.1</version>
     </parent>
 
     <artifactId>saas-api</artifactId>
 
     <properties>
-        <sys-service.version>1.7.0</sys-service.version>
+        <sys-service.version>1.7.1</sys-service.version>
     </properties>
 
     <dependencies>
-        <!-- 引入业务微服务 -->
+        <!-- 引入其他微服务模块 -->
         <dependency>
             <groupId>cc.uncarbon.module</groupId>
             <artifactId>sys-facade</artifactId>
-            <version>1.7.0</version>
+            <version>${sys-service.version}</version>
         </dependency>
 
 
