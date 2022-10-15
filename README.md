@@ -14,10 +14,10 @@ JDK compatibility: 1.8 - 17
 基础支撑构件 [helio-starters](https://github.com/uncarbon97/helio-starters) 已推送至Maven中央仓库，加载时会自动拉取
 
 ## 配套后台管理前端模板 && 代码生成器
-| 项目名 | 简介 | Gitee | GitHub
-| ---- | ---- | ---- | ---- |
-| helio-generator | 可一键生成单体or微服务版的前、后端代码，减少无谓的重复劳动 | [Gitee](https://gitee.com/uncarbon97/helio-generator) | [GitHub](https://github.com/uncarbon97/helio-generator)
-| helio-admin-vue-vben | 基于[Vue vben admin](https://github.com/anncwb/vue-vben-admin) 改造适配的前端框架，开箱即用 | [Gitee](https://gitee.com/uncarbon97/helio-admin-vue-vben) | [GitHub](https://github.com/uncarbon97/helio-admin-vue-vben)
+| 项目名                  | 简介                                                                          | Gitee                                                      | GitHub                                                       |
+|----------------------|-----------------------------------------------------------------------------|------------------------------------------------------------|--------------------------------------------------------------|
+| helio-generator      | 可一键生成单体or微服务版的前、后端代码，减少无谓的重复劳动                                              | [Gitee](https://gitee.com/uncarbon97/helio-generator)      | [GitHub](https://github.com/uncarbon97/helio-generator)      |
+| helio-admin-vue-vben | 基于[Vue vben admin](https://github.com/anncwb/vue-vben-admin) 改造适配的前端框架，开箱即用 | [Gitee](https://gitee.com/uncarbon97/helio-admin-vue-vben) | [GitHub](https://github.com/uncarbon97/helio-admin-vue-vben) |
 
 ## 项目构成
 | 子模块名                | 简介                                                                                                                               | HTTP 路由安全设计                               |
@@ -27,3 +27,6 @@ JDK compatibility: 1.8 - 17
 | attachments         | 本脚手架附件                                                                                                                           |
 | knife4j/aggregation | 【生产环境务必关闭】Knife4j聚合文档，本地运行后打开网址http://127.0.0.1:7000/doc.html ，默认账号密码helio helio <br> 可直接将域名反代至该模块(如:`dev.uncarbon.cc/doc.html`) |
 | microservice/sys/** | 脚手架预置的后台管理微服务模块。 <br> `sys-facade`暴露功能接口、Bean，供其他微服务通过 Dubbo 调用 <br> `sys-service`实现 Facade 接口和业务逻辑                              |
+
+## 代码分支
+分支`feature/oss_support`：支持对象存储（文件上传、下载）
