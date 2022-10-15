@@ -7,7 +7,7 @@
     <parent>
         <groupId>cc.uncarbon.module</groupId>
         <artifactId>oss</artifactId>
-        <version>1.7.1-SNAPSHOT</version>
+        <version>1.7.1</version>
     </parent>
 
     <artifactId>oss-facade</artifactId>

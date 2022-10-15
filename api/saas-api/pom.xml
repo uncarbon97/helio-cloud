@@ -14,9 +14,9 @@
 
     <properties>
         <!-- 后台管理服务 -->
-        <sys-service.version>1.7.1-SNAPSHOT</sys-service.version>
+        <sys-service.version>1.7.1</sys-service.version>
         <!-- 对象存储服务 -->
-        <oss-service.version>1.7.1-SNAPSHOT</oss-service.version>
+        <oss-service.version>1.7.1</oss-service.version>
     </properties>
 
     <dependencies>
@@ -24,7 +24,6 @@
         <dependency>
             <groupId>cc.uncarbon.module</groupId>
             <artifactId>sys-facade</artifactId>
-            <version>${sys-service.version}</version>
             <version>${sys-service.version}</version>
         </dependency>
 
