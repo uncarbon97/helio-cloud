@@ -6,8 +6,9 @@
 
 JDK compatibility: 1.8 - 17
 
-[官方文档](https://helio.uncarbon.cc/) [主要技术栈依赖](https://helio.uncarbon.cc/#/i18n/zh-CN/helio-starters/dependencies) [前端演示站](https://helio-demo.uncarbon.cc/)
-
+【[官方文档](https://helio.uncarbon.cc/)】
+【[主要技术栈依赖](https://helio.uncarbon.cc/#/i18n/zh-CN/helio-starters/dependencies)】
+【[前端演示站](https://helio-demo.uncarbon.cc/)】
 
 需要先安装 `MySQL`、`Redis` 等必需中间件
 
@@ -29,4 +30,5 @@ JDK compatibility: 1.8 - 17
 | microservice/sys/** | 脚手架预置的后台管理微服务模块。 <br> `sys-facade`暴露功能接口、Bean，供其他微服务通过 Dubbo 调用 <br> `sys-service`实现 Facade 接口和业务逻辑                              |
 
 ## 代码分支
-分支`feature/oss_support`：支持对象存储（文件上传、下载）
+> 对应数据表说明请见`attachments/schema/README.md`
+- 分支`feature/oss_support`：支持对象存储（文件上传、下载）
