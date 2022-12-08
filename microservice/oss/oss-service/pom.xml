@@ -7,12 +7,16 @@
     <parent>
         <groupId>cc.uncarbon.module</groupId>
         <artifactId>oss</artifactId>
-        <version>1.7.1</version>
+        <version>1.7.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>oss-service</artifactId>
 
     <properties>
+        <!-- 引入其他微服务模块 -->
+        <sys.version>1.7.2-SNAPSHOT</sys.version>
+
+        <!-- 这里写其他第三方依赖 -->
         <spring-file-storage.version>0.6.1</spring-file-storage.version>
         <minio.version>8.4.3</minio.version>
     </properties>
@@ -26,7 +30,11 @@
         </dependency>
 
         <!-- 引入其他微服务模块 -->
-
+        <dependency>
+            <groupId>cc.uncarbon.module</groupId>
+            <artifactId>sys-facade</artifactId>
+            <version>${sys.version}</version>
+        </dependency>
 
         <!-- 脚手架starter -->
         <dependency>
