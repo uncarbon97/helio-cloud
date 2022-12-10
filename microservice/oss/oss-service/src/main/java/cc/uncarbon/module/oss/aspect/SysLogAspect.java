@@ -1,12 +1,18 @@
 package cc.uncarbon.module.oss.aspect;
 
+import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.context.UserContextHolder;
+import cc.uncarbon.module.oss.constant.OssConstant;
 import cc.uncarbon.module.sys.annotation.SysLog;
 import cc.uncarbon.module.sys.enums.SysLogStatusEnum;
+import cc.uncarbon.module.sys.facade.SysLogFacade;
+import cc.uncarbon.module.sys.model.request.AdminInsertSysLogDTO;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -21,6 +27,7 @@ import java.util.stream.Collectors;
 
 /**
  * SysLog 切面实现类
+ * copied from cc.uncarbon.module.sys.aspect.SysLogAspect
  *
  * @author Uncarbon
  */
@@ -28,7 +35,19 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class SysLogRpcAspect {
+public class SysLogAspect {
+
+    @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
+    private SysLogFacade sysLogFacade;
+
+    // Bean 属性复制配置项
+    private static final CopyOptions copyOptions4MaskingArgs = new CopyOptions();
+
+
+    static {
+        copyOptions4MaskingArgs.setIgnoreNullValue(false);
+        copyOptions4MaskingArgs.setIgnoreProperties(OssConstant.SENSITIVE_FIELDS);
+    }
 
     @Pointcut("@annotation(cc.uncarbon.module.sys.annotation.SysLog)")
     public void sysLogPointcut() {
@@ -45,7 +64,7 @@ public class SysLogRpcAspect {
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         SysLog sysLogAnnotation = methodSignature.getMethod().getAnnotation(SysLog.class);
 
-        SysLogEntity sysLogEntity = new SysLogEntity()
+        AdminInsertSysLogDTO dto = new AdminInsertSysLogDTO()
                 // 记录操作人
                 .setUserId(UserContextHolder.getUserId())
                 .setUsername(UserContextHolder.getUserName())
@@ -58,7 +77,7 @@ public class SysLogRpcAspect {
         记录请求参数
          */
         HashMap<Object, Object> afterMasked = new HashMap<>();
-        sysLogEntity.setParams(Arrays.stream(point.getArgs()).map(
+        dto.setParams(Arrays.stream(point.getArgs()).map(
                 each -> {
                     // 先去除敏感字段后再入库
                     afterMasked.clear();
@@ -71,25 +90,25 @@ public class SysLogRpcAspect {
         记录IP地址
         注意：RPC 不能像单体一样拿到 request 对象
          */
-        sysLogEntity.setIp(UserContextHolder.getClientIP());
+        dto.setIp(UserContextHolder.getClientIP());
 
         // 记录状态
-        sysLogEntity.setStatus(SysLogStatusEnum.SUCCESS);
+        dto.setStatus(SysLogStatusEnum.SUCCESS);
 
-        // 执行扩展 - 保存到 DB 前
-        for (SysLogAspectExtension extension : extensions) {
-            extension.beforeSaving(sysLogAnnotation, point, sysLogEntity);
-        }
+        // 省略SysLogAspectExtension扩展
 
-        this.callSysLogServiceSave(sysLogEntity);
+        this.asyncSaving(dto);
         // --------------------End @SysLog--------------------
 
         return executeResult;
     }
 
+    /**
+     * 异步保存操作日志
+     */
     @Async(value = "taskExecutor")
-    void callSysLogServiceSave(SysLogEntity sysLogEntity) {
-        sysLogService.save(sysLogEntity);
+    public void asyncSaving(AdminInsertSysLogDTO dto) {
+        sysLogFacade.adminInsert(dto);
     }
 
 }

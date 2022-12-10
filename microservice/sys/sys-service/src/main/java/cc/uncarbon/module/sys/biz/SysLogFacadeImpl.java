@@ -5,6 +5,7 @@ import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysLogFacade;
+import cc.uncarbon.module.sys.model.request.AdminInsertSysLogDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysLogDTO;
 import cc.uncarbon.module.sys.model.response.SysLogBO;
 import cc.uncarbon.module.sys.service.SysLogService;
@@ -42,5 +43,10 @@ public class SysLogFacadeImpl implements SysLogFacade {
     @Override
     public SysLogBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
         return sysLogService.getOneById(id, throwIfInvalidId);
+    }
+
+    @Override
+    public Long adminInsert(AdminInsertSysLogDTO dto) {
+        return sysLogService.adminInsert(dto);
     }
 }

@@ -4,9 +4,9 @@ import cc.uncarbon.framework.core.context.UserContextHolder;
 import cc.uncarbon.module.sys.annotation.SysLog;
 import cc.uncarbon.module.sys.aspect.extension.SysLogAspectExtension;
 import cc.uncarbon.module.sys.constant.SysConstant;
-import cc.uncarbon.module.sys.entity.SysLogEntity;
 import cc.uncarbon.module.sys.enums.SysLogStatusEnum;
-import cc.uncarbon.module.sys.service.SysLogService;
+import cc.uncarbon.module.sys.facade.SysLogFacade;
+import cc.uncarbon.module.sys.model.request.AdminInsertSysLogDTO;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.json.JSONUtil;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysLogAspect {
 
-    private final SysLogService sysLogService;
+    private final SysLogFacade sysLogFacade;
     private final ObjectProvider<SysLogAspectExtension> extensions;
     // Bean 属性复制配置项
     private static final CopyOptions copyOptions4MaskingArgs = new CopyOptions();
@@ -62,7 +62,7 @@ public class SysLogAspect {
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         SysLog sysLogAnnotation = methodSignature.getMethod().getAnnotation(SysLog.class);
 
-        SysLogEntity sysLogEntity = new SysLogEntity()
+        AdminInsertSysLogDTO dto = new AdminInsertSysLogDTO()
                 // 记录操作人
                 .setUserId(UserContextHolder.getUserId())
                 .setUsername(UserContextHolder.getUserName())
@@ -75,7 +75,7 @@ public class SysLogAspect {
         记录请求参数
          */
         HashMap<Object, Object> afterMasked = new HashMap<>();
-        sysLogEntity.setParams(Arrays.stream(point.getArgs()).map(
+        dto.setParams(Arrays.stream(point.getArgs()).map(
                 each -> {
                     // 先去除敏感字段后再入库
                     afterMasked.clear();
@@ -88,25 +88,28 @@ public class SysLogAspect {
         记录IP地址
         注意：RPC 不能像单体一样拿到 request 对象
          */
-        sysLogEntity.setIp(UserContextHolder.getClientIP());
+        dto.setIp(UserContextHolder.getClientIP());
 
         // 记录状态
-        sysLogEntity.setStatus(SysLogStatusEnum.SUCCESS);
+        dto.setStatus(SysLogStatusEnum.SUCCESS);
 
         // 执行扩展 - 保存到 DB 前
         for (SysLogAspectExtension extension : extensions) {
-            extension.beforeSaving(sysLogAnnotation, point, sysLogEntity);
+            extension.beforeSaving(sysLogAnnotation, point, dto);
         }
 
-        this.callSysLogServiceSave(sysLogEntity);
+        this.asyncSaving(dto);
         // --------------------End @SysLog--------------------
 
         return executeResult;
     }
 
+    /**
+     * 异步保存操作日志
+     */
     @Async(value = "taskExecutor")
-    void callSysLogServiceSave(SysLogEntity sysLogEntity) {
-        sysLogService.save(sysLogEntity);
+    public void asyncSaving(AdminInsertSysLogDTO dto) {
+        sysLogFacade.adminInsert(dto);
     }
 
 }
