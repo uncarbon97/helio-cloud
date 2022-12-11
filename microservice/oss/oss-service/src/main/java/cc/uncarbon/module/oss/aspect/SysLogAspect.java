@@ -9,6 +9,7 @@ import cc.uncarbon.module.sys.facade.SysLogFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertSysLogDTO;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.text.StrPool;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +85,7 @@ public class SysLogAspect {
                     BeanUtil.copyProperties(each, afterMasked, copyOptions4MaskingArgs);
                     return JSONUtil.toJsonStr(afterMasked);
                 }
-        ).collect(Collectors.joining(",")));
+        ).collect(Collectors.joining(StrPool.COMMA)));
 
         /*
         记录IP地址

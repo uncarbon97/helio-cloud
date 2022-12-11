@@ -15,7 +15,7 @@ public interface SysLogAspectExtension {
      * 保存到 DB 前
      * @param sysLogAnnotation 注解
      * @param point 切面 point
-     * @param insertSysLogDTO 日志实体对象
+     * @param insertSysLogDTO 日志请求体
      */
     void beforeSaving(SysLog sysLogAnnotation, ProceedingJoinPoint point, AdminInsertSysLogDTO insertSysLogDTO);
 
