@@ -1,4 +1,4 @@
--- 增加对应后台管理菜单
+-- v1.7.2 - Uncarbon - 新增上传文件信息管理菜单；需导入至【helio_sys】库
 INSERT INTO `sys_menu`(`id`, `tenant_id`, `revision`, `del_flag`, `created_at`, `created_by`, `updated_at`,
                        `updated_by`, `title`, `parent_id`, `type`, `permission`, `icon`, `sort`, `status`, `component`,
                        `external_link`)
