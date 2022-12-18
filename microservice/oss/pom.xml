@@ -13,6 +13,7 @@
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>oss</artifactId>
+    <description>文件上传下载服务</description>
     <packaging>pom</packaging>
     <version>1.7.2-SNAPSHOT</version>
 

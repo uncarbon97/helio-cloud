@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>saas-api</artifactId>
+    <description>后台管理HTTP-API</description>
 
     <properties>
         <!-- 引入其他微服务模块 -->

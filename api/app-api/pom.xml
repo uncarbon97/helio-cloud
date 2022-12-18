@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>app-api</artifactId>
+    <description>C端HTTP-API</description>
 
     <properties>
     </properties>

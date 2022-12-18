@@ -13,6 +13,7 @@
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>sys</artifactId>
+    <description>后台系统管理服务</description>
     <packaging>pom</packaging>
     <version>1.7.2-SNAPSHOT</version>
 

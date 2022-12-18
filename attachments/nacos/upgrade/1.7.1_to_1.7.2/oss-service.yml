@@ -1,4 +1,4 @@
-# Nacos 中的 Data ID 需设置为【oss-service.yml】
+# v1.7.2 - Uncarbon - 默认内置文件上传功能；新建一个【oss-service.yml】把本文件中的配置粘贴进去
 
 helio:
   crud:
