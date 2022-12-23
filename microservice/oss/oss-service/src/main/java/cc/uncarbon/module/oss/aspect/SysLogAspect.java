@@ -57,17 +57,17 @@ public class SysLogAspect {
 
     @Around("sysLogPointcut()")
     public Object sysLogAround(ProceedingJoinPoint point) throws Throwable {
-        /*
-        执行切面，并记录成功or失败、异常
-         */
+        // 切面点执行结果
         Object executeResult = null;
+        // 切面点执行是否成功
         boolean executeSuccessFlag = false;
+        // 切面点执行过程中抛出的异常
         Exception executeFailedException = null;
         try {
             executeResult = point.proceed();
             executeSuccessFlag = true;
         } catch (Exception e) {
-            // ignored
+            // store it
             executeFailedException = e;
         }
 
@@ -77,9 +77,9 @@ public class SysLogAspect {
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         SysLog sysLogAnnotation = methodSignature.getMethod().getAnnotation(SysLog.class);
 
-        if (sysLogAnnotation.sync()) {
+        if (sysLogAnnotation.syncSaving()) {
             this.sysLogSaving(point, methodSignature, sysLogAnnotation, executeSuccessFlag);
-        } else{
+        } else {
             this.sysLogSavingAsync(point, methodSignature, sysLogAnnotation, executeSuccessFlag);
         }
 
@@ -94,7 +94,7 @@ public class SysLogAspect {
     }
 
     /**
-     * 保存系统日志
+     * 同步保存系统日志
      */
     private void sysLogSaving(ProceedingJoinPoint point,
                               MethodSignature methodSignature,

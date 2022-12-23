@@ -20,10 +20,10 @@ public @interface SysLog {
     String value() default "";
 
     /**
-     * 是否同步保存至系统日志
+     * 是否同步保存至系统日志数据表中
      * true = 同步保存：如果开启了事务/事务注解，若系统日志保存失败，则会抛出异常触发回滚，使得本次操作也失败
      * false = 异步保存：若系统日志保存失败，不影响本次操作
      */
-    boolean sync() default false;
+    boolean syncSaving() default false;
 
 }
