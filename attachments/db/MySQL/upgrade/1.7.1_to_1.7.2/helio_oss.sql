@@ -1,8 +1,5 @@
--- v1.7.2 - Uncarbon - 默认内置文件上传功能，需新建【helio_oss】库
-SET NAMES utf8mb4;
-SET
-FOREIGN_KEY_CHECKS = 0;
-
+-- v1.7.2 - Uncarbon - 默认内置文件上传功能
+-- 需新建【helio_oss】库
 -- 建表 oss_file_info
 DROP TABLE IF EXISTS `oss_file_info`;
 CREATE TABLE `oss_file_info`
@@ -27,6 +24,3 @@ CREATE TABLE `oss_file_info`
     `direct_url`        varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '对象存储直链',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '上传文件信息' ROW_FORMAT = Dynamic;
-
-SET
-FOREIGN_KEY_CHECKS = 1;
