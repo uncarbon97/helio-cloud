@@ -7,7 +7,7 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.7.2-SNAPSHOT</version>
+        <version>1.7.2</version>
     </parent>
 
     <artifactId>saas-api</artifactId>
@@ -16,9 +16,9 @@
     <properties>
         <!-- 引入其他微服务模块 -->
         <!-- 后台管理服务 -->
-        <sys.version>1.7.2-SNAPSHOT</sys.version>
+        <sys.version>1.7.2</sys.version>
         <!-- 对象存储服务 -->
-        <oss.version>1.7.2-SNAPSHOT</oss.version>
+        <oss.version>1.7.2</oss.version>
     </properties>
 
     <dependencies>
