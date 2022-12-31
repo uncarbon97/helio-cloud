@@ -1,0 +1,11 @@
+# v1.7.2 - Uncarbon - 后台管理支持国际化；在【saas-api.yml】把本文件中的配置新增进去
+
+helio:
+  i18n:
+    # 是否对返回消息启用国际化翻译
+    enabled: false
+
+spring:
+  messages:
+    # 国际化资源目录，一般不做修改
+    basename: i18n/messages
