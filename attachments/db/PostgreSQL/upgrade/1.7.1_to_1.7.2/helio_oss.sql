@@ -1,4 +1,5 @@
--- v1.7.2 - Uncarbon - 默认内置文件上传功能，需新建【helio_oss】库
+-- v1.7.2 - Uncarbon - 默认内置文件上传功能
+-- 需新建【helio_oss】库
 -- 建表 oss_file_info
 DROP TABLE IF EXISTS "oss_file_info";
 CREATE TABLE "oss_file_info"

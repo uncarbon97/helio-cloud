@@ -17,6 +17,7 @@
         <sys.version>1.7.2-SNAPSHOT</sys.version>
 
         <!-- 这里写其他第三方依赖 -->
+        <!-- 文件上传 -->
         <spring-file-storage.version>0.6.1</spring-file-storage.version>
         <minio.version>8.4.3</minio.version>
     </properties>
