@@ -7,14 +7,15 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.7.1</version>
+        <version>1.7.2</version>
         <relativePath/>
     </parent>
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>sys</artifactId>
+    <description>后台系统管理服务</description>
     <packaging>pom</packaging>
-    <version>1.7.1</version>
+    <version>1.7.2</version>
 
     <modules>
         <module>sys-facade</module>

@@ -7,10 +7,11 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.7.1</version>
+        <version>1.7.2</version>
     </parent>
 
     <artifactId>app-api</artifactId>
+    <description>C端HTTP-API</description>
 
     <properties>
     </properties>
