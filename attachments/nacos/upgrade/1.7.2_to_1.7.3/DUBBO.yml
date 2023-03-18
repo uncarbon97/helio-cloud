@@ -1,0 +1,6 @@
+# v1.7.3 - Uncarbon - 默认不启用`Dubbo QoS`机制
+
+# since Helio v1.7.3 - 取消默认启用的 QoS 机制 https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/qos/overview/
+dubbo:
+  application:
+    qos-enable: false

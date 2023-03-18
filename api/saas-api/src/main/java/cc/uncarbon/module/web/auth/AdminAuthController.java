@@ -51,7 +51,7 @@ public class AdminAuthController {
     private SysUserFacade sysUserFacade;
 
 
-    @ApiOperation(value = "登录", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "登录")
     @PostMapping(value = "/login")
     public ApiResult<SysUserLoginVO> login(HttpServletRequest request, @RequestBody @Valid SysUserLoginDTO dto) {
         // 从请求中得到客户端IP地址
@@ -91,7 +91,7 @@ public class AdminAuthController {
     }
 
     @SaCheckLogin(type = AdminStpUtil.TYPE)
-    @ApiOperation(value = "登出", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "登出")
     @PostMapping(value = "/logout")
     public ApiResult<?> logout() {
         AdminStpUtil.logout();

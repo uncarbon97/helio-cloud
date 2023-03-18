@@ -7,9 +7,10 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.7.2</version>
+        <version>1.7.3-SNAPSHOT</version>
     </parent>
 
+    <groupId>cc.uncarbon.module</groupId>
     <artifactId>knife4j-aggregation</artifactId>
     <description>OpenAPI文档的聚合、文档展示及调试</description>
 

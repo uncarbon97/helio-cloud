@@ -1,7 +1,7 @@
 package cc.uncarbon.module.config;
 
 import cc.uncarbon.module.interceptor.AdminSaTokenParseInterceptor;
-import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
+import cn.dev33.satoken.interceptor.SaInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -31,7 +31,7 @@ public class CustomInterceptorConfiguration implements WebMvcConfigurer {
         2. 注解拦截器, 启用注解功能
          */
         registry
-                .addInterceptor(new SaAnnotationInterceptor())
+                .addInterceptor(new SaInterceptor())
                 .addPathPatterns("/**");
     }
 }
