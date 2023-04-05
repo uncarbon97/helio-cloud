@@ -11,7 +11,7 @@ JDK compatibility: 1.8 - 17
 【[快速启动步骤](https://helio.uncarbon.cc/#/i18n/zh-CN/helio-cloud/quick-start)】
 【[前端演示站](https://helio-demo.uncarbon.cc/)】
 【[更新记录](https://helio.uncarbon.cc/#/i18n/zh-CN/appendix/change-log)】
-
+【[编码良好实践](https://helio.uncarbon.cc/#/i18n/zh-CN/experience/good-practices)】
 
 需要先安装 `MySQL`、`Redis` 等必需中间件
 
