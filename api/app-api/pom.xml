@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <version>1.7.3-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
@@ -14,6 +14,8 @@
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>app-api</artifactId>
     <description>C端HTTP-API</description>
+    <!-- 本微服务模块版本 -->
+    <version>1.7.3-SNAPSHOT</version>
 
     <properties>
     </properties>

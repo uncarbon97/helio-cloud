@@ -2,7 +2,7 @@ package cc.uncarbon.module.config;
 
 import cc.uncarbon.framework.core.props.HelioProperties;
 import cc.uncarbon.framework.satoken.interceptor.DefaultSaTokenParseInterceptor;
-import cn.dev33.satoken.interceptor.SaRouteInterceptor;
+import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -38,8 +38,8 @@ public class CustomInterceptorConfiguration implements WebMvcConfigurer {
         @see http://sa-token.dev33.cn/doc/index.html#/use/route-check
          */
         registry
-                .addInterceptor(new SaRouteInterceptor(
-                        (req, res, handler) -> StpUtil.checkLogin()
+                .addInterceptor(new SaInterceptor(
+                        (handler) -> StpUtil.checkLogin()
                 ))
                 .addPathPatterns("/**")
                 .excludePathPatterns(helioProperties.getSecurity().getExcludeRoutes());
