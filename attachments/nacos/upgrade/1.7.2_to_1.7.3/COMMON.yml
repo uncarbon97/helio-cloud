@@ -1,0 +1,11 @@
+spring:
+  # since Helio v1.7.3 - 手动指定spring-schedule线程池容量、spring-async线程池容量
+  task:
+    # spring-schedule 线程池容量
+    scheduling:
+      pool:
+        size: 8
+    # spring-async 线程池容量
+    execution:
+      pool:
+        core-size: 8
