@@ -3,22 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.7.2</version>
+        <version>1.7.3</version>
     </parent>
 
+    <groupId>cc.uncarbon.module</groupId>
     <artifactId>saas-api</artifactId>
     <description>后台管理HTTP-API</description>
+    <!-- 本微服务模块版本 -->
+    <version>1.7.3</version>
 
     <properties>
         <!-- 引入其他微服务模块 -->
         <!-- 后台管理服务 -->
-        <sys.version>1.7.2</sys.version>
+        <sys.version>1.7.3</sys.version>
         <!-- 对象存储服务 -->
-        <oss.version>1.7.2</oss.version>
+        <oss.version>1.7.3</oss.version>
     </properties>
 
     <dependencies>

@@ -3,17 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>cc.uncarbon.module</groupId>
         <artifactId>sys</artifactId>
-        <version>1.7.2</version>
+        <version>1.7.3</version>
     </parent>
 
     <artifactId>sys-service</artifactId>
 
     <properties>
-
     </properties>
 
     <dependencies>
@@ -80,6 +80,19 @@
     </dependencies>
 
     <build>
+        <!-- 支持 mybatis XML 放置在 java 包下 -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
         <plugins>
             <!-- Spring Boot 打包插件 -->
             <plugin>

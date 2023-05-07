@@ -8,7 +8,10 @@ JDK compatibility: 1.8 - 17
 
 【[官方文档](https://helio.uncarbon.cc/)】
 【[主要技术栈依赖](https://helio.uncarbon.cc/#/i18n/zh-CN/helio-starters/dependencies)】
+【[快速启动步骤](https://helio.uncarbon.cc/#/i18n/zh-CN/helio-cloud/quick-start)】
 【[前端演示站](https://helio-demo.uncarbon.cc/)】
+【[更新记录](https://helio.uncarbon.cc/#/i18n/zh-CN/appendix/change-log)】
+【[编码良好实践](https://helio.uncarbon.cc/#/i18n/zh-CN/experience/good-practices)】
 
 需要先安装 `MySQL`、`Redis` 等必需中间件
 
@@ -28,7 +31,4 @@ JDK compatibility: 1.8 - 17
 | attachments         | 本脚手架附件                                                                                                                           |
 | knife4j/aggregation | 【生产环境务必关闭】Knife4j聚合文档，本地运行后打开网址http://127.0.0.1:7000/doc.html ，默认账号密码helio helio <br> 可直接将域名反代至该模块(如:`dev.uncarbon.cc/doc.html`) |
 | microservice/sys/** | 脚手架预置的后台管理微服务模块。 <br> `sys-facade`暴露功能接口、Bean，供其他微服务通过 Dubbo 调用 <br> `sys-service`实现 Facade 接口和业务逻辑                              |
-
-## 代码分支
-> 对应数据表说明请见`attachments/schema/README.md`
-- 分支`feature/oss_support`：支持对象存储（文件上传、下载）
+| microservice/oss/** | 脚手架预置的对象存储微服务模块。 <br> `oss-facade`暴露功能接口、Bean，供其他微服务通过 Dubbo 调用 <br> `oss-service`实现 Facade 接口和业务逻辑                              |

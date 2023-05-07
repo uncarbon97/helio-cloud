@@ -43,21 +43,21 @@ public class AdminOssFileInfoController {
 
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
-    @ApiOperation(value = "分页列表", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "分页列表")
     @GetMapping
     public ApiResult<PageResult<OssFileInfoBO>> list(PageParam pageParam, AdminListOssFileInfoDTO dto) {
         return ApiResult.data(ossFileInfoFacade.adminList(pageParam, dto));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
-    @ApiOperation(value = "详情", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "详情")
     @GetMapping(value = "/{id}")
     public ApiResult<OssFileInfoBO> getById(@PathVariable Long id) {
         return ApiResult.data(ossFileInfoFacade.getOneById(id, true));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
-    @ApiOperation(value = "删除", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "删除")
     @DeleteMapping
     public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         ossFileInfoFacade.adminDelete(dto.getIds());

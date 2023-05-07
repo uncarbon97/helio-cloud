@@ -3,18 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.7.2</version>
+        <version>1.7.3</version>
     </parent>
 
+    <groupId>cc.uncarbon.module</groupId>
     <artifactId>knife4j-aggregation</artifactId>
     <description>OpenAPI文档的聚合、文档展示及调试</description>
+    <!-- 本微服务模块版本 -->
+    <version>1.7.3</version>
 
     <properties>
-
     </properties>
 
     <dependencies>

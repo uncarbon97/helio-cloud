@@ -25,7 +25,7 @@ public class AppAuthController {
     相关拦截器代码请见 CustomInterceptorConfiguration.java
      */
 
-    @ApiOperation(value = "登录", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "登录")
     @PostMapping("/login")
     public ApiResult<?> login() {
         /*
