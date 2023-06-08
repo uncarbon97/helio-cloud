@@ -41,4 +41,7 @@ public class AdminInsertSysLogDTO implements Serializable {
     @ApiModelProperty(value = "状态")
     private SysLogStatusEnum status;
 
+    @ApiModelProperty(value = "错误原因")
+    private String errorMsg;
+
 }

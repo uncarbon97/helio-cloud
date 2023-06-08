@@ -26,4 +26,21 @@ public @interface SysLog {
      */
     boolean syncSaving() default false;
 
+    /**
+     * 保存系统日志至数据表的时机
+     * 默认为仅“成功时”
+     * 多个输入值间默认为“或”关系
+     */
+    When[] when() default When.SUCCESS;
+    enum When {
+        /**
+         * 成功时
+         */
+        SUCCESS,
+
+        /**
+         * 失败时
+         */
+        FAILED,
+    }
 }

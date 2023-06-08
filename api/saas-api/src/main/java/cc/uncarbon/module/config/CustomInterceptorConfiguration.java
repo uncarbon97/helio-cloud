@@ -21,7 +21,7 @@ public class CustomInterceptorConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         /*
-        1. 请求头解析, 设定用户上下文
+        1. 通用请求头解析，设定用户、租户上下文
          */
         registry
                 .addInterceptor(new AdminSaTokenParseInterceptor())

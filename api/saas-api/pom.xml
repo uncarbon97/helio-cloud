@@ -8,21 +8,21 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.7.3</version>
+        <version>1.7.4-SNAPSHOT</version>
     </parent>
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>saas-api</artifactId>
     <description>后台管理HTTP-API</description>
-    <!-- 本微服务模块版本 -->
-    <version>1.7.3</version>
+    <!-- 本微服务模块制品版本号 -->
+    <version>1.7.4-SNAPSHOT</version>
 
     <properties>
         <!-- 引入其他微服务模块 -->
         <!-- 后台管理服务 -->
-        <sys.version>1.7.3</sys.version>
+        <sys.version>1.7.4-SNAPSHOT</sys.version>
         <!-- 对象存储服务 -->
-        <oss.version>1.7.3</oss.version>
+        <oss.version>1.7.4-SNAPSHOT</oss.version>
     </properties>
 
     <dependencies>
@@ -95,9 +95,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <fork>true</fork>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- 编译时，跳过单元测试 -->

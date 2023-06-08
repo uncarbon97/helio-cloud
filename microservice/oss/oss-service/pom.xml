@@ -8,14 +8,14 @@
     <parent>
         <groupId>cc.uncarbon.module</groupId>
         <artifactId>oss</artifactId>
-        <version>1.7.3</version>
+        <version>1.7.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>oss-service</artifactId>
 
     <properties>
         <!-- 引入其他微服务模块 -->
-        <sys.version>1.7.3</sys.version>
+        <sys.version>1.7.4-SNAPSHOT</sys.version>
 
         <!-- 这里写其他第三方依赖 -->
         <!-- 文件上传 -->
@@ -129,9 +129,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <fork>true</fork>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- 编译时，跳过单元测试 -->

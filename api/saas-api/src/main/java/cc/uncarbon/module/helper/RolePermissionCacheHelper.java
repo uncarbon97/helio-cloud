@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 将角色对应权限，缓存至 Redis
- * 参考文章: https://sa-token.dev33.cn/doc/index.html#/fun/jur-cache
+ * 参考文章: https://sa-token.cc/doc.html#/fun/jur-cache
  *
  * @author Uncarbon
  */
