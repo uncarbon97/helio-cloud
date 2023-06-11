@@ -1,5 +1,7 @@
 package cc.uncarbon.module.sys.annotation;
 
+import cc.uncarbon.module.sys.extension.SysLogAspectExtension;
+
 import java.lang.annotation.*;
 
 
@@ -17,7 +19,7 @@ public @interface SysLog {
     /**
      * 操作内容(如:新增部门)
      */
-    String value() default "";
+    String value();
 
     /**
      * 是否同步保存至系统日志数据表中
@@ -43,4 +45,11 @@ public @interface SysLog {
          */
         FAILED,
     }
+
+    /**
+     * 扩展点，可以增强系统日志，在保存时的动作
+     * 示例见：SysLogAspectExtensionForSysUserLogin
+     */
+    Class<? extends SysLogAspectExtension> extension() default SysLogAspectExtension.class;
+
 }

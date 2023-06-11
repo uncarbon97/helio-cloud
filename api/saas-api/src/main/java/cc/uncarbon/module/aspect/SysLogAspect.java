@@ -6,11 +6,14 @@ import cc.uncarbon.framework.web.util.IPUtil;
 import cc.uncarbon.module.sys.annotation.SysLog;
 import cc.uncarbon.module.sys.constant.SysConstant;
 import cc.uncarbon.module.sys.enums.SysLogStatusEnum;
+import cc.uncarbon.module.sys.extension.SysLogAspectExtension;
 import cc.uncarbon.module.sys.facade.SysLogFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertSysLogDTO;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.text.StrPool;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
@@ -63,10 +66,17 @@ public class SysLogAspect {
      */
     @AfterReturning(pointcut = "@annotation(annotation)", returning = "ret")
     public void doAfterReturning(JoinPoint joinPoint, SysLog annotation, Object ret) {
+        if (!ArrayUtil.contains(annotation.when(), SysLog.When.SUCCESS)) {
+            // 系统日志保存时机不包含“成功时”
+            return;
+        }
+
         if (annotation.syncSaving()) {
+            // 异步保存
             sysLogSavingAsync(joinPoint, annotation, null, ret);
             return;
         }
+
         sysLogSaving(joinPoint, annotation, null, ret);
     }
 
@@ -75,10 +85,17 @@ public class SysLogAspect {
      */
     @AfterThrowing(value = "@annotation(annotation)", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, SysLog annotation, Exception e) {
+        if (!ArrayUtil.contains(annotation.when(), SysLog.When.FAILED)) {
+            // 系统日志保存时机不包含“失败时”
+            return;
+        }
+
         if (annotation.syncSaving()) {
+            // 异步保存
             sysLogSavingAsync(joinPoint, annotation, e, null);
             return;
         }
+
         sysLogSaving(joinPoint, annotation, e, null);
     }
 
@@ -141,6 +158,13 @@ public class SysLogAspect {
                 errorMsg = StrUtil.sub(errorMsg, 0, MAX_STRING_SAVE_LENGTH);
             }
             dto.setErrorMsg(errorMsg);
+        }
+
+        Class<? extends SysLogAspectExtension> extensionClazz = annotation.extension();
+        if (extensionClazz != null && extensionClazz != SysLogAspectExtension.class) {
+            // 存在自定义扩展点
+            SysLogAspectExtension extensionInstance = ReflectUtil.newInstance(extensionClazz);
+            extensionInstance.beforeSaving(dto, joinPoint, annotation, e, ret);
         }
 
         // 保存系统日志
