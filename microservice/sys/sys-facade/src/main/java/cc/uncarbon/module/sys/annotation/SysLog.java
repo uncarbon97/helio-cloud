@@ -6,7 +6,8 @@ import java.lang.annotation.*;
 
 
 /**
- * 放在方法上，可将操作记录至系统日志中
+ * 放在Controller方法上，可将操作记录至系统日志中
+ * 需同JVM中，存在对应的SysLogAspect切面类
  *
  * @author Uncarbon
  */

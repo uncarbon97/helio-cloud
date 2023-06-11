@@ -3,6 +3,7 @@ package cc.uncarbon.module.web.sys;
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.web.model.request.IdsDTO;
 import cc.uncarbon.framework.web.model.response.ApiResult;
+import cc.uncarbon.module.sys.annotation.SysLog;
 import cc.uncarbon.module.sys.facade.SysMenuFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysMenuDTO;
 import cc.uncarbon.module.sys.model.response.SysMenuBO;
@@ -13,16 +14,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 
-/**
- * @author Uncarbon
- */
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "后台菜单管理接口", tags = {"后台菜单管理接口"})
@@ -50,6 +47,7 @@ public class AdminSysMenuController {
         return ApiResult.data(sysMenuFacade.getOneById(id, true));
     }
 
+    @SysLog(value = "新增后台菜单")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
     @ApiOperation(value = "新增")
     @PostMapping
@@ -59,6 +57,7 @@ public class AdminSysMenuController {
         return ApiResult.success();
     }
 
+    @SysLog(value = "编辑后台菜单")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
     @ApiOperation(value = "编辑")
     @PutMapping(value = "/{id}")
@@ -69,6 +68,7 @@ public class AdminSysMenuController {
         return ApiResult.success();
     }
 
+    @SysLog(value = "删除后台菜单")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
     @ApiOperation(value = "删除")
     @DeleteMapping

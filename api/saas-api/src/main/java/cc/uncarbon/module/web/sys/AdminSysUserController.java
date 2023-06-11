@@ -6,6 +6,7 @@ import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.framework.web.model.request.IdsDTO;
 import cc.uncarbon.framework.web.model.response.ApiResult;
+import cc.uncarbon.module.sys.annotation.SysLog;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
 import cc.uncarbon.module.sys.model.request.*;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
@@ -18,16 +19,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Set;
 
 
-/**
- * @author Uncarbon
- */
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "后台用户管理接口", tags = {"后台用户管理接口"})
@@ -55,6 +52,7 @@ public class AdminSysUserController {
         return ApiResult.data(sysUserFacade.getOneById(id, true));
     }
 
+    @SysLog(value = "新增后台用户")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
     @ApiOperation(value = "新增")
     @PostMapping
@@ -64,6 +62,7 @@ public class AdminSysUserController {
         return ApiResult.success();
     }
 
+    @SysLog(value = "编辑后台用户")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
     @ApiOperation(value = "编辑")
     @PutMapping(value = "/{id}")
@@ -74,6 +73,7 @@ public class AdminSysUserController {
         return ApiResult.success();
     }
 
+    @SysLog(value = "删除后台用户")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
     @ApiOperation(value = "删除")
     @DeleteMapping
@@ -89,8 +89,9 @@ public class AdminSysUserController {
         return ApiResult.data(sysUserFacade.adminGetCurrentUserInfo());
     }
 
+    @SysLog(value = "重置后台用户密码")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "resetPassword")
-    @ApiOperation(value = "重置某用户密码")
+    @ApiOperation(value = "重置后台用户密码")
     @PutMapping(value = "/{userId}/password")
     public ApiResult<?> resetPassword(@PathVariable Long userId, @RequestBody @Valid AdminResetSysUserPasswordDTO dto) {
         dto.setUserId(userId);
@@ -102,6 +103,7 @@ public class AdminSysUserController {
         return ApiResult.success();
     }
 
+    @SysLog(value = "修改当前用户密码")
     @ApiOperation(value = "修改当前用户密码")
     @PostMapping(value = "/updatePassword")
     public ApiResult<?> updatePassword(@RequestBody @Valid AdminUpdateCurrentSysUserPasswordDTO dto) {

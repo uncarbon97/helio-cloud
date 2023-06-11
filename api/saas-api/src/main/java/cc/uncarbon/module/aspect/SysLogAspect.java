@@ -3,18 +3,19 @@ package cc.uncarbon.module.aspect;
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.context.UserContextHolder;
 import cc.uncarbon.framework.web.util.IPUtil;
+import cc.uncarbon.module.interceptor.AdminSaTokenParseInterceptor;
 import cc.uncarbon.module.sys.annotation.SysLog;
 import cc.uncarbon.module.sys.constant.SysConstant;
 import cc.uncarbon.module.sys.enums.SysLogStatusEnum;
 import cc.uncarbon.module.sys.extension.SysLogAspectExtension;
 import cc.uncarbon.module.sys.facade.SysLogFacade;
 import cc.uncarbon.module.sys.model.request.AdminInsertSysLogDTO;
+import cc.uncarbon.module.util.AdminStpUtil;
+import cn.dev33.satoken.spring.SpringMVCUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.text.StrPool;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.*;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,9 @@ public class SysLogAspect {
             return;
         }
 
+        // 这时当前线程用户、租户上下文可能已丢失信息，需要重新赋值
+        AdminSaTokenParseInterceptor.setContextsFromSaSession(AdminStpUtil.getSession(), SpringMVCUtil.getRequest());
+
         if (annotation.syncSaving()) {
             // 异步保存
             sysLogSavingAsync(joinPoint, annotation, null, ret);
@@ -89,6 +93,9 @@ public class SysLogAspect {
             // 系统日志保存时机不包含“失败时”
             return;
         }
+
+        // 这时当前线程用户、租户上下文可能已丢失信息，需要重新赋值
+        AdminSaTokenParseInterceptor.setContextsFromSaSession(AdminStpUtil.getSession(), SpringMVCUtil.getRequest());
 
         if (annotation.syncSaving()) {
             // 异步保存
@@ -110,7 +117,7 @@ public class SysLogAspect {
                 .setUserId(UserContextHolder.getUserId())
                 .setUsername(UserContextHolder.getUserName())
                 // 记录请求方法
-                .setMethod(methodSignature.toString())
+                .setMethod(methodSignature.getMethod().toString())
                 // 记录操作内容
                 .setOperation(annotation.value())
                 // 默认置为成功
@@ -122,13 +129,18 @@ public class SysLogAspect {
          */
         HashMap<Object, Object> afterMasked = new HashMap<>(16, 1);
         String params = Arrays.stream(joinPoint.getArgs()).map(
-                each -> {
+                item -> {
+                    if (ClassUtil.isBasicType(item.getClass())) {
+                        // 基元类型 OR 其包装类型，保存在DB时保持原样
+                        return StrUtil.toStringOrNull(item);
+                    }
+
                     // 先去除敏感字段后再入库
                     afterMasked.clear();
-                    BeanUtil.copyProperties(each, afterMasked, MASKING_COPY_OPTIONS);
+                    BeanUtil.copyProperties(item, afterMasked, MASKING_COPY_OPTIONS);
                     return JSONUtil.toJsonStr(afterMasked);
                 }
-        ).collect(Collectors.joining(StrPool.COMMA));
+        ).collect(Collectors.joining(StrPool.LF));
         if (StrUtil.length(params) > MAX_STRING_SAVE_LENGTH) {
             params = StrUtil.sub(params, 0, MAX_STRING_SAVE_LENGTH);
         }
