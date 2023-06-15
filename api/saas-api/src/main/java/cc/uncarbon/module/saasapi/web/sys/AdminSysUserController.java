@@ -1,0 +1,154 @@
+package cc.uncarbon.module.saasapi.web.sys;
+
+import cc.uncarbon.framework.core.constant.HelioConstant;
+import cc.uncarbon.framework.core.exception.BusinessException;
+import cc.uncarbon.framework.core.page.PageParam;
+import cc.uncarbon.framework.core.page.PageResult;
+import cc.uncarbon.framework.web.model.request.IdsDTO;
+import cc.uncarbon.framework.web.model.response.ApiResult;
+import cc.uncarbon.module.sys.annotation.SysLog;
+import cc.uncarbon.module.sys.facade.SysUserFacade;
+import cc.uncarbon.module.sys.model.request.*;
+import cc.uncarbon.module.sys.model.response.SysUserBO;
+import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoVO;
+import cc.uncarbon.module.saasapi.util.AdminStpUtil;
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.hutool.core.util.StrUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Set;
+
+
+@SaCheckLogin(type = AdminStpUtil.TYPE)
+@Slf4j
+@Api(value = "后台用户管理接口", tags = {"后台用户管理接口"})
+@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/users")
+@RestController
+public class AdminSysUserController {
+
+    private static final String PERMISSION_PREFIX = "SysUser:";
+
+    @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
+    private SysUserFacade sysUserFacade;
+
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
+    @ApiOperation(value = "分页列表")
+    @GetMapping
+    public ApiResult<PageResult<SysUserBO>> list(PageParam pageParam, AdminListSysUserDTO dto) {
+        return ApiResult.data(sysUserFacade.adminList(pageParam, dto));
+    }
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
+    @ApiOperation(value = "详情")
+    @GetMapping(value = "/{id}")
+    public ApiResult<SysUserBO> getById(@PathVariable Long id) {
+        return ApiResult.data(sysUserFacade.getOneById(id, true));
+    }
+
+    @SysLog(value = "新增后台用户")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
+    @ApiOperation(value = "新增")
+    @PostMapping
+    public ApiResult<?> insert(@RequestBody @Valid AdminInsertOrUpdateSysUserDTO dto) {
+        sysUserFacade.adminInsert(dto);
+
+        return ApiResult.success();
+    }
+
+    @SysLog(value = "编辑后台用户")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
+    @ApiOperation(value = "编辑")
+    @PutMapping(value = "/{id}")
+    public ApiResult<?> update(@PathVariable Long id, @RequestBody @Valid AdminInsertOrUpdateSysUserDTO dto) {
+        dto.setId(id);
+        sysUserFacade.adminUpdate(dto);
+
+        return ApiResult.success();
+    }
+
+    @SysLog(value = "删除后台用户")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
+    @ApiOperation(value = "删除")
+    @DeleteMapping
+    public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
+        sysUserFacade.adminDelete(dto.getIds());
+
+        return ApiResult.success();
+    }
+
+    @ApiOperation(value = "取当前用户信息")
+    @GetMapping(value = "/info")
+    public ApiResult<VbenAdminUserInfoVO> getCurrentUserInfo() {
+        return ApiResult.data(sysUserFacade.adminGetCurrentUserInfo());
+    }
+
+    @SysLog(value = "重置后台用户密码")
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "resetPassword")
+    @ApiOperation(value = "重置后台用户密码")
+    @PutMapping(value = "/{userId}/password")
+    public ApiResult<?> resetPassword(@PathVariable Long userId, @RequestBody @Valid AdminResetSysUserPasswordDTO dto) {
+        dto.setUserId(userId);
+        sysUserFacade.adminResetUserPassword(dto);
+
+        // 踢出原登录
+        AdminStpUtil.kickout(dto.getUserId());
+
+        return ApiResult.success();
+    }
+
+    @SysLog(value = "修改当前用户密码")
+    @ApiOperation(value = "修改当前用户密码")
+    @PostMapping(value = "/updatePassword")
+    public ApiResult<?> updatePassword(@RequestBody @Valid AdminUpdateCurrentSysUserPasswordDTO dto) {
+        if (StrUtil.isBlank(dto.getNewPassword()) || StrUtil.isBlank(dto.getConfirmNewPassword())) {
+            throw new BusinessException(400, "密码或确认密码不能为空");
+        }
+
+        if (!dto.getConfirmNewPassword().equals(dto.getNewPassword())) {
+            throw new BusinessException(400, "密码与确认密码不同，请检查");
+        }
+        sysUserFacade.adminUpdateCurrentUserPassword(dto);
+
+        // 用户更改密码后使其当前会话直接过期
+        AdminStpUtil.logout();
+
+        return ApiResult.success();
+    }
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "bindRoles")
+    @ApiOperation(value = "绑定用户与角色关联关系")
+    @PutMapping(value = "/{userId}/roles")
+    public ApiResult<?> bindRoles(@PathVariable Long userId, @RequestBody AdminBindUserRoleRelationDTO dto) {
+        dto.setUserId(userId);
+        sysUserFacade.adminBindRoles(dto);
+
+        // 该用户会被强制踢下线，以更新对应权限；可以视业务需要决定是否删除该代码
+        this.kickOut(dto.getUserId());
+
+        return ApiResult.success();
+    }
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "kickOut")
+    @ApiOperation(value = "踢某用户下线")
+    @PostMapping(value = "/{userId}/kickOut")
+    public ApiResult<?> kickOut(@PathVariable Long userId) {
+        AdminStpUtil.kickout(userId);
+
+        return ApiResult.success();
+    }
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
+    @ApiOperation(value = "取指定用户关联角色ID")
+    @GetMapping(value = "/{userId}/relatedRoleIds")
+    public ApiResult<Set<Long>> listRelatedRoleIds(@PathVariable Long userId) {
+        return ApiResult.data(sysUserFacade.listRelatedRoleIds(userId));
+    }
+
+}

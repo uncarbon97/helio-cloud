@@ -27,13 +27,15 @@ import java.util.List;
 
 
 /**
- * 后台操作日志
- * @author Uncarbon
+ * 系统日志
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class SysLogService extends HelioBaseServiceImpl<SysLogMapper, SysLogEntity> {
+
+    private final int USER_AGENT_MAX_LENGTH = 255;
+
 
     /**
      * 后台管理-分页列表
@@ -95,6 +97,13 @@ public class SysLogService extends HelioBaseServiceImpl<SysLogMapper, SysLogEnti
 
         SysLogEntity entity = new SysLogEntity();
         BeanUtil.copyProperties(dto, entity);
+
+        if (StrUtil.length(entity.getUserAgent()) > USER_AGENT_MAX_LENGTH) {
+            // 超长度截断
+            entity.setUserAgent(
+                    StrUtil.subPre(entity.getUserAgent(), USER_AGENT_MAX_LENGTH)
+            );
+        }
 
         this.save(entity);
 
