@@ -895,7 +895,7 @@ INSERT INTO sys_menu (id, tenant_id, revision, del_flag, created_at, created_by,
 VALUES (20220922152718, NULL, 1, 0, '2022-09-22 15:27:14', 'helio-generator', '2022-12-26 22:02:09', 'admin', '删除',
         20220922152714, 2, 'OssFileInfo:delete', NULL, 2, 1, NULL, '');
 
--- v1.7.4 - Uncarbon - 新增错误原因堆栈、用户UA、IP属地字段；表注释更新
+-- v1.8.0 - Uncarbon - 新增错误原因堆栈、用户UA、IP属地字段；表注释更新
 ALTER TABLE sys_log
     ADD COLUMN error_stacktrace varchar(3000) NOT NULL DEFAULT '',
     ADD COLUMN user_agent varchar(255) NOT NULL DEFAULT '',
@@ -913,6 +913,6 @@ COMMENT ON COLUMN sys_log.ip_location_district_name IS 'IP地址属地-县级行
 
 COMMENT ON TABLE sys_log IS '系统日志';
 
--- v1.7.4 - Uncarbon - 订正系统菜单-权限串缺少默认值问题
+-- v1.8.0 - Uncarbon - 订正系统菜单-权限串缺少默认值问题
 ALTER TABLE "sys_menu"
     ALTER COLUMN "permission" SET DEFAULT '';

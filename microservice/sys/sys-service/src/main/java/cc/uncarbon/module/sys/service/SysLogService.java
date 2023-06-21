@@ -34,9 +34,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysLogService extends HelioBaseServiceImpl<SysLogMapper, SysLogEntity> {
 
-    private final int USER_AGENT_MAX_LENGTH = 255;
-
-
     /**
      * 后台管理-分页列表
      */
@@ -46,7 +43,10 @@ public class SysLogService extends HelioBaseServiceImpl<SysLogMapper, SysLogEnti
                 new QueryWrapper<SysLogEntity>()
                         .lambda()
                         // 仅返回给前端少量字段
-                        .select(SysLogEntity::getCreatedAt, SysLogEntity::getUsername, SysLogEntity::getOperation, SysLogEntity::getIp, SysLogEntity::getStatus)
+                        .select(SysLogEntity::getCreatedAt, SysLogEntity::getUsername, SysLogEntity::getOperation,
+                                SysLogEntity::getIp, SysLogEntity::getStatus, SysLogEntity::getUserAgent,
+                                SysLogEntity::getIpLocationRegionName, SysLogEntity::getIpLocationProvinceName,
+                                SysLogEntity::getIpLocationCityName, SysLogEntity::getIpLocationDistrictName)
                         // 用户账号
                         .like(StrUtil.isNotBlank(dto.getUsername()), SysLogEntity::getUsername, StrUtil.cleanBlank(dto.getUsername()))
                         // 操作内容
@@ -98,6 +98,7 @@ public class SysLogService extends HelioBaseServiceImpl<SysLogMapper, SysLogEnti
         SysLogEntity entity = new SysLogEntity();
         BeanUtil.copyProperties(dto, entity);
 
+        int USER_AGENT_MAX_LENGTH = 255;
         if (StrUtil.length(entity.getUserAgent()) > USER_AGENT_MAX_LENGTH) {
             // 超长度截断
             entity.setUserAgent(
