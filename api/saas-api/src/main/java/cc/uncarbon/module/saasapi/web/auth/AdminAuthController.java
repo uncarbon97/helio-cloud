@@ -47,7 +47,7 @@ public class AdminAuthController {
     private SysUserFacade sysUserFacade;
 
 
-    @SysLog(value = "登录后台用户", syncSave = true, extension = SysLogAspectExtensionForSysUserLogin.class)
+    @SysLog(value = "登录后台用户", syncSave = true, extension = SysLogAspectExtensionForSysUserLogin.class, queryIPLocation = true)
     @ApiOperation(value = "登录")
     @PostMapping(value = "/login")
     public ApiResult<SysUserLoginVO> login(@RequestBody @Valid SysUserLoginDTO dto) {
