@@ -8,15 +8,15 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.7.3</version>
+        <version>1.8.0</version>
         <relativePath/>
     </parent>
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>oss</artifactId>
     <description>文件上传下载服务</description>
-    <!-- 本微服务模块版本 -->
-    <version>1.7.3</version>
+    <!-- 本微服务模块制品版本号 -->
+    <version>1.8.0</version>
 
     <modules>
         <module>oss-facade</module>

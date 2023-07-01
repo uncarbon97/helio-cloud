@@ -8,7 +8,7 @@ import cc.uncarbon.module.sys.model.request.AdminListSysLogDTO;
 import cc.uncarbon.module.sys.model.response.SysLogBO;
 
 /**
- * 后台操作日志Facade接口
+ * 系统日志Facade接口
  */
 public interface SysLogFacade {
 

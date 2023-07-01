@@ -14,8 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 
 /**
- * 后台操作日志Facade接口实现类
- * @author Uncarbon
+ * 系统日志Facade接口实现类
  */
 @Slf4j
 @DubboService(
