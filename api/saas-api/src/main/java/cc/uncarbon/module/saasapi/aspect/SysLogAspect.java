@@ -29,7 +29,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.http.HttpHeaders;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +65,7 @@ public class SysLogAspect {
 
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
     private SysLogFacade sysLogFacade;
+    private final ThreadPoolTaskExecutor taskExecutor;
 
 
     /**
@@ -200,8 +201,9 @@ public class SysLogAspect {
     /**
      * 异步保存系统日志
      */
-    @Async(value = "taskExecutor")
     public void saveSysLogAsync(final JoinPoint joinPoint, SysLog annotation, final Throwable e, Object ret) {
-        this.saveSysLog(joinPoint, annotation, e, ret);
+        taskExecutor.submit(
+                () -> this.saveSysLog(joinPoint, annotation, e, ret)
+        );
     }
 }
