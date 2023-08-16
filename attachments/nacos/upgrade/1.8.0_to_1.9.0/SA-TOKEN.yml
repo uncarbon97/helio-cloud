@@ -1,0 +1,20 @@
+# since Helio v1.9.0 - `activity-timeout`配置项更名为`active-timeout`
+# 详细配置文档：https://sa-token.cc/doc.html#/use/config
+sa-token:
+  # token名称
+  token-name: Authorization
+  # token风格
+  token-style: tik
+  # 是否允许同一账号并发登录
+  is-concurrent: false
+  # 打印banner
+  is-print: false
+  # 是否尝试从请求体里读取token
+  is-read-body: false
+  # 是否尝试从cookie里读取token
+  is-read-cookie: false
+  # 有效期解释：https://sa-token.cc/doc.html#/fun/token-timeout
+  # token 有效期，单位=秒；默认30天，-1代表永不过期
+  timeout: 2592000
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
