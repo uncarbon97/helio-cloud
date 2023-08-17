@@ -1,7 +1,6 @@
 package cc.uncarbon.module.appapi.web;
 
 
-import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.web.model.response.ApiResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Api(value = "APP鉴权接口", tags = {"APP鉴权接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/auth")
+@RequestMapping("/api/v1")
 @RestController
 public class AppAuthController {
 
@@ -23,7 +22,7 @@ public class AppAuthController {
      */
 
     @ApiOperation(value = "登录")
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ApiResult<?> login() {
         /*
         编码时请参考 saas-api 的 AdminAuthController#login

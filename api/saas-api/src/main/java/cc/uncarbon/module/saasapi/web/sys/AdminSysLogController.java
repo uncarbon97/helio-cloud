@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "系统日志管理接口", tags = {"系统日志管理接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/logs")
+@RequestMapping("/api/v1")
 @RestController
 public class AdminSysLogController {
 
@@ -35,14 +35,14 @@ public class AdminSysLogController {
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "分页列表")
-    @GetMapping
+    @GetMapping(value = "/sys/logs")
     public ApiResult<PageResult<SysLogBO>> list(PageParam pageParam, AdminListSysLogDTO dto) {
         return ApiResult.data(sysLogFacade.adminList(pageParam, dto));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "详情")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/sys/logs/{id}")
     public ApiResult<SysLogBO> getById(@PathVariable Long id) {
         return ApiResult.data(sysLogFacade.getOneById(id, true));
     }

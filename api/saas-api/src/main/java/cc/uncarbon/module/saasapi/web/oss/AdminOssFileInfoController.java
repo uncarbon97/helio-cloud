@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "后台管理-上传文件信息管理接口", tags = {"后台管理-上传文件信息管理接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/oss/file/infos")
+@RequestMapping("/api/v1")
 @RestController
 public class AdminOssFileInfoController {
 
@@ -38,21 +38,21 @@ public class AdminOssFileInfoController {
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "分页列表")
-    @GetMapping
+    @GetMapping(value = "/oss/file/infos")
     public ApiResult<PageResult<OssFileInfoBO>> list(PageParam pageParam, AdminListOssFileInfoDTO dto) {
         return ApiResult.data(ossFileInfoFacade.adminList(pageParam, dto));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "详情")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/oss/file/infos/{id}")
     public ApiResult<OssFileInfoBO> getById(@PathVariable Long id) {
         return ApiResult.data(ossFileInfoFacade.getOneById(id, true));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
     @ApiOperation(value = "删除")
-    @DeleteMapping
+    @DeleteMapping(value = "/oss/file/infos")
     public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         ossFileInfoFacade.adminDelete(dto.getIds());
 

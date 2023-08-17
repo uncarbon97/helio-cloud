@@ -34,7 +34,7 @@ import java.net.URLEncoder;
 @RequiredArgsConstructor
 @Slf4j
 @Api(value = "后台管理-上传、下载文件接口", tags = {"后台管理-上传、下载文件接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/oss/files")
+@RequestMapping("/api/v1")
 @RestController
 public class AdminOssUploadDownloadController {
 
@@ -43,7 +43,7 @@ public class AdminOssUploadDownloadController {
 
 
     @ApiOperation(value = "上传文件", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PostMapping
+    @PostMapping(value = "/oss/files")
     // 约束：登录后才能上传   👇 后台管理对应的鉴权工具类
     @SaCheckLogin(type = AdminStpUtil.TYPE)
     public ApiResult<OssFileUploadResultVO> upload(
@@ -73,7 +73,7 @@ public class AdminOssUploadDownloadController {
     }
 
     @ApiOperation(value = "下载文件(根据文件ID)", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/oss/files/{id}")
     // 如果需要登录后才能下载，请解禁下方注解；注意是👇 后台管理对应的鉴权工具类
     // @SaCheckLogin(type = AdminStpUtil.TYPE)
     public void download(@PathVariable Long id, HttpServletResponse response) throws IOException {

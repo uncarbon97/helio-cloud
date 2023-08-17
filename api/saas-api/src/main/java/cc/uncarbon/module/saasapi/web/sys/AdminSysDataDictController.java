@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "数据字典管理接口", tags = {"数据字典管理接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/dataDicts")
+@RequestMapping("/api/v1")
 @RestController
 public class AdminSysDataDictController {
 
@@ -37,14 +37,14 @@ public class AdminSysDataDictController {
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "分页列表")
-    @GetMapping
+    @GetMapping(value = "/sys/dataDicts")
     public ApiResult<PageResult<SysDataDictBO>> list(PageParam pageParam, AdminListSysDataDictDTO dto) {
         return ApiResult.data(sysDataDictFacade.adminList(pageParam, dto));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "详情")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/sys/dataDicts/{id}")
     public ApiResult<SysDataDictBO> getById(@PathVariable Long id) {
         return ApiResult.data(sysDataDictFacade.getOneById(id, true));
     }
@@ -52,7 +52,7 @@ public class AdminSysDataDictController {
     @SysLog(value = "新增数据字典")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
     @ApiOperation(value = "新增")
-    @PostMapping
+    @PostMapping(value = "/sys/dataDicts")
     public ApiResult<?> insert(@RequestBody @Valid AdminInsertOrUpdateSysDataDictDTO dto) {
         sysDataDictFacade.adminInsert(dto);
 
@@ -62,7 +62,7 @@ public class AdminSysDataDictController {
     @SysLog(value = "编辑数据字典")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
     @ApiOperation(value = "编辑")
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/sys/dataDicts/{id}")
     public ApiResult<?> update(@PathVariable Long id, @RequestBody @Valid AdminInsertOrUpdateSysDataDictDTO dto) {
         dto.setId(id);
         sysDataDictFacade.adminUpdate(dto);
@@ -73,7 +73,7 @@ public class AdminSysDataDictController {
     @SysLog(value = "删除数据字典")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
     @ApiOperation(value = "删除")
-    @DeleteMapping
+    @DeleteMapping(value = "/sys/dataDicts")
     public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         sysDataDictFacade.adminDelete(dto.getIds());
 

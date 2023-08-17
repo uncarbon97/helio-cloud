@@ -23,7 +23,7 @@ import java.util.List;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "部门管理接口", tags = {"部门管理接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/depts")
+@RequestMapping("/api/v1")
 @RestController
 public class AdminSysDeptController {
 
@@ -35,14 +35,14 @@ public class AdminSysDeptController {
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "列表")
-    @GetMapping
+    @GetMapping(value = "/sys/depts")
     public ApiResult<List<SysDeptBO>> list() {
         return ApiResult.data(sysDeptFacade.adminList());
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "详情")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/sys/depts/{id}")
     public ApiResult<SysDeptBO> getById(@PathVariable Long id) {
         return ApiResult.data(sysDeptFacade.getOneById(id));
     }
@@ -50,7 +50,7 @@ public class AdminSysDeptController {
     @SysLog(value = "新增部门")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
     @ApiOperation(value = "新增")
-    @PostMapping
+    @PostMapping(value = "/sys/depts")
     public ApiResult<?> insert(@RequestBody @Valid AdminInsertOrUpdateSysDeptDTO dto) {
         sysDeptFacade.adminInsert(dto);
 
@@ -60,7 +60,7 @@ public class AdminSysDeptController {
     @SysLog(value = "编辑部门")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
     @ApiOperation(value = "编辑")
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/sys/depts/{id}")
     public ApiResult<?> update(@PathVariable Long id, @RequestBody @Valid AdminInsertOrUpdateSysDeptDTO dto) {
         dto.setId(id);
         sysDeptFacade.adminUpdate(dto);
@@ -71,7 +71,7 @@ public class AdminSysDeptController {
     @SysLog(value = "删除部门")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
     @ApiOperation(value = "删除")
-    @DeleteMapping
+    @DeleteMapping(value = "/sys/depts")
     public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         sysDeptFacade.adminDelete(dto.getIds());
 

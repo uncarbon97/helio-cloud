@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "系统参数管理接口", tags = {"系统参数管理接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/params")
+@RequestMapping("/api/v1")
 @RestController
 public class AdminSysParamController {
 
@@ -37,14 +37,14 @@ public class AdminSysParamController {
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "分页列表")
-    @GetMapping
+    @GetMapping(value = "/sys/params")
     public ApiResult<PageResult<SysParamBO>> list(PageParam pageParam, AdminListSysParamDTO dto) {
         return ApiResult.data(sysParamFacade.adminList(pageParam, dto));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "详情")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/sys/params/{id}")
     public ApiResult<SysParamBO> getById(@PathVariable Long id) {
         return ApiResult.data(sysParamFacade.getOneById(id, true));
     }
@@ -52,7 +52,7 @@ public class AdminSysParamController {
     @SysLog(value = "新增系统参数")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
     @ApiOperation(value = "新增")
-    @PostMapping
+    @PostMapping(value = "/sys/params")
     public ApiResult<?> insert(@RequestBody @Valid AdminInsertOrUpdateSysParamDTO dto) {
         sysParamFacade.adminInsert(dto);
 
@@ -62,7 +62,7 @@ public class AdminSysParamController {
     @SysLog(value = "编辑系统参数")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
     @ApiOperation(value = "编辑")
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/sys/params/{id}")
     public ApiResult<?> update(@PathVariable Long id, @RequestBody @Valid AdminInsertOrUpdateSysParamDTO dto) {
         dto.setId(id);
         sysParamFacade.adminUpdate(dto);
@@ -73,7 +73,7 @@ public class AdminSysParamController {
     @SysLog(value = "删除系统参数")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
     @ApiOperation(value = "删除")
-    @DeleteMapping
+    @DeleteMapping(value = "/sys/params")
     public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         sysParamFacade.adminDelete(dto.getIds());
 

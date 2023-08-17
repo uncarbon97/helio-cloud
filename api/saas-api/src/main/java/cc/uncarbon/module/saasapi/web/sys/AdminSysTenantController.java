@@ -26,7 +26,7 @@ import javax.validation.Valid;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "系统租户管理接口", tags = {"系统租户管理接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/tenants")
+@RequestMapping("/api/v1")
 @RestController
 public class AdminSysTenantController {
 
@@ -38,14 +38,14 @@ public class AdminSysTenantController {
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "分页列表")
-    @GetMapping
+    @GetMapping(value = "/sys/tenants")
     public ApiResult<PageResult<SysTenantBO>> list(PageParam pageParam, AdminListSysTenantDTO dto) {
         return ApiResult.data(sysTenantFacade.adminList(pageParam, dto));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "详情")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/sys/tenants/{id}")
     public ApiResult<SysTenantBO> getById(@PathVariable Long id) {
         return ApiResult.data(sysTenantFacade.getOneById(id, true));
     }
@@ -53,7 +53,7 @@ public class AdminSysTenantController {
     @SysLog(value = "新增系统租户")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
     @ApiOperation(value = "新增")
-    @PostMapping
+    @PostMapping(value = "/sys/tenants")
     public ApiResult<?> insert(@RequestBody @Valid AdminInsertSysTenantDTO dto) {
         sysTenantFacade.adminInsert(dto);
 
@@ -63,7 +63,7 @@ public class AdminSysTenantController {
     @SysLog(value = "编辑系统租户")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
     @ApiOperation(value = "编辑")
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/sys/tenants/{id}")
     public ApiResult<?> update(@PathVariable Long id, @RequestBody @Valid AdminUpdateSysTenantDTO dto) {
         dto.setId(id);
         sysTenantFacade.adminUpdate(dto);
@@ -74,7 +74,7 @@ public class AdminSysTenantController {
     @SysLog(value = "删除系统租户")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
     @ApiOperation(value = "删除")
-    @DeleteMapping
+    @DeleteMapping(value = "/sys/tenants")
     public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         sysTenantFacade.adminDelete(dto.getIds());
 

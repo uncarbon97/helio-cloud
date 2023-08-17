@@ -23,7 +23,7 @@ import java.util.List;
 @SaCheckLogin(type = AdminStpUtil.TYPE)
 @Slf4j
 @Api(value = "后台菜单管理接口", tags = {"后台菜单管理接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/sys/menus")
+@RequestMapping("/api/v1")
 @RestController
 public class AdminSysMenuController {
 
@@ -35,14 +35,14 @@ public class AdminSysMenuController {
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "列表")
-    @GetMapping
+    @GetMapping(value = "/sys/menus")
     public ApiResult<List<SysMenuBO>> list() {
         return ApiResult.data(sysMenuFacade.adminList());
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
     @ApiOperation(value = "详情")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/sys/menus/{id}")
     public ApiResult<SysMenuBO> getById(@PathVariable Long id) {
         return ApiResult.data(sysMenuFacade.getOneById(id, true));
     }
@@ -50,7 +50,7 @@ public class AdminSysMenuController {
     @SysLog(value = "新增后台菜单")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
     @ApiOperation(value = "新增")
-    @PostMapping
+    @PostMapping(value = "/sys/menus")
     public ApiResult<?> insert(@RequestBody @Valid AdminInsertOrUpdateSysMenuDTO dto) {
         sysMenuFacade.adminInsert(dto);
 
@@ -60,7 +60,7 @@ public class AdminSysMenuController {
     @SysLog(value = "编辑后台菜单")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
     @ApiOperation(value = "编辑")
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/sys/menus/{id}")
     public ApiResult<?> update(@PathVariable Long id, @RequestBody @Valid AdminInsertOrUpdateSysMenuDTO dto) {
         dto.setId(id);
         sysMenuFacade.adminUpdate(dto);
@@ -71,7 +71,7 @@ public class AdminSysMenuController {
     @SysLog(value = "删除后台菜单")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
     @ApiOperation(value = "删除")
-    @DeleteMapping
+    @DeleteMapping(value = "/sys/menus")
     public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         sysMenuFacade.adminDelete(dto.getIds());
 
@@ -79,13 +79,13 @@ public class AdminSysMenuController {
     }
 
     @ApiOperation(value = "取当前账号可见侧边菜单")
-    @GetMapping("/side")
+    @GetMapping("/sys/menus/side")
     public ApiResult<List<SysMenuBO>> adminListSideMenu() {
         return ApiResult.data(sysMenuFacade.adminListSideMenu());
     }
 
     @ApiOperation(value = "取当前账号所有可见菜单")
-    @GetMapping("/all")
+    @GetMapping("/sys/menus/all")
     public ApiResult<List<SysMenuBO>> adminListVisibleMenu() {
         return ApiResult.data(sysMenuFacade.adminListVisibleMenu());
     }

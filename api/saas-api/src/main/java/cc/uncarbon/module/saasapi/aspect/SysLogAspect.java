@@ -14,12 +14,14 @@ import cc.uncarbon.module.sys.model.response.IPLocationBO;
 import cn.dev33.satoken.spring.SpringMVCUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +36,8 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -55,6 +58,13 @@ public class SysLogAspect {
     private static final CopyOptions MASKING_COPY_OPTIONS = new CopyOptions()
             .setIgnoreNullValue(false)
             .setIgnoreProperties(SysConstant.SENSITIVE_FIELDS);
+
+    /**
+     * 用于数据脱敏后JSON字符串的序列化配置
+     */
+    private static final JSONConfig TO_JSON_STR_JSON_CONFIG = new JSONConfig()
+            .setNatureKeyComparator()
+            .setDateFormat(DatePattern.NORM_DATETIME_MS_PATTERN);
 
     /**
      * 最大数据文本保存长度
@@ -78,13 +88,15 @@ public class SysLogAspect {
             return;
         }
 
+        HttpServletRequest request = SpringMVCUtil.getRequest();
+
         if (!annotation.syncSave()) {
             // 异步保存
-            saveSysLogAsync(joinPoint, annotation, null, ret);
+            saveSysLogAsync(joinPoint, annotation, request, null, ret);
             return;
         }
 
-        saveSysLog(joinPoint, annotation, null, ret);
+        saveSysLog(joinPoint, annotation, request, null, ret);
     }
 
     /**
@@ -97,22 +109,26 @@ public class SysLogAspect {
             return;
         }
 
+        HttpServletRequest request = SpringMVCUtil.getRequest();
+
         if (!annotation.syncSave()) {
             // 异步保存
-            saveSysLogAsync(joinPoint, annotation, e, null);
+            saveSysLogAsync(joinPoint, annotation, request, e, null);
             return;
         }
 
-        saveSysLog(joinPoint, annotation, e, null);
+        saveSysLog(joinPoint, annotation, request, e, null);
     }
 
     /**
      * 同步保存系统日志
+     * @param joinPoint 切点
+     * @param annotation 注解实例
+     * @param request 当前线程HTTP请求
+     * @param e 异常实例，可以为null
+     * @param ret 返回值，可以为null
      */
-    private void saveSysLog(final JoinPoint joinPoint, SysLog annotation, final Throwable e, Object ret) {
-        // 当前线程HTTP请求
-        HttpServletRequest request = SpringMVCUtil.getRequest();
-
+    private void saveSysLog(final JoinPoint joinPoint, SysLog annotation, final HttpServletRequest request, final Throwable e, Object ret) {
         // SysLog 切面实现类扩展
         SysLogAspectExtension extensionInstance = DEFAULT_SYS_LOG_ASPECT_EXTENSION;
         Class<? extends SysLogAspectExtension> extensionClazz = annotation.extension();
@@ -134,13 +150,12 @@ public class SysLogAspect {
                 // 记录操作内容
                 .setOperation(annotation.value())
                 // 默认置为成功
-                .setStatus(SysLogStatusEnum.SUCCESS)
-                ;
+                .setStatus(SysLogStatusEnum.SUCCESS);
 
         /*
         记录请求参数
          */
-        HashMap<Object, Object> afterMasked = new HashMap<>(16, 1);
+        Map<Object, Object> afterMasked = new LinkedHashMap<>(32, 1);
         String params = Arrays.stream(joinPoint.getArgs()).map(
                 item -> {
                     if (ClassUtil.isBasicType(item.getClass())) {
@@ -151,7 +166,7 @@ public class SysLogAspect {
                     // 先去除敏感字段后再入库
                     afterMasked.clear();
                     BeanUtil.copyProperties(item, afterMasked, MASKING_COPY_OPTIONS);
-                    return JSONUtil.toJsonStr(afterMasked);
+                    return JSONUtil.toJsonStr(afterMasked, TO_JSON_STR_JSON_CONFIG);
                 }
         ).collect(Collectors.joining(StrPool.LF));
         if (StrUtil.length(params) > MAX_STRING_SAVE_LENGTH) {
@@ -201,9 +216,9 @@ public class SysLogAspect {
     /**
      * 异步保存系统日志
      */
-    public void saveSysLogAsync(final JoinPoint joinPoint, SysLog annotation, final Throwable e, Object ret) {
+    public void saveSysLogAsync(final JoinPoint joinPoint, SysLog annotation, final HttpServletRequest request, final Throwable e, Object ret) {
         taskExecutor.submit(
-                () -> this.saveSysLog(joinPoint, annotation, e, ret)
+                () -> this.saveSysLog(joinPoint, annotation, request, e, ret)
         );
     }
 }

@@ -33,8 +33,8 @@ import java.io.IOException;
 
 
 @Slf4j
-@Api(value = "SaaS后台管理鉴权接口", tags = {"SaaS后台管理鉴权接口"})
-@RequestMapping(HelioConstant.Version.HTTP_API_VERSION_V1 + "/auth")
+@Api(value = "后台管理-鉴权接口", tags = {"后台管理-鉴权接口"})
+@RequestMapping("/api/v1")
 @RestController
 @RequiredArgsConstructor
 public class AdminAuthController {
@@ -49,7 +49,7 @@ public class AdminAuthController {
 
     @SysLog(value = "登录后台用户", syncSave = true, extension = SysLogAspectExtensionForSysUserLogin.class, queryIPLocation = true)
     @ApiOperation(value = "登录")
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/auth/login")
     public ApiResult<SysUserLoginVO> login(@RequestBody @Valid SysUserLoginDTO dto) {
         // RPC调用, 失败抛异常, 成功返回用户信息
         SysUserLoginBO userInfo = sysUserFacade.adminLogin(dto);
@@ -86,7 +86,7 @@ public class AdminAuthController {
 
     @SaCheckLogin(type = AdminStpUtil.TYPE)
     @ApiOperation(value = "登出")
-    @PostMapping(value = "/logout")
+    @PostMapping(value = "/auth/logout")
     public ApiResult<?> logout() {
         AdminStpUtil.logout();
         UserContextHolder.clear();
@@ -97,7 +97,7 @@ public class AdminAuthController {
 
     @ApiOperation(value = "验证码图片")
     @ApiImplicitParam(name = "uuid", value = "验证码图片UUID", required = true)
-    @GetMapping(value = "/captcha")
+    @GetMapping(value = "/auth/captcha")
     public void captcha(HttpServletResponse response, String uuid) throws IOException {
         /*
         由前端定义 UUID 其实并不算太好的办法，但是够简单
