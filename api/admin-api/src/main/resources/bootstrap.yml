@@ -1,0 +1,37 @@
+spring:
+  application:
+    # 微服务应用名
+    name: admin-api
+  cloud:
+    nacos:
+      discovery:
+        # 注册中心地址
+        server-addr: ${NACOS_DISCOVERY_SERVER_ADDR:127.0.0.1:8848}
+        # 注册中心命名空间
+        namespace: ${NACOS_DISCOVERY_NAMESPACE:}
+        # 注册中心分组
+        group: ${NACOS_DISCOVERY_GROUP:DEFAULT_GROUP}
+      config:
+        # 配置中心地址
+        server-addr: ${NACOS_CONFIG_SERVER_ADDR:127.0.0.1:8848}
+        # 配置中心命名空间
+        namespace: ${NACOS_CONFIG_NAMESPACE:}
+        # 配置中心分组
+        group: ${NACOS_CONFIG_GROUP:DEFAULT_GROUP}
+        # 配置文件扩展名
+        file-extension: yml
+        # 共享配置文件
+        shared-configs:
+          - dataId: COMMON.yml
+            refresh: false
+          - dataId: KNIFE4J.yml
+            refresh: false
+          - dataId: REDIS.yml
+            refresh: false
+          - dataId: SA-TOKEN.yml
+            refresh: false
+          - dataId: DUBBO.yml
+            refresh: false
+          # 兼容旧的微服务配置
+          - dataId: saas-api.yml
+            refresh: false
