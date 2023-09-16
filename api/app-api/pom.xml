@@ -8,14 +8,14 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.9.0-SNAPSHOT</version>
+        <version>1.9.0</version>
     </parent>
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>app-api</artifactId>
     <description>C端HTTP-API</description>
     <!-- 本微服务模块制品版本号 -->
-    <version>1.9.0-SNAPSHOT</version>
+    <version>1.9.0</version>
 
     <properties>
     </properties>
