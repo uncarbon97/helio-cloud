@@ -1,7 +1,7 @@
 package cc.uncarbon.module.sys.entity;
 
+import cc.uncarbon.framework.core.enums.GenderEnum;
 import cc.uncarbon.framework.crud.entity.HelioBaseEntity;
-import cc.uncarbon.module.sys.enums.GenderEnum;
 import cc.uncarbon.module.sys.enums.SysUserStatusEnum;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
