@@ -8,14 +8,14 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.9.0</version>
+        <version>1.10.0</version>
     </parent>
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>knife4j-aggregation</artifactId>
     <description>OpenAPI文档的聚合、文档展示及调试</description>
     <!-- 本微服务模块制品版本号 -->
-    <version>1.9.0</version>
+    <version>1.10.0</version>
 
     <properties>
     </properties>
@@ -49,7 +49,7 @@
         </dependency>
 
 
-        <!-- 其他依赖 -->
+        <!-- 这里写其他第三方依赖 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-aggregation-spring-boot-starter</artifactId>
