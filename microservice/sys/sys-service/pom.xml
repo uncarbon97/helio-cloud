@@ -63,11 +63,6 @@
 
         <dependency>
             <groupId>cc.uncarbon.framework</groupId>
-            <artifactId>helio-starter-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cc.uncarbon.framework</groupId>
             <artifactId>helio-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
