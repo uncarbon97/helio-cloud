@@ -15,9 +15,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 
-/**
- * @author Uncarbon
- */
 @Slf4j
 @EnableAsync
 @Configuration
