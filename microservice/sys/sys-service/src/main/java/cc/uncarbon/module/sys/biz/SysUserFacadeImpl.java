@@ -19,16 +19,15 @@ import java.util.Set;
 
 /**
  * 后台用户Facade接口实现类
- * @author Uncarbon
  */
-@Slf4j
+@RequiredArgsConstructor
 @DubboService(
         version = HelioConstant.Version.DUBBO_VERSION_V1,
         validation = HelioConstant.Dubbo.ENABLE_VALIDATION,
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
-@RequiredArgsConstructor
+@Slf4j
 public class SysUserFacadeImpl implements SysUserFacade {
 
     private final SysUserService sysUserService;

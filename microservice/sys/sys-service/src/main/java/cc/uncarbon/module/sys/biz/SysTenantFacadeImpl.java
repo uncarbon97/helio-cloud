@@ -1,12 +1,10 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
-import cc.uncarbon.framework.core.context.UserContextHolder;
 import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.entity.SysTenantEntity;
-import cc.uncarbon.module.sys.entity.SysUserRoleRelationEntity;
 import cc.uncarbon.module.sys.facade.SysTenantFacade;
 import cc.uncarbon.module.sys.model.request.*;
 import cc.uncarbon.module.sys.model.response.SysTenantBO;
@@ -14,35 +12,29 @@ import cc.uncarbon.module.sys.service.SysRoleService;
 import cc.uncarbon.module.sys.service.SysTenantService;
 import cc.uncarbon.module.sys.service.SysUserRoleRelationService;
 import cc.uncarbon.module.sys.service.SysUserService;
-import cn.hutool.core.bean.BeanUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
  * 系统租户Facade接口实现类
- * @author Uncarbon
  */
-@Slf4j
+@RequiredArgsConstructor
 @DubboService(
         version = HelioConstant.Version.DUBBO_VERSION_V1,
         validation = HelioConstant.Dubbo.ENABLE_VALIDATION,
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
-@RequiredArgsConstructor
+@Slf4j
 public class SysTenantFacadeImpl implements SysTenantFacade {
 
     private final SysTenantService sysTenantService;
-
     private final SysRoleService sysRoleService;
-
     private final SysUserRoleRelationService sysUserRoleRelationService;
-
     private final SysUserService sysUserService;
 
 
@@ -71,12 +63,7 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
         1. 加入一个新租户(tenant)
         这里是直接顺带创建管理员账号了, 你可以根据业务需要决定是否创建
          */
-
-        dto.setId(null);
-        SysTenantEntity entity = new SysTenantEntity();
-        BeanUtil.copyProperties(dto, entity);
-
-        sysTenantService.save(entity);
+        SysTenantEntity entity = sysTenantService.adminInsert(dto);
 
         Long newTenantEntityId = entity.getId();
         Long newTenantId = entity.getTenantId();
@@ -110,28 +97,14 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
         /*
         4. 将新用户绑定至新角色上
          */
-        sysUserRoleRelationService.save(
-                SysUserRoleRelationEntity.builder()
-                        .tenantId(newTenantId)
-                        .userId(newUserId)
-                        .roleId(newRoleId)
-                        // 可能不会自动填充字段，手动补上
-                        .createdAt(LocalDateTime.now())
-                        .createdBy(UserContextHolder.getUserContext().getUserName())
-                        .updatedAt(LocalDateTime.now())
-                        .updatedBy(UserContextHolder.getUserContext().getUserName())
-                        .build()
-        );
-
-        entity = new SysTenantEntity();
-        entity
-                .setTenantAdminUserId(newUserId)
-                .setId(newTenantEntityId);
+        sysUserRoleRelationService.adminInsert(newTenantId, newUserId, newRoleId);
 
         /*
         5. 把管理员账号更新进库
          */
-        sysTenantService.updateById(entity);
+        SysTenantEntity update = new SysTenantEntity().setTenantAdminUserId(newUserId);
+        update.setId(newTenantEntityId);
+        sysTenantService.adminUpdate(update);
 
         return newTenantId;
     }

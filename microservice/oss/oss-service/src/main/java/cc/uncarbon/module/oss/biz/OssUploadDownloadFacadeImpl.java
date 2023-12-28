@@ -20,17 +20,15 @@ import org.dromara.x.file.storage.core.exception.FileStorageRuntimeException;
 
 /**
  * 文件上传下载门面
- *
- * @author Uncarbon
  */
-@Slf4j
+@RequiredArgsConstructor
 @DubboService(
         version = HelioConstant.Version.DUBBO_VERSION_V1,
         validation = HelioConstant.Dubbo.ENABLE_VALIDATION,
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
-@RequiredArgsConstructor
+@Slf4j
 public class OssUploadDownloadFacadeImpl implements OssUploadDownloadFacade {
 
     private final OssFileInfoService ossFileInfoService;

@@ -32,11 +32,12 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 
-@Slf4j
+
 @Api(value = "后台管理-鉴权接口", tags = {"后台管理-鉴权接口"})
 @RequestMapping("/api/v1")
-@RestController
 @RequiredArgsConstructor
+@RestController
+@Slf4j
 public class AdminAuthController {
 
     private final RolePermissionCacheHelper rolePermissionCacheHelper;

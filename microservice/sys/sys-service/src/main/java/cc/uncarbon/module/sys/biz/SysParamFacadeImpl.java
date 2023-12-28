@@ -17,16 +17,15 @@ import java.util.Collection;
 
 /**
  * 系统参数Facade接口实现类
- * @author Uncarbon
  */
-@Slf4j
+@RequiredArgsConstructor
 @DubboService(
         version = HelioConstant.Version.DUBBO_VERSION_V1,
         validation = HelioConstant.Dubbo.ENABLE_VALIDATION,
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
-@RequiredArgsConstructor
+@Slf4j
 public class SysParamFacadeImpl implements SysParamFacade {
 
     private final SysParamService sysParamService;

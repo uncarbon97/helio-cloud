@@ -27,11 +27,11 @@ import java.util.Set;
 
 
 @SaCheckLogin(type = AdminStpUtil.TYPE)
-@Slf4j
 @Api(value = "后台角色管理接口", tags = {"后台角色管理接口"})
 @RequestMapping("/api/v1")
-@RestController
 @RequiredArgsConstructor
+@RestController
+@Slf4j
 public class AdminSysRoleController {
 
     private static final String PERMISSION_PREFIX = "SysRole:" ;

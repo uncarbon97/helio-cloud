@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 
-@RequiredArgsConstructor
 @SaCheckLogin(type = AdminStpUtil.TYPE)
-@Slf4j
 @Api(value = "后台管理-上传文件信息管理接口", tags = {"后台管理-上传文件信息管理接口"})
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 @RestController
+@Slf4j
 public class AdminOssFileInfoController {
 
     // 功能权限串前缀

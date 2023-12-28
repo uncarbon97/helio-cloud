@@ -10,8 +10,6 @@ import java.util.Collection;
 
 /**
  * 上传文件信息 Facade 接口
- *
- * @author Uncarbon
  */
 public interface OssFileInfoFacade {
 

@@ -15,16 +15,15 @@ import java.util.List;
 
 /**
  * 部门Facade接口实现类
- * @author Uncarbon
  */
-@Slf4j
+@RequiredArgsConstructor
 @DubboService(
         version = HelioConstant.Version.DUBBO_VERSION_V1,
         validation = HelioConstant.Dubbo.ENABLE_VALIDATION,
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
-@RequiredArgsConstructor
+@Slf4j
 public class SysDeptFacadeImpl implements SysDeptFacade {
 
     private final SysDeptService sysDeptService;

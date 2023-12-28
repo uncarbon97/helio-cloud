@@ -31,11 +31,11 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 
-@RequiredArgsConstructor
-@Slf4j
 @Api(value = "后台管理-上传、下载文件接口", tags = {"后台管理-上传、下载文件接口"})
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 @RestController
+@Slf4j
 public class AdminOssUploadDownloadController {
 
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
