@@ -16,14 +16,14 @@ import org.apache.dubbo.config.annotation.DubboService;
 /**
  * 系统日志Facade接口实现类
  */
-@Slf4j
+@RequiredArgsConstructor
 @DubboService(
         version = HelioConstant.Version.DUBBO_VERSION_V1,
         validation = HelioConstant.Dubbo.ENABLE_VALIDATION,
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
-@RequiredArgsConstructor
+@Slf4j
 public class SysLogFacadeImpl implements SysLogFacade {
 
     private final SysLogService sysLogService;

@@ -10,9 +10,9 @@ import cc.uncarbon.module.oss.model.response.OssFileUploadResultVO;
 import cc.uncarbon.module.adminapi.util.AdminStpUtil;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.http.Header;
 import io.swagger.annotations.Api;
@@ -31,11 +31,11 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 
-@RequiredArgsConstructor
-@Slf4j
 @Api(value = "后台管理-上传、下载文件接口", tags = {"后台管理-上传、下载文件接口"})
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 @RestController
+@Slf4j
 public class AdminOssUploadDownloadController {
 
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
@@ -111,7 +111,7 @@ public class AdminOssUploadDownloadController {
          */
         if (
                 ossUploadDownloadFacade.isLocalPlatform(ossFileInfo.getStoragePlatform())
-                        || StrUtil.isEmpty(ossFileInfo.getDirectUrl())
+                        || CharSequenceUtil.isEmpty(ossFileInfo.getDirectUrl())
         ) {
             ret.setUrl(
                     // 默认接口风格为 RESTful，下载即为最后拼接“/{文件ID}”

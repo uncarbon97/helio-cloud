@@ -17,7 +17,6 @@ import java.util.Set;
 /**
  * 登录后返回的字段
  * 用于内部 RPC 调用
- * @author Uncarbon
  */
 @Accessors(chain = true)
 @SuperBuilder

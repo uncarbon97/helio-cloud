@@ -14,8 +14,6 @@ import java.util.Collection;
 /**
  * 登录后返回的字段
  * 用于返回给前端
- *
- * @author Uncarbon
  */
 @Accessors(chain = true)
 @SuperBuilder

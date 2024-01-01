@@ -12,6 +12,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @SaCheckLogin(type = AdminStpUtil.TYPE)
-@Slf4j
 @Api(value = "系统日志管理接口", tags = {"系统日志管理接口"})
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 @RestController
+@Slf4j
 public class AdminSysLogController {
 
     private static final String PERMISSION_PREFIX = "SysLog:";

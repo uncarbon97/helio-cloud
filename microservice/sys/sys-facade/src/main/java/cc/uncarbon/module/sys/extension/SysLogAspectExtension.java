@@ -7,8 +7,6 @@ import org.aspectj.lang.JoinPoint;
 
 /**
  * SysLog 切面实现类扩展
- *
- * @author Uncarbon
  */
 public interface SysLogAspectExtension {
 

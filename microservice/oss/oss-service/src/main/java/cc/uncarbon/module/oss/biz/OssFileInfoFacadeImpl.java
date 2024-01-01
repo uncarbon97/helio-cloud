@@ -16,17 +16,15 @@ import java.util.Collection;
 
 /**
  * 上传文件信息 Facade 接口实现类
- *
- * @author Uncarbon
  */
-@Slf4j
+@RequiredArgsConstructor
 @DubboService(
         version = HelioConstant.Version.DUBBO_VERSION_V1,
         validation = HelioConstant.Dubbo.ENABLE_VALIDATION,
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )
-@RequiredArgsConstructor
+@Slf4j
 public class OssFileInfoFacadeImpl implements OssFileInfoFacade {
 
     private final OssFileInfoService ossFileInfoService;

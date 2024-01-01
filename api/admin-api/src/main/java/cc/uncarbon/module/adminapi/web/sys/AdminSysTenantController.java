@@ -16,6 +16,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,11 @@ import javax.validation.Valid;
 
 
 @SaCheckLogin(type = AdminStpUtil.TYPE)
-@Slf4j
 @Api(value = "系统租户管理接口", tags = {"系统租户管理接口"})
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 @RestController
+@Slf4j
 public class AdminSysTenantController {
 
     private static final String PERMISSION_PREFIX = "SysTenant:";
@@ -54,7 +56,7 @@ public class AdminSysTenantController {
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
     @ApiOperation(value = "新增")
     @PostMapping(value = "/sys/tenants")
-    public ApiResult<?> insert(@RequestBody @Valid AdminInsertSysTenantDTO dto) {
+    public ApiResult<Void> insert(@RequestBody @Valid AdminInsertSysTenantDTO dto) {
         sysTenantFacade.adminInsert(dto);
 
         return ApiResult.success();
@@ -64,7 +66,7 @@ public class AdminSysTenantController {
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
     @ApiOperation(value = "编辑")
     @PutMapping(value = "/sys/tenants/{id}")
-    public ApiResult<?> update(@PathVariable Long id, @RequestBody @Valid AdminUpdateSysTenantDTO dto) {
+    public ApiResult<Void> update(@PathVariable Long id, @RequestBody @Valid AdminUpdateSysTenantDTO dto) {
         dto.setId(id);
         sysTenantFacade.adminUpdate(dto);
 
@@ -75,7 +77,7 @@ public class AdminSysTenantController {
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "/sys/tenants")
-    public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
+    public ApiResult<Void> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         sysTenantFacade.adminDelete(dto.getIds());
 
         return ApiResult.success();

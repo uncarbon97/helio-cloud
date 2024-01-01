@@ -12,8 +12,6 @@ import java.util.Collection;
 
 /**
  * 数据字典Facade接口
- *
- * @author Uncarbon
  */
 public interface SysDataDictFacade {
 
