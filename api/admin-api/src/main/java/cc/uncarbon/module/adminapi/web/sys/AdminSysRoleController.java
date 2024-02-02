@@ -34,7 +34,7 @@ import java.util.Set;
 @Slf4j
 public class AdminSysRoleController {
 
-    private static final String PERMISSION_PREFIX = "SysRole:" ;
+    private static final String PERMISSION_PREFIX = "SysRole:";
 
     private final RolePermissionCacheHelper rolePermissionCacheHelper;
 
