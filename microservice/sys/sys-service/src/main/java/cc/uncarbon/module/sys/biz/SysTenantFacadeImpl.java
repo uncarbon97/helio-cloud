@@ -13,12 +13,17 @@ import cc.uncarbon.module.sys.service.SysRoleService;
 import cc.uncarbon.module.sys.service.SysTenantService;
 import cc.uncarbon.module.sys.service.SysUserRoleRelationService;
 import cc.uncarbon.module.sys.service.SysUserService;
+import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 系统租户Facade接口实现类
@@ -108,8 +113,18 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
         sysTenantService.adminUpdate(dto);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void adminDelete(Collection<Long> ids) {
+        // 确定租户IDs
+        List<SysTenantBO> sysTenantInfos = sysTenantService.listByIds(ids, false);
+        if (CollUtil.isEmpty(sysTenantInfos)) {
+            return;
+        }
+        Set<Long> tenantIds = sysTenantInfos.stream().map(SysTenantBO::getTenantId).collect(Collectors.toSet());
+
+        // 删除租户管理员角色、租户
+        sysRoleService.adminDeleteTenantRoles(tenantIds, Collections.singleton(SysConstant.TENANT_ADMIN_ROLE_VALUE));
         sysTenantService.adminDelete(ids);
     }
 
