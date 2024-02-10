@@ -6,6 +6,7 @@ import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.constant.SysConstant;
 import cc.uncarbon.module.sys.entity.SysTenantEntity;
+import cc.uncarbon.module.sys.enums.SysErrorEnum;
 import cc.uncarbon.module.sys.facade.SysTenantFacade;
 import cc.uncarbon.module.sys.model.request.*;
 import cc.uncarbon.module.sys.model.response.SysTenantBO;
@@ -122,6 +123,9 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
             return;
         }
         Set<Long> tenantIds = sysTenantInfos.stream().map(SysTenantBO::getTenantId).collect(Collectors.toSet());
+
+        // 不能删除「超级租户」（租户ID=0）
+        SysErrorEnum.CANNOT_DELETE_PRIVILEGED_TENANT.assertNotContains(tenantIds, HelioConstant.Tenant.DEFAULT_PRIVILEGED_TENANT_ID);
 
         // 删除租户管理员角色、租户
         sysRoleService.adminDeleteTenantRoles(tenantIds, Collections.singleton(SysConstant.TENANT_ADMIN_ROLE_VALUE));
