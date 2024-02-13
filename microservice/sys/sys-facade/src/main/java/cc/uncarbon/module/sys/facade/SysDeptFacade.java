@@ -51,4 +51,10 @@ public interface SysDeptFacade {
      */
     void adminDelete(Collection<Long> ids);
 
+    /**
+     * 后台管理-下拉框数据
+     * @param inferiorsOnly 只能看到本部门及以下
+     */
+    List<SysDeptBO> adminSelectOptions(boolean inferiorsOnly);
+
 }
