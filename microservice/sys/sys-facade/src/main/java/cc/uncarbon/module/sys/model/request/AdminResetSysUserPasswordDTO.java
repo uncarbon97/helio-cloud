@@ -27,7 +27,7 @@ public class AdminResetSysUserPasswordDTO implements Serializable {
     @NotBlank(message = "随机新密码不能为空")
     private String randomPassword;
 
-    @ApiModelProperty(value = "用户ID", hidden  = true)
+    @ApiModelProperty(value = "用户ID", hidden = true)
     private Long userId;
 
 }

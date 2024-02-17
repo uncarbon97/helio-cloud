@@ -57,6 +57,7 @@ public class SysUserService {
     private final SysTenantService sysTenantService;
     private final SysUserDeptRelationService sysUserDeptRelationService;
     private final SysUserRoleRelationService sysUserRoleRelationService;
+    private final SysRoleMenuRelationService sysRoleMenuRelationService;
     private final HelioProperties helioProperties;
 
     private boolean isTenantEnabled;
@@ -451,7 +452,7 @@ public class SysUserService {
         Set<Long> invisibleUserIds = determineInvisibleUserIds();
         if (CollUtil.isNotEmpty(visibleUserIds) && !CollUtil.containsAll(visibleUserIds, userIds)
                 || CollUtil.isNotEmpty(invisibleUserIds) && CollUtil.containsAny(invisibleUserIds, userIds)) {
-            throw new BusinessException(SysErrorEnum.BEYOND_AUTHORITY);
+            throw new BusinessException(SysErrorEnum.CANNOT_OPERATE_THIS_USER);
         }
     }
 
@@ -586,8 +587,12 @@ public class SysUserService {
         if (CollUtil.isNotEmpty(dto.getRoleIds()) && !currentUser.isSuperAdmin()) {
             boolean overRoles = !CollUtil.containsAll(currentUser.getRelatedRoleIds(), dto.getRoleIds());
             if (overRoles && currentUser.isNotAnyAdmin()) {
-                // 普通用户超自身权限授予了
-                throw new BusinessException(SysErrorEnum.BEYOND_AUTHORITY);
+                // 普通用户超自身角色授予了；如果当前用户拥有新角色的所有菜单，那么也放行
+                Set<Long> grantedMenuIds = sysRoleMenuRelationService.listMenuIdsByRoleIds(currentUser.getRelatedRoleIds());
+                Set<Long> needMenuIds = sysRoleMenuRelationService.listMenuIdsByRoleIds(dto.getRoleIds());
+                if (!CollUtil.containsAll(grantedMenuIds, needMenuIds)) {
+                    throw new BusinessException(SysErrorEnum.BEYOND_AUTHORITY_BIND_ROLES);
+                }
             }
 
             if (currentUser.isTenantAdmin()) {
@@ -596,7 +601,7 @@ public class SysUserService {
                 // 除非超越了可见角色IDs授予 or 想要授予用户租户管理员角色，否则不管
                 invisibleRoleIds.addAll(currentUser.getRelatedRoleIds());
                 if (CollUtil.containsAny(invisibleRoleIds, dto.getRoleIds())) {
-                    throw new BusinessException(SysErrorEnum.BEYOND_AUTHORITY);
+                    throw new BusinessException(SysErrorEnum.BEYOND_AUTHORITY_BIND_ROLES);
                 }
             }
         }

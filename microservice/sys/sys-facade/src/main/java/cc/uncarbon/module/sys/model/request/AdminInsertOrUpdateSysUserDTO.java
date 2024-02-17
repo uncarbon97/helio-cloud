@@ -2,7 +2,9 @@ package cc.uncarbon.module.sys.model.request;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.enums.GenderEnum;
+import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.module.sys.enums.SysUserStatusEnum;
+import cn.hutool.core.text.CharSequenceUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +15,9 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Objects;
 
 
 /**
@@ -33,6 +37,7 @@ public class AdminInsertOrUpdateSysUserDTO implements Serializable {
     private Long tenantId;
 
     @ApiModelProperty(value = "账号", required = true)
+    @Size(min = 6, max = 16, message = "【账号】长度须在 6 至 16 位之间")
     @NotBlank(message = "账号不能为空")
     private String username;
 
@@ -63,5 +68,17 @@ public class AdminInsertOrUpdateSysUserDTO implements Serializable {
 
     @ApiModelProperty(value = "所属部门ID")
     private Long deptId;
+
+
+    public void validate() {
+        boolean isUpdate = Objects.nonNull(id);
+        if (!isUpdate) {
+            // 新增
+            int passwordOfNewUserLen = CharSequenceUtil.length(passwordOfNewUser);
+            if (passwordOfNewUserLen < 8 || passwordOfNewUserLen > 20) {
+                throw new BusinessException("【密码】长度须在 8 至 20 位之间");
+            }
+        }
+    }
 
 }

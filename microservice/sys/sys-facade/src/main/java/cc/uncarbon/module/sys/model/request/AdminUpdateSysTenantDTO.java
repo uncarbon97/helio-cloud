@@ -30,10 +30,6 @@ public class AdminUpdateSysTenantDTO implements Serializable {
     @NotBlank(message = "租户名不能为空")
     private String tenantName;
 
-    @ApiModelProperty(value = "租户ID(纯数字)", required = true)
-    @NotNull(message = "租户ID不能为空")
-    private Long tenantId;
-
     @ApiModelProperty(value = "状态", required = true)
     @NotNull(message = "状态不能为空")
     private EnabledStatusEnum status;

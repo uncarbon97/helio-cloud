@@ -424,10 +424,10 @@ public class SysRoleService {
             throw new BusinessException(SysErrorEnum.CANNOT_BIND_MENUS_FOR_SELF);
         }
 
-        // 有且只有当前用户为超级管理员，才可以为租户管理员赋权
+        // 有且只有当前用户为超级管理员，才可以为租户管理员绑定菜单
         SysRoleEntity targetRole = sysRoleMapper.selectById(dto.getRoleId());
         if (targetRole.isTenantAdmin() && !currentUser.isSuperAdmin()) {
-            throw new BusinessException(SysErrorEnum.BEYOND_AUTHORITY);
+            throw new BusinessException(SysErrorEnum.CANNOT_BIND_MENUS_FOR_TENANT_ADMIN_ROLE);
         }
 
         if (CollUtil.isNotEmpty(dto.getMenuIds()) && !currentUser.isSuperAdmin()) {
@@ -435,7 +435,7 @@ public class SysRoleService {
             Set<Long> visibleMenuIds = sysRoleMenuRelationService.listMenuIdsByRoleIds(currentUser.getRelatedRoleIds());
             if (!CollUtil.containsAll(visibleMenuIds, dto.getMenuIds())) {
                 // 可能存在超自身权限赋权
-                throw new BusinessException(SysErrorEnum.BEYOND_AUTHORITY);
+                throw new BusinessException(SysErrorEnum.BEYOND_AUTHORITY_BIND_MENUS);
             }
         }
     }

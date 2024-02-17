@@ -59,6 +59,7 @@ public class AdminSysUserController {
     @ApiOperation(value = "新增")
     @PostMapping(value = "/sys/users")
     public ApiResult<Void> insert(@RequestBody @Valid AdminInsertOrUpdateSysUserDTO dto) {
+        dto.setId(null).validate();
         sysUserFacade.adminInsert(dto);
 
         return ApiResult.success();
@@ -69,7 +70,7 @@ public class AdminSysUserController {
     @ApiOperation(value = "编辑")
     @PutMapping(value = "/sys/users/{id}")
     public ApiResult<Void> update(@PathVariable Long id, @RequestBody @Valid AdminInsertOrUpdateSysUserDTO dto) {
-        dto.setId(id);
+        dto.setId(id).validate();
         sysUserFacade.adminUpdate(dto);
 
         // 新状态是禁用，连带踢出登录

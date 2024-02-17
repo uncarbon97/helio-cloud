@@ -31,9 +31,8 @@ public enum SysErrorEnum implements HelioBaseEnum<Integer> {
     UUID_CANNOT_BE_BLANK(400, "UUID不能为空"),
 
     /*
-    以下7个枚举用于后台角色管理的越权检查
+    以下8个枚举用于后台角色管理的越权检查
     */
-    BEYOND_AUTHORITY(401, "不得超越自身权限"),
 
     ROLE_VALUE_CANNOT_BE(403, "角色值 {} 不能用于新增或编辑，请选用其他值"),
 
@@ -43,18 +42,24 @@ public enum SysErrorEnum implements HelioBaseEnum<Integer> {
 
     CANNOT_DELETE_SELF_ROLE(403, "不能删除自身角色"),
 
-    CANNOT_BIND_MENUS_FOR_SUPER_ADMIN_ROLE(403, "不能为超级管理员角色，绑定角色与菜单关联关系"),
+    CANNOT_BIND_MENUS_FOR_SUPER_ADMIN_ROLE(403, "不能为超级管理员角色绑定菜单"),
 
-    CANNOT_BIND_MENUS_FOR_SELF(403, "不能为自身角色，绑定角色与菜单关联关系"),
+    CANNOT_BIND_MENUS_FOR_SELF(403, "不能为自身角色绑定菜单"),
+
+    BEYOND_AUTHORITY_BIND_MENUS(401, "不得超越自身菜单权限"),
+
+    CANNOT_BIND_MENUS_FOR_TENANT_ADMIN_ROLE(403, "无权为租户管理员绑定菜单"),
 
     /*
-    以下3个枚举用于后台用户管理的越权检查
+    以下4个枚举用于后台用户管理的越权检查
     */
     CANNOT_OPERATE_SELF_USER(403, "不能对自身进行此操作"),
 
     CANNOT_OPERATE_THIS_USER(403, "不能该用户进行此操作"),
 
     CANNOT_UNBIND_SELF_TENANT_ADMIN_ROLE(403, "自身的管理员角色不能被取消"),
+
+    BEYOND_AUTHORITY_BIND_ROLES(401, "不得超越自身角色权限"),
 
     CANNOT_DELETE_PRIVILEGED_TENANT(403, "不能删除超级租户"),
 

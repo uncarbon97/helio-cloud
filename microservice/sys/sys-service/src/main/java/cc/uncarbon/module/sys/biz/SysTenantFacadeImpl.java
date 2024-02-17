@@ -83,7 +83,7 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
         Long newRoleId = sysRoleService.adminInsert(
                 AdminInsertOrUpdateSysRoleDTO.builder()
                         .tenantId(newTenantId)
-                        .title(dto.getTenantName() + "管理员")
+                        .title(dto.getTenantName() + "主管理员")
                         .value(SysConstant.TENANT_ADMIN_ROLE_VALUE)
                         .build()
         );
@@ -94,7 +94,7 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
                         .tenantId(newTenantId)
                         .username(dto.getTenantAdminUsername())
                         .passwordOfNewUser(dto.getTenantAdminPassword())
-                        .nickname(dto.getTenantName() + "管理员")
+                        .nickname(dto.getTenantName() + "主管理员")
                         .email(dto.getTenantAdminEmail())
                         .phoneNo(dto.getTenantAdminPhoneNo())
                         // 默认为正常状态

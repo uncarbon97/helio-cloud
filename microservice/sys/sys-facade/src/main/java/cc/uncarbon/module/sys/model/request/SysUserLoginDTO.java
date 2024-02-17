@@ -29,7 +29,7 @@ public class SysUserLoginDTO implements Serializable {
     private String username;
 
     @ApiModelProperty(value = "密码", required = true)
-    @Size(min = 5, max = 64, message = "【密码】长度须在 5 至 16 位之间")
+    @Size(min = 5, max = 20, message = "【密码】长度须在 5 至 20 位之间")
     @NotBlank(message = "密码不能为空")
     private String password;
 
