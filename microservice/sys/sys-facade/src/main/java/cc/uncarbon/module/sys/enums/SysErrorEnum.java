@@ -6,7 +6,7 @@ import lombok.Getter;
 
 
 /**
- * SYS异常枚举类
+ * sys模块错误枚举类
  */
 @AllArgsConstructor
 @Getter
@@ -27,8 +27,6 @@ public enum SysErrorEnum implements HelioBaseEnum<Integer> {
     NO_ROLE_AVAILABLE_FOR_CURRENT_USER(400, "当前用户没有可用角色"),
 
     NO_MENU_AVAILABLE_FOR_CURRENT_ROLE(400, "当前角色没有可用菜单"),
-
-    UUID_CANNOT_BE_BLANK(400, "UUID不能为空"),
 
     /*
     以下8个枚举用于后台角色管理的越权检查

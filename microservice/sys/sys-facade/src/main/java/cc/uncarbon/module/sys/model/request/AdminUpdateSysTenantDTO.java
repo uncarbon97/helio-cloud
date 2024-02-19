@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 
@@ -27,6 +28,7 @@ public class AdminUpdateSysTenantDTO implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "租户名", required = true)
+    @Size(max = 50, message = "【租户名】最长50位")
     @NotBlank(message = "租户名不能为空")
     private String tenantName;
 
@@ -35,6 +37,7 @@ public class AdminUpdateSysTenantDTO implements Serializable {
     private EnabledStatusEnum status;
 
     @ApiModelProperty(value = "备注")
+    @Size(max = 255, message = "【备注】最长255位")
     private String remark;
 
 }

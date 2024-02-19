@@ -352,7 +352,7 @@ public class SysRoleService {
                             .lambda()
                             // 租户ID相同
                             .eq(SysRoleEntity::getTenantId, dto.getTenantId())
-                            // 值相同
+                            // 角色编码相同
                             .eq(SysRoleEntity::getValue, dto.getValue())
                             .last(HelioConstant.CRUD.SQL_LIMIT_1)
             );
@@ -365,11 +365,11 @@ public class SysRoleService {
      */
     private void preInsertOrUpdateCheck(AdminInsertOrUpdateSysRoleDTO dto) {
         if (SysConstant.SUPER_ADMIN_ROLE_VALUE.equalsIgnoreCase(dto.getValue())) {
-            // 角色值不能为SuperAdmin
+            // 角色编码不能为SuperAdmin
             throw new BusinessException(SysErrorEnum.ROLE_VALUE_CANNOT_BE, SysConstant.SUPER_ADMIN_ROLE_VALUE);
         }
         if (SysConstant.TENANT_ADMIN_ROLE_VALUE.equalsIgnoreCase(dto.getValue()) && !dto.creatingNewTenantAdmin()) {
-            // 除非是新增租户时，同时新增租户管理员角色，否则角色值不能为Admin
+            // 除非是新增租户时，同时新增租户管理员角色，否则角色编码不能为Admin
             throw new BusinessException(SysErrorEnum.ROLE_VALUE_CANNOT_BE, SysConstant.TENANT_ADMIN_ROLE_VALUE);
         }
 
@@ -378,7 +378,7 @@ public class SysRoleService {
             SysRoleEntity existingRole = sysRoleMapper.selectById(dto.getId());
             SysErrorEnum.INVALID_ID.assertNotNull(existingRole);
             if (existingRole.isSuperAdmin() || existingRole.isTenantAdmin()) {
-                // 原来角色值为SuperAdmin或Admin的，不能被改变
+                // 原来角色编码为SuperAdmin或Admin的，不能被改变
                 throw new BusinessException(SysErrorEnum.ROLE_VALUE_CANNOT_BE, existingRole.getValue());
             }
         }

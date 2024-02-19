@@ -7,6 +7,7 @@ import cc.uncarbon.module.sys.model.request.AdminInsertSysTenantDTO;
 import cc.uncarbon.module.sys.model.request.AdminListSysTenantDTO;
 import cc.uncarbon.module.sys.model.request.AdminUpdateSysTenantDTO;
 import cc.uncarbon.module.sys.model.response.SysTenantBO;
+import cc.uncarbon.module.sys.model.response.SysTenantKickOutUsersBO;
 
 import java.util.Collection;
 
@@ -46,12 +47,12 @@ public interface SysTenantFacade {
     /**
      * 后台管理-编辑
      */
-    void adminUpdate(AdminUpdateSysTenantDTO dto);
+    SysTenantKickOutUsersBO adminUpdate(AdminUpdateSysTenantDTO dto);
 
     /**
      * 后台管理-删除
      * @param ids 主键IDs
      */
-    void adminDelete(Collection<Long> ids);
+    SysTenantKickOutUsersBO adminDelete(Collection<Long> ids);
 
 }
