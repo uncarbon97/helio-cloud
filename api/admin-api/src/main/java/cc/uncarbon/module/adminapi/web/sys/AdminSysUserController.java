@@ -6,14 +6,17 @@ import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.framework.web.model.request.IdsDTO;
 import cc.uncarbon.framework.web.model.response.ApiResult;
+import cc.uncarbon.module.adminapi.event.KickOutSysUsersEvent;
 import cc.uncarbon.module.adminapi.util.AdminStpUtil;
 import cc.uncarbon.module.sys.annotation.SysLog;
+import cc.uncarbon.module.sys.enums.SysUserStatusEnum;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
 import cc.uncarbon.module.sys.model.request.*;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
 import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoVO;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.hutool.extra.spring.SpringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.Set;
 
 
@@ -58,6 +62,7 @@ public class AdminSysUserController {
     @ApiOperation(value = "新增")
     @PostMapping(value = "/sys/users")
     public ApiResult<Void> insert(@RequestBody @Valid AdminInsertOrUpdateSysUserDTO dto) {
+        dto.setId(null).setTenantId(null).validate();
         sysUserFacade.adminInsert(dto);
 
         return ApiResult.success();
@@ -68,8 +73,15 @@ public class AdminSysUserController {
     @ApiOperation(value = "编辑")
     @PutMapping(value = "/sys/users/{id}")
     public ApiResult<Void> update(@PathVariable Long id, @RequestBody @Valid AdminInsertOrUpdateSysUserDTO dto) {
-        dto.setId(id);
+        dto.setId(id).setTenantId(null).validate();
         sysUserFacade.adminUpdate(dto);
+
+        // 新状态是禁用，异步强制登出
+        if (dto.getStatus() == SysUserStatusEnum.BANNED) {
+            SpringUtil.publishEvent(new KickOutSysUsersEvent(
+                    new KickOutSysUsersEvent.EventData(Collections.singleton(dto.getId()))
+            ));
+        }
 
         return ApiResult.success();
     }
@@ -80,6 +92,11 @@ public class AdminSysUserController {
     @DeleteMapping(value = "/sys/users")
     public ApiResult<Void> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         sysUserFacade.adminDelete(dto.getIds());
+
+        // 异步强制登出
+        SpringUtil.publishEvent(new KickOutSysUsersEvent(
+                new KickOutSysUsersEvent.EventData(dto.getIds())
+        ));
 
         return ApiResult.success();
     }
@@ -98,7 +115,7 @@ public class AdminSysUserController {
         dto.setUserId(userId);
         sysUserFacade.adminResetUserPassword(dto);
 
-        // 踢出原登录
+        // 强制登出
         AdminStpUtil.kickout(dto.getUserId());
 
         return ApiResult.success();
@@ -130,8 +147,10 @@ public class AdminSysUserController {
         dto.setUserId(userId);
         sysUserFacade.adminBindRoles(dto);
 
-        // 该用户会被强制踢下线，以更新对应权限；可以视业务需要决定是否删除该代码
-        this.kickOut(dto.getUserId());
+        // 异步强制登出，以更新对应权限；可以视业务需要决定是否删除该代码
+        SpringUtil.publishEvent(new KickOutSysUsersEvent(
+                new KickOutSysUsersEvent.EventData(Collections.singleton(dto.getUserId()))
+        ));
 
         return ApiResult.success();
     }

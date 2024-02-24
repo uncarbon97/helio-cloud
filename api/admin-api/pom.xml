@@ -8,21 +8,21 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.10.0</version>
+        <version>1.11.0</version>
     </parent>
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>admin-api</artifactId>
     <description>后台管理HTTP-API</description>
     <!-- 本微服务模块制品版本号 -->
-    <version>1.10.0</version>
+    <version>1.11.0</version>
 
     <properties>
         <!-- 引入其他微服务模块 -->
         <!-- 后台管理服务 -->
-        <sys.version>1.10.0</sys.version>
+        <sys.version>1.11.0</sys.version>
         <!-- 对象存储服务 -->
-        <oss.version>1.10.0</oss.version>
+        <oss.version>1.11.0</oss.version>
     </properties>
 
     <dependencies>

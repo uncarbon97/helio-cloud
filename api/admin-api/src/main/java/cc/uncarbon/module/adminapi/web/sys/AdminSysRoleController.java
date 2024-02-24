@@ -34,7 +34,7 @@ import java.util.Set;
 @Slf4j
 public class AdminSysRoleController {
 
-    private static final String PERMISSION_PREFIX = "SysRole:" ;
+    private static final String PERMISSION_PREFIX = "SysRole:";
 
     private final RolePermissionCacheHelper rolePermissionCacheHelper;
 
@@ -61,6 +61,7 @@ public class AdminSysRoleController {
     @ApiOperation(value = "新增")
     @PostMapping(value = "/sys/roles")
     public ApiResult<Void> insert(@RequestBody @Valid AdminInsertOrUpdateSysRoleDTO dto) {
+        dto.setTenantId(null);
         sysRoleFacade.adminInsert(dto);
 
         return ApiResult.success();
@@ -71,7 +72,9 @@ public class AdminSysRoleController {
     @ApiOperation(value = "编辑")
     @PutMapping(value = "/sys/roles/{id}")
     public ApiResult<Void> update(@PathVariable Long id, @RequestBody @Valid AdminInsertOrUpdateSysRoleDTO dto) {
-        dto.setId(id);
+        dto
+                .setTenantId(null)
+                .setId(id);
         sysRoleFacade.adminUpdate(dto);
 
         return ApiResult.success();

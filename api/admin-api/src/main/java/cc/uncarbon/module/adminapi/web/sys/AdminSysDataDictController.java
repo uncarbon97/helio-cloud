@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @Slf4j
 public class AdminSysDataDictController {
 
-    private static final String PERMISSION_PREFIX = "SysDataDict:" ;
+    private static final String PERMISSION_PREFIX = "SysDataDict:";
 
     @DubboReference(version = HelioConstant.Version.DUBBO_VERSION_V1, validation = HelioConstant.Dubbo.ENABLE_VALIDATION)
     private SysDataDictFacade sysDataDictFacade;

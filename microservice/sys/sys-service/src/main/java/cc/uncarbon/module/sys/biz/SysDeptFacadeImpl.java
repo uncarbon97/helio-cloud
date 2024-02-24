@@ -59,4 +59,8 @@ public class SysDeptFacadeImpl implements SysDeptFacade {
         sysDeptService.adminDelete(ids);
     }
 
+    @Override
+    public List<SysDeptBO> adminSelectOptions(boolean inferiorsOnly) {
+        return sysDeptService.adminSelectOptions(inferiorsOnly);
+    }
 }

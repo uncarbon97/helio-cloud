@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -66,5 +67,10 @@ public class SysRoleFacadeImpl implements SysRoleFacade {
     @Override
     public Set<String> adminBindMenus(AdminBindRoleMenuRelationDTO dto) {
         return sysRoleService.adminBindMenus(dto);
+    }
+
+    @Override
+    public List<SysRoleBO> adminSelectOptions() {
+        return sysRoleService.adminSelectOptions();
     }
 }

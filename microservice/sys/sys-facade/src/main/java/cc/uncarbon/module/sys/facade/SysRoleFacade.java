@@ -9,6 +9,7 @@ import cc.uncarbon.module.sys.model.request.AdminListSysRoleDTO;
 import cc.uncarbon.module.sys.model.response.SysRoleBO;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -61,5 +62,10 @@ public interface SysRoleFacade {
      * @return 新菜单ID集合对应的权限名
      */
     Set<String> adminBindMenus(AdminBindRoleMenuRelationDTO dto);
+
+    /**
+     * 后台管理-下拉框数据
+     */
+    List<SysRoleBO> adminSelectOptions();
 
 }
