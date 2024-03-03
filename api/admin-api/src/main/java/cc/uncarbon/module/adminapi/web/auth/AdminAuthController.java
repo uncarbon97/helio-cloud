@@ -6,8 +6,6 @@ import cc.uncarbon.framework.core.context.TenantContext;
 import cc.uncarbon.framework.core.context.TenantContextHolder;
 import cc.uncarbon.framework.core.context.UserContext;
 import cc.uncarbon.framework.core.context.UserContextHolder;
-import cc.uncarbon.framework.ratelimit.annotation.UseRateLimit;
-import cc.uncarbon.framework.ratelimit.stratrgy.impl.RateLimitByClientIPStrategy;
 import cc.uncarbon.framework.web.model.response.ApiResult;
 import cc.uncarbon.module.adminapi.aspect.extension.SysLogAspectExtensionForSysUserLogin;
 import cc.uncarbon.module.adminapi.helper.CaptchaHelper;
@@ -98,7 +96,6 @@ public class AdminAuthController {
         return ApiResult.success();
     }
 
-    @UseRateLimit(mark = "admin-api-auth-captcha", duration = 60, max = 10, strategy = RateLimitByClientIPStrategy.class)
     @ApiOperation(value = "获取验证码")
     @GetMapping(value = "/auth/captcha")
     public ApiResult<AdminCaptchaVO> captcha() {
