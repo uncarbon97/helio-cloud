@@ -143,8 +143,7 @@ public class SysTenantFacadeImpl implements SysTenantFacade {
             // 查出需要强制登出的用户
             List<Long> tenantSysUserIds = tenantIds.stream()
                     .map(tenantId -> sysUserService.listUserIdsByTenantId(tenantId, Collections.singleton(EnabledStatusEnum.ENABLED)))
-                    .flatMap(Collection::stream)
-                    .collect(Collectors.toList());
+                    .flatMap(Collection::stream).toList();
             return new SysTenantKickOutUsersBO(tenantSysUserIds);
         }
         return new SysTenantKickOutUsersBO();

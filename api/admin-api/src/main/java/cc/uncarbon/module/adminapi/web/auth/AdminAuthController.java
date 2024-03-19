@@ -6,8 +6,6 @@ import cc.uncarbon.framework.core.context.TenantContext;
 import cc.uncarbon.framework.core.context.TenantContextHolder;
 import cc.uncarbon.framework.core.context.UserContext;
 import cc.uncarbon.framework.core.context.UserContextHolder;
-import cc.uncarbon.framework.ratelimit.annotation.UseRateLimit;
-import cc.uncarbon.framework.ratelimit.stratrgy.impl.RateLimitByClientIPStrategy;
 import cc.uncarbon.framework.web.model.response.ApiResult;
 import cc.uncarbon.module.adminapi.aspect.extension.SysLogAspectExtensionForSysUserLogin;
 import cc.uncarbon.module.adminapi.helper.CaptchaHelper;
@@ -21,18 +19,17 @@ import cc.uncarbon.module.sys.model.request.SysUserLoginDTO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginBO;
 import cc.uncarbon.module.sys.model.response.SysUserLoginVO;
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 
-
-@Api(value = "后台管理-鉴权接口", tags = {"后台管理-鉴权接口"})
+@Tag(name = "后台管理-鉴权接口")
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @RestController
@@ -48,7 +45,7 @@ public class AdminAuthController {
 
 
     @SysLog(value = "登录后台用户", syncSave = true, extension = SysLogAspectExtensionForSysUserLogin.class, queryIPLocation = true)
-    @ApiOperation(value = "登录")
+    @Operation(summary = "登录")
     @PostMapping(value = "/auth/login")
     public ApiResult<SysUserLoginVO> login(@RequestBody @Valid SysUserLoginDTO dto) {
         // 登录验证码核验；前端项目搜索关键词「 Helio: 登录验证码」
@@ -88,7 +85,7 @@ public class AdminAuthController {
     }
 
     @SaCheckLogin(type = AdminStpUtil.TYPE)
-    @ApiOperation(value = "登出")
+    @Operation(summary = "登出")
     @PostMapping(value = "/auth/logout")
     public ApiResult<Void> logout() {
         AdminStpUtil.logout();
@@ -98,8 +95,7 @@ public class AdminAuthController {
         return ApiResult.success();
     }
 
-    @UseRateLimit(mark = "admin-api-auth-captcha", duration = 60, max = 10, strategy = RateLimitByClientIPStrategy.class)
-    @ApiOperation(value = "获取验证码")
+    @Operation(summary = "获取验证码")
     @GetMapping(value = "/auth/captcha")
     public ApiResult<AdminCaptchaVO> captcha() {
         // 核验方法：captchaHelper.validate

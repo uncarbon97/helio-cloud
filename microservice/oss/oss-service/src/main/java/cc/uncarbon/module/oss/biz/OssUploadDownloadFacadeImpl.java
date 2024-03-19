@@ -24,7 +24,7 @@ import org.dromara.x.file.storage.core.exception.FileStorageRuntimeException;
 @RequiredArgsConstructor
 @DubboService(
         version = HelioConstant.Version.DUBBO_VERSION_V1,
-        validation = HelioConstant.Dubbo.ENABLE_VALIDATION,
+        
         timeout = HelioConstant.Dubbo.TIMEOUT,
         retries = HelioConstant.Dubbo.RETRIES
 )

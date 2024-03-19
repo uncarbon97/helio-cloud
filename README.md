@@ -2,9 +2,9 @@
 
 ## 项目介绍
 
-`helio-cloud`基于 Spring Boot 2.7.x + Spring Cloud Alibaba 2021 + Dubbo 3，是一款预置SaaS、RBAC能力的微服务项目脚手架，助力开发者快速上手企业级微服务开发
+`helio-cloud`基于 Spring Boot 3.7.x + Spring Cloud Alibaba 2022 + Dubbo 3，是一款预置SaaS、RBAC能力的微服务项目脚手架，助力开发者快速上手企业级微服务开发
 
-JDK compatibility: 1.8 - 21
+JDK compatibility: 17 - 21
 
 【[前端演示站](https://helio-demo.uncarbon.cc/)】
 【[官方文档](https://helio.uncarbon.cc/)】

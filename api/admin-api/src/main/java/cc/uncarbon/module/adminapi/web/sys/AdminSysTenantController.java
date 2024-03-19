@@ -17,18 +17,18 @@ import cc.uncarbon.module.sys.model.response.SysTenantKickOutUsersBO;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.extra.spring.SpringUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 
 @SaCheckLogin(type = AdminStpUtil.TYPE)
-@Api(value = "系统租户管理接口", tags = {"系统租户管理接口"})
+@Tag(name = "系统租户管理接口")
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @RestController
@@ -42,14 +42,14 @@ public class AdminSysTenantController {
 
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
-    @ApiOperation(value = "分页列表")
+    @Operation(summary = "分页列表")
     @GetMapping(value = "/sys/tenants")
     public ApiResult<PageResult<SysTenantBO>> list(PageParam pageParam, AdminListSysTenantDTO dto) {
         return ApiResult.data(sysTenantFacade.adminList(pageParam, dto));
     }
 
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.RETRIEVE)
-    @ApiOperation(value = "详情")
+    @Operation(summary = "详情")
     @GetMapping(value = "/sys/tenants/{id}")
     public ApiResult<SysTenantBO> getById(@PathVariable Long id) {
         return ApiResult.data(sysTenantFacade.getOneById(id, true));
@@ -57,7 +57,7 @@ public class AdminSysTenantController {
 
     @SysLog(value = "新增系统租户")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.CREATE)
-    @ApiOperation(value = "新增")
+    @Operation(summary = "新增")
     @PostMapping(value = "/sys/tenants")
     public ApiResult<Void> insert(@RequestBody @Valid AdminInsertSysTenantDTO dto) {
         sysTenantFacade.adminInsert(dto);
@@ -67,7 +67,7 @@ public class AdminSysTenantController {
 
     @SysLog(value = "编辑系统租户")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.UPDATE)
-    @ApiOperation(value = "编辑")
+    @Operation(summary = "编辑")
     @PutMapping(value = "/sys/tenants/{id}")
     public ApiResult<Void> update(@PathVariable Long id, @RequestBody @Valid AdminUpdateSysTenantDTO dto) {
         dto.setId(id);
@@ -83,7 +83,7 @@ public class AdminSysTenantController {
 
     @SysLog(value = "删除系统租户")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + HelioConstant.Permission.DELETE)
-    @ApiOperation(value = "删除")
+    @Operation(summary = "删除")
     @DeleteMapping(value = "/sys/tenants")
     public ApiResult<Void> delete(@RequestBody @Valid IdsDTO<Long> dto) {
         SysTenantKickOutUsersBO evictedUsers = sysTenantFacade.adminDelete(dto.getIds());

@@ -8,14 +8,14 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>1.11.0</version>
+        <version>2.0.0</version>
     </parent>
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>app-api</artifactId>
     <description>C端HTTP-API</description>
     <!-- 本微服务模块制品版本号 -->
-    <version>1.11.0</version>
+    <version>2.0.0</version>
 
     <properties>
     </properties>
@@ -44,9 +44,10 @@
             <groupId>cc.uncarbon.framework</groupId>
             <artifactId>helio-starter-knife4j</artifactId>
             <exclusions>
+                <!-- 无需引入 UI 库 -->
                 <exclusion>
                     <groupId>com.github.xiaoymin</groupId>
-                    <artifactId>knife4j-spring-boot-starter</artifactId>
+                    <artifactId>knife4j-openapi3-ui</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -77,9 +78,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
-                <configuration>
-                    <fork>true</fork>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>

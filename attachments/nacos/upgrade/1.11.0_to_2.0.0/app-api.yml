@@ -1,0 +1,13 @@
+# since Helio v2.0.0 - 预置放行路由收敛为以下4个
+helio:
+  security:
+    exclude-routes:
+      # 放行路由, 不进行登录校验
+      # 图标
+      - /favicon.ico
+      # SpringDoc 接口
+      - /v3/api-docs
+      # SpringMVC 404
+      - /error
+      # C端登录接口
+      - /api/v1/auth/login

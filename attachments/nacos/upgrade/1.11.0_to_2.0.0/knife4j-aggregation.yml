@@ -1,0 +1,19 @@
+# since Helio v2.0.0 - location 由 /v2/api-docs 改为 /v3/api-docs
+knife4j:
+  cloud:
+    routes:
+      - name: 微服务Cloud版-admin-api
+        uri: 127.0.0.1:7001
+        location: /v3/api-docs
+      - name: 微服务Cloud版-app-api
+        uri: 127.0.0.1:7002
+        location: /v3/api-docs
+      - name: 单体Boot版
+        uri: 127.0.0.1:7003
+        location: /v3/api-docs
+
+spring:
+  mvc:
+    pathmatch:
+      # Spring Boot 2.6 后，默认的路由匹配策略为 PathPatternParser，SpringFox 不兼容，改回老策略 AntPathMatcher
+      matching-strategy: ant_path_matcher

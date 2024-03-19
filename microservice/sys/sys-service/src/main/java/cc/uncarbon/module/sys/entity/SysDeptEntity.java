@@ -4,7 +4,7 @@ import cc.uncarbon.framework.core.enums.EnabledStatusEnum;
 import cc.uncarbon.framework.crud.entity.HelioBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,19 +25,19 @@ import lombok.experimental.SuperBuilder;
 @TableName(value = "sys_dept")
 public class SysDeptEntity extends HelioBaseEntity<Long> {
 
-	@ApiModelProperty(value = "名称")
+	@Schema(description = "名称")
 	@TableField(value = "title")
 	private String title;
 
-	@ApiModelProperty(value = "上级ID(无上级节点设置为0)")
+	@Schema(description = "上级ID(无上级节点设置为0)")
 	@TableField(value = "parent_id")
 	private Long parentId;
 
-	@ApiModelProperty(value = "排序")
+	@Schema(description = "排序")
 	@TableField(value = "sort")
 	private Integer sort;
 
-	@ApiModelProperty(value = "状态")
+	@Schema(description = "状态")
 	@TableField(value = "status")
 	private EnabledStatusEnum status;
 
