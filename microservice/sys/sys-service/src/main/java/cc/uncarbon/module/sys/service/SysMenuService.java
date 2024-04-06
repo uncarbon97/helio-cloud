@@ -250,16 +250,12 @@ public class SysMenuService {
                 .setName(snowflakeIdStr)
                 .setMeta(new VbenAdminMenuMetaVO(bo.getTitle(), false, bo.getIcon()));
 
-        // 这里是兼容 JDK8 的写法，使用较高 JDK 版本可使用语法糖
         switch (bo.getType()) {
-            case DIR:
-            case BUTTON:
-                bo
-                        .setComponent(SysConstant.VBEN_ADMIN_BLANK_VIEW)
-                        .setExternalLink(null)
-                        .setPath(StrPool.SLASH + snowflakeIdStr);
-                break;
-            case MENU:
+            case DIR, BUTTON -> bo
+                    .setComponent(SysConstant.VBEN_ADMIN_BLANK_VIEW)
+                    .setExternalLink(null)
+                    .setPath(StrPool.SLASH + snowflakeIdStr);
+            case MENU -> {
                 bo
                         .setExternalLink(null)
                         .setPath(bo.getComponent());
@@ -267,13 +263,10 @@ public class SysMenuService {
                 if (CharSequenceUtil.isNotBlank(bo.getPath()) && !bo.getPath().startsWith(StrPool.SLASH)) {
                     bo.setPath(StrPool.SLASH + bo.getPath());
                 }
-                break;
-            case EXTERNAL_LINK:
-                bo
-                        .setComponent(bo.getExternalLink())
-                        .setPath(bo.getExternalLink());
-                break;
-            default: break;
+            }
+            case EXTERNAL_LINK -> bo
+                    .setComponent(bo.getExternalLink())
+                    .setPath(bo.getExternalLink());
         }
         return bo;
     }
@@ -367,7 +360,7 @@ public class SysMenuService {
     /**
      * 追溯并补充可能缺失的级联上级菜单ID
      *
-     * @param allMenuMap 完整的 菜单ID-上级菜单ID map
+     * @param allMenuMap             完整的 菜单ID-上级菜单ID map
      * @param directlyRelatedMenuIds 当前用户直接关联的菜单ID集合
      * @return Set<Long> 已经补充好的、完整的菜单ID集合
      */

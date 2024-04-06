@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 用户关联部门容器
@@ -75,7 +74,7 @@ public class UserDeptContainer {
             this.visibleDeptIds = Collections.emptyList();
             this.visibleDepts = Collections.emptyList();
         } else {
-            this.visibleDeptIds = visibleDepts.stream().map(SysDeptEntity::getId).collect(Collectors.toList());
+            this.visibleDeptIds = visibleDepts.stream().map(SysDeptEntity::getId).toList();
             this.visibleDepts = visibleDepts;
         }
     }

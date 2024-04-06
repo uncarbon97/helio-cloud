@@ -12,7 +12,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 后台用户
@@ -47,7 +46,7 @@ public interface SysUserMapper extends BaseMapper<SysUserEntity> {
                         .select(SysUserEntity::getId)
                         // 状态
                         .in(CollUtil.isNotEmpty(statusEnums), SysUserEntity::getStatus, statusEnums)
-        ).stream().map(SysUserEntity::getId).collect(Collectors.toList());
+        ).stream().map(SysUserEntity::getId).toList();
     }
 
 }
