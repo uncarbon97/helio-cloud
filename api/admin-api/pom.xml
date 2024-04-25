@@ -15,14 +15,14 @@
     <artifactId>admin-api</artifactId>
     <description>后台管理HTTP-API</description>
     <!-- 本微服务模块制品版本号 -->
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 
     <properties>
         <!-- 引入其他微服务模块 -->
         <!-- 后台管理服务 -->
-        <sys.version>2.0.0</sys.version>
+        <sys.version>2.0.1</sys.version>
         <!-- 对象存储服务 -->
-        <oss.version>2.0.0</oss.version>
+        <oss.version>2.0.1</oss.version>
     </properties>
 
     <dependencies>
