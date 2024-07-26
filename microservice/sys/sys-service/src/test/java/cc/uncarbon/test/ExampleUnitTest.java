@@ -5,13 +5,13 @@ import cc.uncarbon.framework.core.context.TenantContext;
 import cc.uncarbon.framework.core.context.TenantContextHolder;
 import cc.uncarbon.framework.core.context.UserContext;
 import cc.uncarbon.framework.core.context.UserContextHolder;
-import cc.uncarbon.module.adminapi.AdminApiApplication;
+import cc.uncarbon.module.sys.SysServiceApplication;
 import cc.uncarbon.module.sys.facade.SysRoleFacade;
 import cc.uncarbon.module.sys.model.response.SysRoleBO;
 import cn.hutool.core.collection.CollUtil;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -22,15 +22,15 @@ import java.util.List;
  *
  * @author Uncarbon
  */
-@SpringBootTest(classes = AdminApiApplication.class)
+@SpringBootTest(classes = SysServiceApplication.class)
 class ExampleUnitTest {
 
     @Resource
     private SysRoleFacade sysRoleFacade;
 
 
-    @BeforeEach
-    public void init() {
+    @BeforeAll
+    public static void init() {
         // 设置用户上下文
         UserContext userContext = new UserContext();
         userContext

@@ -1,13 +1,17 @@
 package cc.uncarbon.module.sys.facade;
 
-import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
-import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDataDictDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysDataDictDTO;
-import cc.uncarbon.module.sys.model.response.SysDataDictBO;
+import cc.uncarbon.module.sys.model.request.AdminSysDataDictClassifiedInsertOrUpdateDTO;
+import cc.uncarbon.module.sys.model.request.AdminSysDataDictClassifiedListDTO;
+import cc.uncarbon.module.sys.model.request.AdminSysDataDictItemInsertOrUpdateDTO;
+import cc.uncarbon.module.sys.model.request.AdminSysDataDictItemListDTO;
+import cc.uncarbon.module.sys.model.response.SysDataDictClassifiedBO;
+import cc.uncarbon.module.sys.model.response.SysDataDictItemBO;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -16,43 +20,54 @@ import java.util.Collection;
 public interface SysDataDictFacade {
 
     /**
-     * 后台管理-分页列表
+     * 后台管理-分页列表数据字典分类
      */
-    PageResult<SysDataDictBO> adminList(PageParam pageParam, AdminListSysDataDictDTO dto);
+    PageResult<SysDataDictClassifiedBO> adminListClassified(PageParam pageParam, AdminSysDataDictClassifiedListDTO dto);
 
     /**
-     * 根据 ID 取详情
-     *
-     * @param id 主键ID
-     * @return null or BO
-     */
-    SysDataDictBO getOneById(Long id);
-
-    /**
-     * 根据 ID 取详情
-     *
-     * @param id 主键ID
-     * @param throwIfInvalidId 是否在 ID 无效时抛出异常
-     * @return null or BO
-     */
-    SysDataDictBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException;
-
-    /**
-     * 后台管理-添加
+     * 后台管理-新增数据字典分类
      *
      * @return 主键ID
      */
-    Long adminInsert(AdminInsertOrUpdateSysDataDictDTO dto);
+    Long adminInsertClassified(AdminSysDataDictClassifiedInsertOrUpdateDTO dto);
 
     /**
-     * 后台管理-编辑
+     * 后台管理-编辑数据字典分类
      */
-    void adminUpdate(AdminInsertOrUpdateSysDataDictDTO dto);
+    void adminUpdateClassified(AdminSysDataDictClassifiedInsertOrUpdateDTO dto);
 
     /**
-     * 后台管理-删除
-     * @param ids 主键IDs
+     * 后台管理-删除数据字典分类
      */
-    void adminDelete(Collection<Long> ids);
+    void adminDeleteClassified(Collection<Long> ids);
+
+    /**
+     * 后台管理-分页列表数据字典分类下的字典项
+     */
+    PageResult<SysDataDictItemBO> adminListItem(PageParam pageParam, AdminSysDataDictItemListDTO dto);
+
+    /**
+     * 后台管理-新增数据字典项
+     *
+     * @return 主键ID
+     */
+    Long adminInsertItem(AdminSysDataDictItemInsertOrUpdateDTO dto);
+
+    /**
+     * 后台管理-编辑数据字典项
+     */
+    void adminUpdateItem(AdminSysDataDictItemInsertOrUpdateDTO dto);
+
+    /**
+     * 后台管理-删除数据字典项
+     */
+    void adminDeleteItem(Collection<Long> ids, Long classifiedId);
+
+    /**
+     * 列举指定分类编码下的所有启用的字典项
+     *
+     * @return 存在则返回字典项列表；不存在或没有符合的字典项，均返回空列表
+     */
+    List<SysDataDictItemBO> listEnabledItemsByClassifiedCode(@Nonnull String classifiedCode);
 
 }
