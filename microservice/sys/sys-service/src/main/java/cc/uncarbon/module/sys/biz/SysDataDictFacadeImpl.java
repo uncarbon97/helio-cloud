@@ -1,19 +1,23 @@
 package cc.uncarbon.module.sys.biz;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
-import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.module.sys.facade.SysDataDictFacade;
-import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysDataDictDTO;
-import cc.uncarbon.module.sys.model.request.AdminListSysDataDictDTO;
-import cc.uncarbon.module.sys.model.response.SysDataDictBO;
+import cc.uncarbon.module.sys.model.request.AdminSysDataDictClassifiedInsertOrUpdateDTO;
+import cc.uncarbon.module.sys.model.request.AdminSysDataDictClassifiedListDTO;
+import cc.uncarbon.module.sys.model.request.AdminSysDataDictItemInsertOrUpdateDTO;
+import cc.uncarbon.module.sys.model.request.AdminSysDataDictItemListDTO;
+import cc.uncarbon.module.sys.model.response.SysDataDictClassifiedBO;
+import cc.uncarbon.module.sys.model.response.SysDataDictItemBO;
 import cc.uncarbon.module.sys.service.SysDataDictService;
+import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -33,33 +37,47 @@ public class SysDataDictFacadeImpl implements SysDataDictFacade {
 
 
     @Override
-    public PageResult<SysDataDictBO> adminList(PageParam pageParam, AdminListSysDataDictDTO dto) {
-        return sysDataDictService.adminList(pageParam, dto);
+    public PageResult<SysDataDictClassifiedBO> adminListClassified(PageParam pageParam, AdminSysDataDictClassifiedListDTO dto) {
+        return sysDataDictService.adminListClassified(pageParam, dto);
     }
 
     @Override
-    public SysDataDictBO getOneById(Long id) {
-        return sysDataDictService.getOneById(id);
+    public Long adminInsertClassified(AdminSysDataDictClassifiedInsertOrUpdateDTO dto) {
+        return sysDataDictService.adminInsertClassified(dto);
     }
 
     @Override
-    public SysDataDictBO getOneById(Long id, boolean throwIfInvalidId) throws BusinessException {
-        return sysDataDictService.getOneById(id, throwIfInvalidId);
+    public void adminUpdateClassified(AdminSysDataDictClassifiedInsertOrUpdateDTO dto) {
+        sysDataDictService.adminUpdateClassified(dto);
     }
 
     @Override
-    public Long adminInsert(AdminInsertOrUpdateSysDataDictDTO dto) {
-        return sysDataDictService.adminInsert(dto);
+    public void adminDeleteClassified(Collection<Long> ids) {
+        sysDataDictService.adminDeleteClassified(ids);
     }
 
     @Override
-    public void adminUpdate(AdminInsertOrUpdateSysDataDictDTO dto) {
-        sysDataDictService.adminUpdate(dto);
+    public PageResult<SysDataDictItemBO> adminListItem(PageParam pageParam, AdminSysDataDictItemListDTO dto) {
+        return sysDataDictService.adminListItem(pageParam, dto);
     }
 
     @Override
-    public void adminDelete(Collection<Long> ids) {
-        sysDataDictService.adminDelete(ids);
+    public Long adminInsertItem(AdminSysDataDictItemInsertOrUpdateDTO dto) {
+        return sysDataDictService.adminInsertItem(dto);
     }
 
+    @Override
+    public void adminUpdateItem(AdminSysDataDictItemInsertOrUpdateDTO dto) {
+        sysDataDictService.adminUpdateItem(dto);
+    }
+
+    @Override
+    public void adminDeleteItem(Collection<Long> ids, Long classifiedId) {
+        sysDataDictService.adminDeleteItem(ids, classifiedId);
+    }
+
+    @Override
+    public List<SysDataDictItemBO> listEnabledItemsByClassifiedCode(@Nonnull String classifiedCode) {
+        return sysDataDictService.listEnabledItemsByClassifiedCode(classifiedCode);
+    }
 }
