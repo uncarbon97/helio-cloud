@@ -27,9 +27,6 @@ import java.util.stream.Stream;
 @Getter
 public class SelectOptionItemVO implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-
     // ID👉名称 一对（用于关联各种实体）
     @Schema(description = "ID")
     private Number id;
