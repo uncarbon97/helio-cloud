@@ -25,5 +25,11 @@
 
 
         <!-- 这里写其他第三方依赖 -->
+        <!-- 为了引入MultipartFile类 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 </project>
