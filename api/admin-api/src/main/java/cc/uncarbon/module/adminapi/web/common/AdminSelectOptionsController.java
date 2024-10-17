@@ -3,7 +3,7 @@ package cc.uncarbon.module.adminapi.web.common;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.web.model.response.ApiResult;
-import cc.uncarbon.module.adminapi.model.response.SelectOptionItemVO;
+import cc.uncarbon.module.adminapi.model.response.AdminSelectOptionItemVO;
 import cc.uncarbon.module.adminapi.util.AdminStpUtil;
 import cc.uncarbon.module.sys.facade.SysDeptFacade;
 import cc.uncarbon.module.sys.facade.SysRoleFacade;
@@ -44,17 +44,17 @@ public class AdminSelectOptionsController {
 
     @Operation(summary = "后台角色下拉框")
     @GetMapping(value = "/select-options/roles")
-    public ApiResult<List<SelectOptionItemVO>> roles() {
+    public ApiResult<List<AdminSelectOptionItemVO>> roles() {
         return ApiResult.data(
-                SelectOptionItemVO.listOf(sysRoleFacade.adminSelectOptions(), SysRoleBO::getId, SysRoleBO::getTitle)
+                AdminSelectOptionItemVO.listOf(sysRoleFacade.adminSelectOptions(), SysRoleBO::getId, SysRoleBO::getTitle)
         );
     }
 
     @Operation(summary = "部门下拉框（前端负责转为树状数据）")
     @GetMapping(value = "/select-options/depts")
-    public ApiResult<List<SelectOptionItemVO>> depts() {
+    public ApiResult<List<AdminSelectOptionItemVO>> depts() {
         return ApiResult.data(
-                SelectOptionItemVO.listOf(sysDeptFacade.adminSelectOptions(true), SysDeptBO::getId, SysDeptBO::getTitle, SysDeptBO::getParentId)
+                AdminSelectOptionItemVO.listOf(sysDeptFacade.adminSelectOptions(true), SysDeptBO::getId, SysDeptBO::getTitle, SysDeptBO::getParentId)
         );
     }
 
