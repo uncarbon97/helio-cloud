@@ -325,6 +325,8 @@ public class SysMenuService {
                         .lambda()
                         .in(SysMenuEntity::getId, ids)
                         .in(SysMenuEntity::getType, types)
+                        // 仅显示启用状态菜单
+                        .eq(SysMenuEntity::getStatus, EnabledStatusEnum.ENABLED)
                         .orderByAsc(SysMenuEntity::getSort)
         );
 
