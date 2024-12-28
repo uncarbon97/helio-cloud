@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>cc.uncarbon.framework</groupId>
+        <artifactId>helio-starters</artifactId>
+        <version>2.3.0-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>cc.uncarbon.module</groupId>
+    <artifactId>blank</artifactId>
+    <description>空白服务模板，方便复制、更名后作为微服务模块使用</description>
+    <!-- 本微服务模块制品版本号 -->
+    <version>0.0.0</version>
+
+    <modules>
+        <module>blank-facade</module>
+        <module>blank-service</module>
+    </modules>
+
+    <properties>
+        <!-- 如果实际开发使用的是JDK 21，则下面改成'21' -->
+        <java.version>17</java.version>
+    </properties>
+</project>
