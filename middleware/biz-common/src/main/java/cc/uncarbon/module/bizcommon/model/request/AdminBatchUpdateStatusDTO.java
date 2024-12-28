@@ -1,4 +1,4 @@
-package cc.uncarbon.module.bizcomon.model.request;
+package cc.uncarbon.module.bizcommon.model.request;
 
 import cc.uncarbon.framework.core.enums.HelioBaseEnum;
 import io.swagger.v3.oas.annotations.media.Schema;

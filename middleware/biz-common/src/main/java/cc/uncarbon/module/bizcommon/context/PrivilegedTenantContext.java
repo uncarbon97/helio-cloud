@@ -1,4 +1,4 @@
-package cc.uncarbon.module.bizcomon.model.context;
+package cc.uncarbon.module.bizcommon.context;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
 import cc.uncarbon.framework.core.context.TenantContext;
