@@ -22,4 +22,9 @@
         <module>oss-facade</module>
         <module>oss-service</module>
     </modules>
+
+    <properties>
+        <!-- 如果实际开发使用的是JDK 21，则下面改成'21' -->
+        <java.version>17</java.version>
+    </properties>
 </project>
