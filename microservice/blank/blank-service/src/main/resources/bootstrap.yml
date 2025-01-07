@@ -1,7 +1,7 @@
 spring:
   application:
     # 微服务应用名
-    name: sys-service
+    name: blank-service
   cloud:
     nacos:
       discovery:

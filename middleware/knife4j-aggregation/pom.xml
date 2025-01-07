@@ -50,7 +50,7 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-aggregation-spring-boot-starter</artifactId>
-            <!-- 在引用时请在maven中央仓库搜索aggregation最新版本号 -->
+            <!-- 若文档显示正常，非必要请勿升级 -->
             <version>4.0.0</version>
         </dependency>
     </dependencies>
