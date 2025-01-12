@@ -1,0 +1,8 @@
+spring:
+  # since Helio v2.3.0 - 放宽上传文件尺寸和请求体尺寸的限制，默认改到1024MB
+  servlet:
+    multipart:
+      # 文件上传大小限制（两个一起配）
+      # 如果还用了 Nginx 等反向代理，需要在反向代理的配置中也放宽请求体大小限制
+      max-file-size: 1024MB
+      max-request-size: 1024MB

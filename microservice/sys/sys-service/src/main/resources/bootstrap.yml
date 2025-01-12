@@ -20,17 +20,12 @@ spring:
         namespace: ${NACOS_CONFIG_NAMESPACE:}
         # 配置中心分组
         group: ${NACOS_CONFIG_GROUP:DEFAULT_GROUP}
-        # 配置文件扩展名
-        file-extension: yml
-        # 共享配置文件
-        shared-configs:
-          - dataId: COMMON.yml
-            refresh: false
-          - dataId: DATASOURCE.yml
-            refresh: false
-          - dataId: REDIS.yml
-            refresh: false
-          - dataId: SA-TOKEN.yml
-            refresh: false
-          - dataId: DUBBO.yml
-            refresh: false
+  # 使用 Spring Cloud 官方标准 spring.config.import 来拉取配置；传统的 shared-configs 已进入废弃计划
+  config:
+    import:
+      - nacos:COMMON.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=false
+      - nacos:DATASOURCE.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=false
+      - nacos:REDIS.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=false
+      - nacos:SA-TOKEN.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=false
+      - nacos:DUBBO.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=false
+      - nacos:${spring.application.name}.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=false
