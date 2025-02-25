@@ -1,0 +1,5 @@
+## 变更：启动时不打印字符画
+mybatis-plus:
+  global-config:
+    # 启动时不打印字符画
+    banner: false
