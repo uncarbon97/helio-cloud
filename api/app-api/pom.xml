@@ -47,13 +47,6 @@
         <dependency>
             <groupId>cc.uncarbon.framework</groupId>
             <artifactId>helio-starter-knife4j</artifactId>
-            <exclusions>
-                <!-- 无需引入 UI 库 -->
-                <exclusion>
-                    <groupId>com.github.xiaoymin</groupId>
-                    <artifactId>knife4j-openapi3-ui</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

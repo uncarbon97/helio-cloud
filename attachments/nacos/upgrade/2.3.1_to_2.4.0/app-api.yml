@@ -1,0 +1,8 @@
+helio:
+  security:
+    exclude-routes:
+      # SpringDoc 接口
+      - /v3/api-docs/**
+      # knife4j-ui
+      - /doc.html
+      - /webjars/**
