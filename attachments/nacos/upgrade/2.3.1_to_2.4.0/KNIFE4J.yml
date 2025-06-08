@@ -1,0 +1,3 @@
+springdoc:
+  # 平铺显示复合入参对象
+  default-flat-param-object: true

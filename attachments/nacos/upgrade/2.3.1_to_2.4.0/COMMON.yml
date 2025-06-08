@@ -1,0 +1,6 @@
+## 变更：不为工程中的资源文件建立映射
+spring:
+  # 不为工程中的资源文件建立映射
+  web:
+    resources:
+      add-mappings: false
