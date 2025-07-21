@@ -480,3 +480,5 @@ ALTER TABLE sys_log
     ADD COLUMN ip_location_district_name varchar(100) NOT NULL DEFAULT '' COMMENT 'IP地址属地-县级行政区名' AFTER ip_location_city_name;
 ALTER TABLE sys_log COMMENT = '系统日志';
 
+-- 新增'头像URL'字段
+ALTER TABLE sys_user ADD COLUMN avatar_url varchar(255) NULL COMMENT '头像URL';

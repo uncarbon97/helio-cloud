@@ -92,4 +92,14 @@ public class SysUserFacadeImpl implements SysUserFacade {
     public Set<Long> listRelatedRoleIds(Long userId) {
         return sysUserService.listRelatedRoleIds(userId);
     }
+
+    @Override
+    public void adminUpdateCurrentUserInfo(AdminUpdateCurrentSysUserInfoDTO dto) {
+        sysUserService.adminUpdateCurrentUserInfo(dto);
+    }
+
+    @Override
+    public void adminUpdateCurrentUserAvatar(AdminUpdateCurrentSysUserAvatarDTO dto) {
+        sysUserService.adminUpdateCurrentUserAvatar(dto);
+    }
 }
