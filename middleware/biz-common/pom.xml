@@ -8,13 +8,13 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>2.4.1-SNAPSHOT</version>
+        <version>2.4.1</version>
         <relativePath/>
     </parent>
 
     <artifactId>biz-common</artifactId>
     <description>业务开发公共包</description>
-    <version>2.4.1-SNAPSHOT</version>
+    <version>2.4.1</version>
 
     <properties>
     </properties>
