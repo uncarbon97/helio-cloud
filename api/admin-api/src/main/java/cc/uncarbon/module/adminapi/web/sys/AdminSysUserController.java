@@ -1,7 +1,6 @@
 package cc.uncarbon.module.adminapi.web.sys;
 
 import cc.uncarbon.framework.core.constant.HelioConstant;
-import cc.uncarbon.framework.core.exception.BusinessException;
 import cc.uncarbon.framework.core.page.PageParam;
 import cc.uncarbon.framework.core.page.PageResult;
 import cc.uncarbon.framework.web.model.request.IdsDTO;
@@ -11,20 +10,22 @@ import cc.uncarbon.module.adminapi.util.AdminStpUtil;
 import cc.uncarbon.module.sys.annotation.SysLog;
 import cc.uncarbon.module.sys.enums.SysUserStatusEnum;
 import cc.uncarbon.module.sys.facade.SysUserFacade;
-import cc.uncarbon.module.sys.model.request.*;
+import cc.uncarbon.module.sys.model.request.AdminBindUserRoleRelationDTO;
+import cc.uncarbon.module.sys.model.request.AdminInsertOrUpdateSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminListSysUserDTO;
+import cc.uncarbon.module.sys.model.request.AdminResetSysUserPasswordDTO;
 import cc.uncarbon.module.sys.model.response.SysUserBO;
-import cc.uncarbon.module.sys.model.response.VbenAdminUserInfoVO;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.extra.spring.SpringUtil;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.Collections;
 import java.util.Set;
 
@@ -101,12 +102,6 @@ public class AdminSysUserController {
         return ApiResult.success();
     }
 
-    @Operation(summary = "取当前用户信息")
-    @GetMapping(value = "/sys/users/info")
-    public ApiResult<VbenAdminUserInfoVO> getCurrentUserInfo() {
-        return ApiResult.data(sysUserFacade.adminGetCurrentUserInfo());
-    }
-
     @SysLog(value = "重置后台用户密码")
     @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + "resetPassword")
     @Operation(summary = "重置后台用户密码")
@@ -117,21 +112,6 @@ public class AdminSysUserController {
 
         // 强制登出
         AdminStpUtil.kickout(dto.getUserId());
-
-        return ApiResult.success();
-    }
-
-    @SysLog(value = "修改当前用户密码")
-    @Operation(summary = "修改当前用户密码")
-    @PostMapping(value = "/sys/users/me/password:update")
-    public ApiResult<Void> updatePassword(@RequestBody @Valid AdminUpdateCurrentSysUserPasswordDTO dto) {
-        if (!dto.getConfirmNewPassword().equals(dto.getNewPassword())) {
-            throw new BusinessException(400, "密码与确认密码不同，请检查");
-        }
-        sysUserFacade.adminUpdateCurrentUserPassword(dto);
-
-        // 用户更改密码后使其当前会话直接过期
-        AdminStpUtil.logout();
 
         return ApiResult.success();
     }

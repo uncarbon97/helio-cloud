@@ -87,4 +87,14 @@ public interface SysUserFacade {
      */
     Set<Long> listRelatedRoleIds(Long userId);
 
+    /**
+     * 后台管理-更新当前用户信息资料
+     */
+    void adminUpdateCurrentUserInfo(AdminUpdateCurrentSysUserInfoDTO dto);
+
+    /**
+     * 后台管理-更新当前用户头像
+     */
+    void adminUpdateCurrentUserAvatar(AdminUpdateCurrentSysUserAvatarDTO dto);
+
 }
