@@ -4,6 +4,10 @@ spring:
     name: admin-api
   cloud:
     nacos:
+      # 注册中心地址 + 配置中心地址
+      server-addr: ${NACOS_DISCOVERY_SERVER_ADDR:127.0.0.1:8848}
+      username: # Nacos账号，匿名的话留空
+      password: # Nacos账号，匿名的话留空
       discovery:
         # 注册中心地址
         server-addr: ${NACOS_DISCOVERY_SERVER_ADDR:127.0.0.1:8848}
@@ -11,6 +15,8 @@ spring:
         namespace: ${NACOS_DISCOVERY_NAMESPACE:}
         # 注册中心分组
         group: ${NACOS_DISCOVERY_GROUP:DEFAULT_GROUP}
+        metadata:
+          version: 1.0.0 # 服务实例的版本号，可用于灰度发布
       config:
         # 配置中心地址
         server-addr: ${NACOS_CONFIG_SERVER_ADDR:127.0.0.1:8848}
@@ -18,6 +24,7 @@ spring:
         namespace: ${NACOS_CONFIG_NAMESPACE:}
         # 配置中心分组
         group: ${NACOS_CONFIG_GROUP:DEFAULT_GROUP}
+
   # 使用 Spring Cloud 官方标准 spring.config.import 来拉取配置；传统的 shared-configs 已进入废弃计划
   config:
     import:
