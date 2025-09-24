@@ -14,7 +14,10 @@
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>blank</artifactId>
-    <description>空白服务模板，方便复制、更名后作为微服务模块使用</description>
+    <description>
+        空白服务模板，复制一下，将 blank 批量替换成新名字
+        记得加入最上层的 pom.xml
+    </description>
     <!-- 本微服务模块制品版本号 -->
     <version>0.0.0</version>
 
