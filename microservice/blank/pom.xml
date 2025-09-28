@@ -8,13 +8,16 @@
     <parent>
         <groupId>cc.uncarbon.framework</groupId>
         <artifactId>helio-starters</artifactId>
-        <version>2.4.1</version>
+        <version>2.5.0</version>
         <relativePath/>
     </parent>
 
     <groupId>cc.uncarbon.module</groupId>
     <artifactId>blank</artifactId>
-    <description>空白服务模板，方便复制、更名后作为微服务模块使用</description>
+    <description>
+        空白服务模板，复制一下，将 blank 批量替换成新名字
+        记得加入最上层的 pom.xml
+    </description>
     <!-- 本微服务模块制品版本号 -->
     <version>0.0.0</version>
 
